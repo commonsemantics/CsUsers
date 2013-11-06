@@ -1,5 +1,5 @@
 
-[Common Semantics users](http://www.commonsemantics.org/)
+[Common Semantics Users Grails Plugin](http://www.commonsemantics.org/)
 ================================================================
 
 CsUsers has been originally architected and developed by [Dr. Paolo Ciccarese](http://www.paolociccarse.info).
