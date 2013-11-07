@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Massachusetts General Hospital
+ * Copyright 2013 Common Semantics  (commonsemantics.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,34 +18,28 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.commonsemantics.grails.users.actions
-
-import grails.validation.Validateable
-
+package org.commonsemantics.grails.users.utils
 
 /**
-* Object command for User validation and creation.
-*
 * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
 */
-@Validateable
-class UserResetPasswordCommand {
+enum UserStatus {
+	CREATED_USER("Created"),
+	ACTIVE_USER("Active"),
+	LOCKED_USER("Locked"),
+	DISABLED_USER("Disabled")
 
-	def springSecurityService;
-	
-	public static final Integer NAME_MAX_SIZE = 255;
-
-	//Account credentials
-	String password
-	String passwordConfirmation
-	
-	static constraints = {
-		//Account credentials
-		password (blank: false, minSize:6, maxSize:NAME_MAX_SIZE)
-		passwordConfirmation (blank: false, minSize:6, maxSize:NAME_MAX_SIZE)
+	UserStatus(String value) {
+		this.value = value
 	}
-		
-	boolean isPasswordValid() {
-		return password.equals(passwordConfirmation);
-	}	
+	
+	boolean isStatusValid(String status) {
+		return status.equals(CREATED_USER.value) ||
+			status.equals(ACTIVE_USER.value) ||
+			status.equals(LOCKED_USER.value) ||
+			status.equals(DISABLED_USER.value);
+	}
+
+	private final String value
+	public String value() { return value }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Common Semantics (commonsemantics.org)
+ * Copyright 2013 Common Semantics  (commonsemantics.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,26 +18,21 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.commonsemantics.grails.users.model
+package org.commonsemantics.grails.users.utils
+
+import org.commonsemantics.grails.users.model.User
 
 /**
- * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
- */
-class Role {
+* @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
+*/
+class UserUtils {
 
-	int ranking
-	String authority
-	String label
-	String description
-
-	static mapping = {
-		cache true
-	}
-
-	static constraints = {
-		authority blank: false, unique: true
-		ranking blank: false
-		label blank: false
-		description blank: true
+	static String getStatusLabel(User user) {
+		if(user.isEnabled()) {
+			 if(user.isAccountLocked()) return UserStatus.LOCKED_USER.value();
+			 else return UserStatus.ACTIVE_USER.value();
+		} else {
+			return UserStatus.DISABLED_USER.value();
+		}
 	}
 }

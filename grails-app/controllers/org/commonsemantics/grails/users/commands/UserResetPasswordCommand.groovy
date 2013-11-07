@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Massachusetts General Hospital
+ * Copyright 2013 Common Semantics (commonsemantics.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,22 +18,34 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.commonsemantics.grails.users.openid
+package org.commonsemantics.grails.users.commands
 
-import org.commonsemantics.grails.users.model.User
-
+import grails.validation.Validateable
 
 
 /**
- * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
- */
-class OpenId {
+* Object command for User validation and creation.
+*
+* @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
+*/
+@Validateable
+class UserResetPasswordCommand {
 
-	String url
+	def springSecurityService;
+	
+	public static final Integer NAME_MAX_SIZE = 255;
 
-	static belongsTo = [user: User]
-
+	//Account credentials
+	String password
+	String passwordConfirmation
+	
 	static constraints = {
-		url unique: true
+		//Account credentials
+		password (blank: false, minSize:6, maxSize:NAME_MAX_SIZE)
+		passwordConfirmation (blank: false, minSize:6, maxSize:NAME_MAX_SIZE)
 	}
+		
+	boolean isPasswordValid() {
+		return password.equals(passwordConfirmation);
+	}	
 }

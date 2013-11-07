@@ -80,9 +80,13 @@
 			}
 		</style>
 	</head>
-	<body>
-		<br/>
-		<div id="status" role="complementary">
+	<body style="padding:0px; border:0px; margin: 0px; font-family:courier,Georgia,Serif; font-size: 90%">
+		<div style="background:#3b3b3b; border-bottom: 2px solid gray;">
+			<a href="http://www.commonsemantics.com">
+				<img src="http://www.commonsemantics.com/imgs/img02b.jpg"/>
+			</a>
+		</div>
+		<div id="status" role="complementary">			
 			<h1>Plugin Status</h1>
 			<ul>
 				<li>Grails version: <g:meta name="app.grails.version"/></li>
@@ -102,7 +106,7 @@
 			</ul>
 		</div>
 		<div id="page-body" role="main">
-			<h1><g:meta name="app.name"/> (Commonsemantics.org Grails Plugin)</h1>
+			<h1><g:meta name="app.name"/> - Commonsemantics.org Grails Plugin</h1>
 			<p>You are running the <font style="font-weight:bold;"><g:meta name="app.name"/></font> Grails Plugin in application mode. 
 			<br/>
 			<g:meta name="app.description"/>
@@ -133,6 +137,20 @@
 					</g:else>
 				</ul>
 			</div>	
+			
+			<div id="controller-list" role="navigation">
+				<h2>Provided Services:</h2>
+				<ul>
+					<g:if test="${grailsApplication.serviceClasses.size()>0}">
+						<g:each var="c" in="${grailsApplication.serviceClasses.sort { it.fullName } }">
+							<li class="controller">${c.fullName}</li>
+						</g:each>
+					</g:if>
+					<g:else>
+						<li>None</li>
+					</g:else>
+				</ul>
+			</div>	
 					
 			<div id="controller-list" role="navigation">
 				<h2>Provided Classes:</h2>
@@ -152,8 +170,13 @@
 			<blockquote>
 			The <font style="font-weight:bold;"><g:meta name="app.name"/></font> 
 			Plugin has been originally coded by <a href="https://paolociccarese.info">Dr. Paolo Ciccarese</a>.<br/>
-			The code is available on <a href="https://github.com/annotationframework">GitHub</a>.
+			The code is available on <a href="https://github.com/commonsemantics">GitHub</a>.
 			</blockquote>
+		</div>
+		<div style="clear:both"></div>
+		<br/>
+		<div style="background:#3b3b3b; border-top: 2px solid gray; color: white; text-align: right; padding: 5px; padding-right: 10px;">
+			&copy; 2013 COMMON SEMANTICS 
 		</div>
 	</body>
 </html>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Massachusetts General Hospital
+ * Copyright 2013  Common Semantics (commonsemantics.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,7 +20,6 @@
  */
 package org.commonsemantics.grails.users.model
 
-import org.commonsemantics.grails.users.openid.OpenId
 
 
 

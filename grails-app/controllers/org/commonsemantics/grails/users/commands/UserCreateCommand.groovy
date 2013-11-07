@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Massachusetts General Hospital
+ * Copyright 2013 Common Semantics (commonsemantics.org)
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,10 +18,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.commonsemantics.grails.users.actions
+package org.commonsemantics.grails.users.commands
 
 import grails.validation.Validateable
 
+import org.commonsemantics.grails.users.model.User
+import org.commonsemantics.grails.users.utils.UserStatus
 
 /**
 * Object command for User validation and creation.
@@ -29,7 +31,7 @@ import grails.validation.Validateable
 * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
 */
 @Validateable
-class UserEditCommand {
+class UserCreateCommand {
 
 	def springSecurityService;
 	
@@ -50,8 +52,9 @@ class UserEditCommand {
 	String country
 	
 	//Account credentials
-	String id
 	String username
+	String password
+	String passwordConfirmation
 	
 	static constraints = {
 		//Users' data
@@ -59,28 +62,35 @@ class UserEditCommand {
 		firstName (blank: false, maxSize:NAME_MAX_SIZE)
 		middleName (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
 		lastName (blank: false, maxSize:NAME_MAX_SIZE)
-		displayName (blank: true, maxSize:NAME_MAX_SIZE)
+		displayName (blank: false, maxSize:NAME_MAX_SIZE)
 		email (blank: false, email: true,  maxSize:NAME_MAX_SIZE)
 		affiliation (blank: true, maxSize:NAME_MAX_SIZE)
 		country (blank: true, maxSize:NAME_MAX_SIZE)
 		//Account credentials
-		id (blank: false)
 		username (blank: false, maxSize:NAME_MAX_SIZE)
+		password (blank: false, minSize:6, maxSize:NAME_MAX_SIZE)
+		passwordConfirmation (blank: false, minSize:6, maxSize:NAME_MAX_SIZE)
 	}
 	
 	boolean isEnabled() {
 		return status.equals(UserStatus.ACTIVE_USER.value());
 	}
 	
-	boolean isDisabled() {
-		return status.equals(UserStatus.DISABLED_USER.value());
-	}
-	
-	boolean isCreated() {
-		return status.equals(UserStatus.CREATED_USER.value());
-	}
-	
 	boolean isLocked() {
 		return status.equals(UserStatus.LOCKED_USER.value());
+	}
+	
+	boolean isPasswordValid() {
+		return password.equals(passwordConfirmation);
+	}	
+	
+	User createUser() {
+		if(isPasswordValid()) {
+			return User.findByUsername(username) ? null:
+				new User(title: title, firstName: firstName, middleName: middleName, lastName: lastName, displayName: displayName, username: username, 
+					email: email, affiliation: affiliation, country: country, password: springSecurityService.encodePassword(password), enabled:isEnabled())
+		} else {
+			return null;
+		}
 	}
 }
