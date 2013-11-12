@@ -12,7 +12,7 @@ Stylesheet
 	<table>
 		<tbody>
 			<tr class="prop">
-				<td valign="top" width="140px" class="name">
+				<td valign="top" width="190px" class="name">
 					<label for="username">Username</label>
 				</td>
 				<td valign="top" width="265px" class="value">

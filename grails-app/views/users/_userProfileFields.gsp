@@ -149,6 +149,6 @@ Stylesheet
 	</table>
 </g:if>
 <g:else>
-	<g:render plugin="cs-commons" template="/lenses/error" model="['message':'CsUser._userFields: user object cannot be null.']"/>
+	<g:render plugin="cs-commons" template="/lenses/error" model="['message':'CsUser._userProfileFields: user object cannot be null.']"/>
 </g:else>
 
