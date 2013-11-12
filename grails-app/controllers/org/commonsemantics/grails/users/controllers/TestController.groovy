@@ -1,6 +1,8 @@
 package org.commonsemantics.grails.users.controllers
 
+import org.commonsemantics.grails.users.model.Role
 import org.commonsemantics.grails.users.model.User
+import org.commonsemantics.grails.users.model.UserRole
 
 class TestController {
 
@@ -11,4 +13,38 @@ class TestController {
 	def userKnown = {
 		render (view:'user-display-lens', model:[label:'CsUser.02', description:'User\'s display lens with user definition', user:User.list()[0]]);
 	}
+	
+	def userFieldsUnknown =  {
+		render (view:'profile-edit-lens', model:[label:'CsUser.03', description:'User\'s edit lens with no user definition']);
+	}
+	
+	def userFieldsKnown =  {
+		render (view:'profile-edit-lens', model:[label:'CsUser.04', description:'User\'s edit lens with user definition', user:User.list()[0]]);
+	}
+	
+	def accountFieldsUnknown =  {
+		render (view:'account-edit-lens', model:[label:'CsUser.05', description:'User\'s account edit lens with no user definition']);
+	}
+	
+	def accountFieldsKnown =  {
+		render (view:'account-edit-lens', model:[label:'CsUser.06', description:'User\'s account edit lens with user definition', 
+			roles: Role.list(), userRoles:getUserRoles(User.list()[0]), user:User.list()[0]]);
+	}
+	
+	def userEditUnknown =  {
+		render (view:'user-edit-lens', model:[label:'CsUser.07', description:'User\'s edit lens with no user definition']);
+	}
+	
+	def userEditKnown =  {
+		render (view:'user-edit-lens', model:[label:'CsUser.08', description:'User\'s edit lens with user definition',
+			roles: Role.list(), userRoles:getUserRoles(User.list()[0]), user:User.list()[0]]);
+	}
+	
+	def getUserRoles(def user) {
+		def userRoles = []
+		def ur = UserRole.findAllByUser(user)
+		ur.each { userRoles.add(it.role)}
+		return userRoles
+	}
+
 }

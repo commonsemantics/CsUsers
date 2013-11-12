@@ -23,7 +23,8 @@ Stylesheet
 						<label for="title">Title</label>
 					</td>
 					<td valign="top" width="265px" align="left">
-						${user?.title}
+						<g:if test="${user?.title}">${user?.title}</g:if>
+						<g:else>-</g:else>
 					</td>
 				</tr>
 				<tr class="sprop">
@@ -39,7 +40,8 @@ Stylesheet
 						<label for="middleName">Middle name</label>
 					</td>
 					<td valign="top" align="left">
-						${user?.middleName}
+						<g:if test="${user?.middleName}">${user?.middleName}</g:if>
+						<g:else>-</g:else>
 					</td>
 				</tr>
 				<tr class="sprop">
@@ -79,7 +81,8 @@ Stylesheet
 						<label for="displayName">Affiliation</label>
 					</td>
 					<td valign="top" align="left">
-						${user?.affiliation}
+						<g:if test="${user?.affiliation}">${user?.affiliation}</g:if>
+						<g:else>-</g:else>
 					</td>
 				</tr>
 				<tr class="sprop">
@@ -87,7 +90,8 @@ Stylesheet
 						<label for="displayName">Country</label>
 					</td>
 					<td valign="top" align="left">
-						${user?.country}
+						<g:if test="${user?.country}">${user?.country}</g:if>
+						<g:else>-</g:else>
 					</td>
 				</tr>
 				<tr class="sprop">
@@ -96,9 +100,12 @@ Stylesheet
 					</td>
 					<td valign="top" colspan="2" align="left">
 						<div>
-							<g:each in="${userRoles}">
-								${it.label}
-							</g:each>
+							<g:if test="${userRoles!=null && userRoles.size()>0}">
+								<g:each in="${userRoles}">
+									${it.label}
+								</g:each>
+							</g:if>
+							<g:else>-</g:else>
 						</div>
 					</td>
 				</tr>
@@ -116,7 +123,7 @@ Stylesheet
 		</table>
 	</g:if>
 	<g:else>
-		<g:render plugin="cs-commons" template="/lenses/error" model="['message':'CsUser._showUser: user object cannot be null.']"/>
+		<g:render plugin="cs-commons" template="/lenses/error" model="['message':'CsUser._userShow: user object cannot be null.']"/>
 	</g:else>
 </div>
 
