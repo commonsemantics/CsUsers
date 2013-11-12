@@ -15,11 +15,11 @@ Stylesheet
 				</td>
 				<td valign="top" width="155px" class="value">
 					<g:textField name="title" style="width: 240px;"
-						value="${item?.title}"  class="${hasErrors(bean: item, field: 'title', 'fieldError')}"/>
+						value="${user?.title}"  class="${hasErrors(bean: user, field: 'title', 'fieldError')}"/>
 				</td>
 				<td valign="top" class="caption">
-					<g:if test="${item?.title!=null}">
-						<g:renderErrors bean="${item}" field="title" />
+					<g:if test="${user?.title!=null}">
+						<g:renderErrors bean="${user}" field="title" />
 					</g:if> 
 					<g:else>
 		           		(max 255 chars)
@@ -32,11 +32,11 @@ Stylesheet
 				</td>
 				<td valign="top" width="155px" class="value">
 					<g:textField name="firstName" style="width: 240px;"
-						value="${item?.firstName}"  class="${hasErrors(bean: item, field: 'firstName', 'fieldError')}"/>
+						value="${user?.firstName}"  class="${hasErrors(bean: user, field: 'firstName', 'fieldError')}"/>
 				</td>
 				<td valign="top" class="caption">
-					<g:if test="${item?.firstName!=null}">
-						<g:renderErrors bean="${item}" field="firstName" />
+					<g:if test="${user?.firstName!=null}">
+						<g:renderErrors bean="${user}" field="firstName" />
 					</g:if> 
 					<g:else>
 		           		(max 255 chars)
@@ -49,11 +49,11 @@ Stylesheet
 				</td>
 				<td valign="top" width="155px" class="value">
 					<g:textField name="middleName" style="width: 240px;"
-						value="${item?.middleName}"  class="${hasErrors(bean: item, field: 'middleName', 'fieldError')}"/>
+						value="${user?.middleName}"  class="${hasErrors(bean: user, field: 'middleName', 'fieldError')}"/>
 				</td>
 				<td valign="top" class="caption">
-					<g:if test="${item?.middleName!=null}">
-						<g:renderErrors bean="${item}" field="middleName" />
+					<g:if test="${user?.middleName!=null}">
+						<g:renderErrors bean="${user}" field="middleName" />
 					</g:if> 
 					<g:else>
 		           		(max 255 chars)
@@ -66,11 +66,11 @@ Stylesheet
 				</td>
 				<td valign="top" class="value">
 					<g:textField name="lastName" style="width: 240px;"
-						value="${item?.lastName}"  class="${hasErrors(bean: item, field: 'lastName', 'fieldError')}"/>
+						value="${user?.lastName}"  class="${hasErrors(bean: user, field: 'lastName', 'fieldError')}"/>
 				</td>
 				<td valign="top" class="caption">
-					<g:if test="${item?.lastName!=null}">
-						<g:renderErrors bean="${item}" field="lastName" />
+					<g:if test="${user?.lastName!=null}">
+						<g:renderErrors bean="${user}" field="lastName" />
 					</g:if> 
 					<g:else>
 		           		(max 255 chars)
@@ -83,11 +83,11 @@ Stylesheet
 				</td>
 				<td valign="top" class="value">
 					<g:textField name="displayName" style="width: 240px;"
-						value="${item?.displayName}"  class="${hasErrors(bean: item, field: 'displayName', 'fieldError')}"/>
+						value="${user?.displayName}"  class="${hasErrors(bean: user, field: 'displayName', 'fieldError')}"/>
 				</td>
 				<td valign="top" class="caption">
-					<g:if test="${item?.displayName!=null}">
-						<g:renderErrors bean="${item}" field="displayName" />
+					<g:if test="${user?.displayName!=null}">
+						<g:renderErrors bean="${user}" field="displayName" />
 					</g:if> 
 					<g:else>
 		           		(max 255 chars)
@@ -100,11 +100,11 @@ Stylesheet
 				</td>
 				<td valign="top" class="value">
 					<g:textField name="email" style="width: 240px;"
-						value="${item?.email}"  class="${hasErrors(bean: item, field: 'displayName', 'fieldError')}"/>
+						value="${user?.email}"  class="${hasErrors(bean: user, field: 'displayName', 'fieldError')}"/>
 				</td>
 				<td valign="top" class="caption">
-					<g:if test="${item?.email!=null}">
-						<g:renderErrors bean="${item}" field="email" />
+					<g:if test="${user?.email!=null}">
+						<g:renderErrors bean="${user}" field="email" />
 					</g:if> 
 					<g:else>
 		           		(valid email)
@@ -117,11 +117,11 @@ Stylesheet
 				</td>
 				<td valign="top" class="value">
 					<g:textField name="affiliation" style="width: 240px;"
-						value="${item?.affiliation}"  class="${hasErrors(bean: item, field: 'affiliation', 'fieldError')}"/>
+						value="${user?.affiliation}"  class="${hasErrors(bean: user, field: 'affiliation', 'fieldError')}"/>
 				</td>
 				<td valign="top" class="caption">
-					<g:if test="${item?.affiliation!=null}">
-						<g:renderErrors bean="${item}" field="affiliation" />
+					<g:if test="${user?.affiliation!=null}">
+						<g:renderErrors bean="${user}" field="affiliation" />
 					</g:if> 
 					<g:else>
 		           		(max 255 chars)
@@ -134,11 +134,11 @@ Stylesheet
 				</td>
 				<td valign="top" class="value">
 					<g:textField name="country" style="width: 240px;"
-						value="${item?.country}"  class="${hasErrors(bean: item, field: 'displayName', 'fieldError')}"/>
+						value="${user?.country}"  class="${hasErrors(bean: user, field: 'displayName', 'fieldError')}"/>
 				</td>
 				<td valign="top" class="caption">
-					<g:if test="${item?.country!=null}">
-						<g:renderErrors bean="${item}" field="country" />
+					<g:if test="${user?.country!=null}">
+						<g:renderErrors bean="${user}" field="country" />
 					</g:if> 
 					<g:else>
 		           		(valid country)
