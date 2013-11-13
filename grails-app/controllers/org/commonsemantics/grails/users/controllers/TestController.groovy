@@ -12,37 +12,37 @@ class TestController {
 		render (view:'tests')
 	}
 	
-	def userUnknown = {
+	def testUserDisplayLensNoUser = {
 		render (view:'user-show-lens', model:[label:'CsUser.01', description:'User\'s display lens with no user definition']);
 	}
 	
-	def userKnown = {
+	def testUserDisplayLens = {
 		render (view:'user-show-lens', model:[label:'CsUser.02', description:'User\'s display lens with user definition', 
 			roles: Role.list(), userRoles:getUserRoles(User.list()[0]), user:User.list()[0]]);
 	}
 	
-	def userFieldsUnknown =  {
+	def testUserProfileFieldsLensNoUser =  {
 		render (view:'user-profile-edit-lens', model:[label:'CsUser.03', description:'User\'s profile edit lens with no user definition']);
 	}
 	
-	def userFieldsKnown =  {
+	def testUserProfileFieldsLens = {
 		render (view:'user-profile-edit-lens', model:[label:'CsUser.04', description:'User\'s profile edit lens with user definition', user:User.list()[0]]);
 	}
 	
-	def accountFieldsUnknown =  {
+	def testUserAccountFieldsLensNoUser =  {
 		render (view:'user-account-edit-lens', model:[label:'CsUser.05', description:'User\'s account edit lens with no user definition']);
 	}
 	
-	def accountFieldsKnown =  {
+	def testUserAccountFieldsLens =  {
 		render (view:'user-account-edit-lens', model:[label:'CsUser.06', description:'User\'s account edit lens with user definition', 
 			roles: Role.list(), userRoles:getUserRoles(User.list()[0]), user:User.list()[0]]);
 	}
 	
-	def userEditUnknown =  {
+	def testUserEditLensNoUser =  {
 		render (view:'user-edit-lens', model:[label:'CsUser.07', description:'User\'s edit lens with no user definition']);
 	}
 	
-	def userEditKnown =  {
+	def testUserEditLens =  {
 		render (view:'user-edit-lens', model:[label:'CsUser.08', description:'User\'s edit lens with user definition',
 			roles: Role.list(), userRoles:getUserRoles(User.list()[0]), user:User.list()[0], msgError: 'error', msgWarning: 'warning']);
 	}
