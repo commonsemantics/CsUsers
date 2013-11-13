@@ -22,11 +22,11 @@ class TestController {
 	}
 	
 	def userFieldsUnknown =  {
-		render (view:'user-profile-edit-lens', model:[label:'CsUser.03', description:'User\'s edit lens with no user definition']);
+		render (view:'user-profile-edit-lens', model:[label:'CsUser.03', description:'User\'s profile edit lens with no user definition']);
 	}
 	
 	def userFieldsKnown =  {
-		render (view:'user-profile-edit-lens', model:[label:'CsUser.04', description:'User\'s edit lens with user definition', user:User.list()[0]]);
+		render (view:'user-profile-edit-lens', model:[label:'CsUser.04', description:'User\'s profile edit lens with user definition', user:User.list()[0]]);
 	}
 	
 	def accountFieldsUnknown =  {

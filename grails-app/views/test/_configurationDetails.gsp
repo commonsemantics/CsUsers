@@ -11,7 +11,7 @@
 	<g:each in="${User.optional}" var="option">
 		<tr>	
 			<td>${option}</td>
-			<td> ${grailsApplication.config.org.commonsemantics.grails.users.model.field[option]}</td>
+			<td>${grailsApplication.config.org.commonsemantics.grails.users.model.field[option]}</td>
 			<td> org.commonsemantics.grails.users.model.field.${option}</td>
 		</tr>
 	</g:each>

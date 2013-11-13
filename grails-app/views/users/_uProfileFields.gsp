@@ -12,7 +12,7 @@ Stylesheet
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.title!='hide'}">
 				<tr class="prop">
 					<td valign="top" width="190px" class="name">
-						<label for="name">Title</label>
+						<label for="name"><g:message code="org.commonsemantics.grails.users.model.field.title" default="Title"/></label>
 					</td>
 					<td valign="top" width="155px" class="value">
 						<g:textField name="title" style="width: 240px;"
@@ -31,7 +31,7 @@ Stylesheet
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.firstName!='hide'}">
 				<tr class="prop">
 					<td valign="top" width="190px" class="name">
-						<label for="name">First name</label>
+						<label for="name"><g:message code="org.commonsemantics.grails.users.model.field.firstName" default="First name"/></label>
 					</td>
 					<td valign="top" width="155px" class="value">
 						<g:textField name="firstName" style="width: 240px;"
@@ -50,7 +50,9 @@ Stylesheet
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.middleName!='hide'}">
 				<tr class="prop">
 					<td valign="top" width="190px" class="name">
-						<label for="name">Middle name</label>
+						<label for="name">
+							<g:message code="org.commonsemantics.grails.users.model.field.middleName" default="Middle name"/>
+						</label>
 					</td>
 					<td valign="top" width="155px" class="value">
 						<g:textField name="middleName" style="width: 240px;"
@@ -69,7 +71,9 @@ Stylesheet
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.lastName!='hide'}">
 				<tr class="prop">
 					<td valign="top" class="name">
-						<label for="name">Last name</label>
+						<label for="name">
+							<g:message code="org.commonsemantics.grails.users.model.field.lastName" default="Last name"/>
+						</label>
 					</td>
 					<td valign="top" class="value">
 						<g:textField name="lastName" style="width: 240px;"
@@ -87,7 +91,9 @@ Stylesheet
 			</g:if>
 			<tr class="prop">
 				<td valign="top" class="name">
-					<label for="name">Display name*</label>
+					<label for="name">
+						<g:message code="org.commonsemantics.grails.users.model.field.displayName" default="Display name"/>
+					</label>
 				</td>
 				<td valign="top" class="value">
 					<g:textField name="displayName" style="width: 240px;"
@@ -122,7 +128,9 @@ Stylesheet
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.affiliation!='hide'}">
 				<tr class="prop">
 					<td valign="top" class="name">
-						<label for="name">Affiliation</label>
+						<label for="name">
+							<g:message code="org.commonsemantics.grails.users.model.field.affiliation" default="Affiliation"/>
+						</label>
 					</td>
 					<td valign="top" class="value">
 						<g:textField name="affiliation" style="width: 240px;"
@@ -141,7 +149,9 @@ Stylesheet
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.country!='hide'}">
 				<tr class="prop">
 					<td valign="top" class="name">
-						<label for="name">Country</label>
+						<label for="name">
+							<g:message code="org.commonsemantics.grails.users.model.field.country" default="Country"/>
+						</label>
 					</td>
 					<td valign="top" class="value">
 						<g:textField name="country" style="width: 240px;"
