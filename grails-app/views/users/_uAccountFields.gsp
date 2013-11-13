@@ -13,7 +13,9 @@ Stylesheet
 		<tbody>
 			<tr class="prop">
 				<td valign="top" width="190px" class="name">
-					<label for="username">Username</label>
+					<label for="username">
+						<g:message code="org.commonsemantics.grails.users.model.field.username" default="Username"/>
+					</label>
 				</td>
 				<td valign="top" width="265px" class="value">
 					<div>
@@ -25,7 +27,9 @@ Stylesheet
 			</tr>
 			<tr class="prop">
 				<td valign="top" class="name">
-					<label for="userRole">Role</label>
+					<label for="userRole">
+						<g:message code="org.commonsemantics.grails.users.model.field.role" default="Role"/>
+					</label>
 				</td>
 				<td valign="top" colspan="2" class="value">
 					<div>
@@ -48,7 +52,9 @@ Stylesheet
 			</tr>
 			<tr class="prop">
 				<td valign="top"  class="name">
-					<label for="userStatus">Account Status</label>
+					<label for="userStatus">
+						<g:message code="org.commonsemantics.grails.users.model.field.accountStatus" default="Account Status"/>
+					</label>
 				</td>
 				<td valign="top" class="value" colspan="2">
 					<div>

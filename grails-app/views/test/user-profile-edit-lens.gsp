@@ -1,3 +1,5 @@
+<%@ page import="org.springframework.web.servlet.support.RequestContextUtils" %>
+
 <!doctype html>
 <html>
 	<head>
@@ -10,7 +12,11 @@
 			
 			<g:render plugin="cs-users" template="/test/configurationDetails" />
 			
-			<h3>Edit Profile Lens</h3>
+			<h3>Edit Profile Lens (lang=<%=RequestContextUtils.getLocale(request).language %>)*</h3>
+			<p>
+			* to change the Locale add ?lang=language to the URL of this page
+			</p>
+			<br/>
 			<div class="csc-lens-container">
 				<g:form method="post" >
 					<g:hiddenField name="id" value="${user?.id}" /> 
