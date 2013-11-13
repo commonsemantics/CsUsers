@@ -1,4 +1,12 @@
+import grails.util.Metadata
+
 // configuration for plugin testing - will not be included in the plugin zip
+
+// Necessary for Grails 2.0 as the variable ${appName} is not available
+// anymore in the log4j closure. It needs the import above.
+def appName = Metadata.current.getApplicationName();
+
+grails.config.locations = ["classpath:${appName}-config.properties", "file:./${appName}-config.properties"]
 
 log4j = {
     // Example of changing the log pattern for the default console

@@ -13,7 +13,11 @@
 	<body>
 		<div style="padding-left:10px;">
 			<h1>${label} ${description}</h1>
-			<g:render plugin="cs-users" template="/users/uAccountFields" />
+			
+			<h3>Edit Account Lens</h3>
+			<div class="csc-lens-container">
+				<g:render plugin="cs-users" template="/users/uAccountFields" />
+			</div>
 		</div>
 	</body>
 </html>

@@ -20,9 +20,6 @@
  */
 package org.commonsemantics.grails.users.model
 
-
-
-
 /**
  * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
  */
@@ -52,6 +49,9 @@ class User {
 	boolean passwordExpired
 	
 	static hasMany = [openIds: OpenId]
+	
+	static mandatory = ['username','email','displayName']
+	static optional = ['title','firstName','middleName','lastName','affiliation','country']
 
 	static constraints = {
 		id maxSize: 36
