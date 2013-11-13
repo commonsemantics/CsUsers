@@ -21,6 +21,7 @@
 package org.commonsemantics.grails.users.utils
 
 import org.commonsemantics.grails.users.model.User
+import org.commonsemantics.grails.users.model.UserRole
 
 /**
 * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
@@ -34,5 +35,12 @@ class UserUtils {
 		} else {
 			return UserStatus.DISABLED_USER.value();
 		}
+	}
+	
+	static def getUserRoles(def user) {
+		def userRoles = []
+		def ur = UserRole.findAllByUser(user)
+		ur.each { userRoles.add(it.role)}
+		return userRoles
 	}
 }

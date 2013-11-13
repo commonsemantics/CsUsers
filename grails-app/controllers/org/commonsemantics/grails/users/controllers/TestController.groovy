@@ -2,7 +2,7 @@ package org.commonsemantics.grails.users.controllers
 
 import org.commonsemantics.grails.users.model.Role
 import org.commonsemantics.grails.users.model.User
-import org.commonsemantics.grails.users.model.UserRole
+import org.commonsemantics.grails.users.utils.UserUtils
 
 class TestController {
 
@@ -18,7 +18,7 @@ class TestController {
 	
 	def testUserDisplayLens = {
 		render (view:'user-show-lens', model:[label:'CsUser.02', description:'User\'s display lens with user definition', 
-			roles: Role.list(), userRoles:getUserRoles(User.list()[0]), user:User.list()[0]]);
+			roles: Role.list(), userRoles:UserUtils.getUserRoles(User.list()[0]), user:User.list()[0]]);
 	}
 	
 	def testUserProfileFieldsLensNoUser =  {
@@ -35,7 +35,7 @@ class TestController {
 	
 	def testUserAccountFieldsLens =  {
 		render (view:'user-account-edit-lens', model:[label:'CsUser.06', description:'User\'s account edit lens with user definition', 
-			roles: Role.list(), userRoles:getUserRoles(User.list()[0]), user:User.list()[0]]);
+			roles: Role.list(), userRoles:UserUtils.getUserRoles(User.list()[0]), user:User.list()[0]]);
 	}
 	
 	def testUserEditLensNoUser =  {
@@ -44,14 +44,6 @@ class TestController {
 	
 	def testUserEditLens =  {
 		render (view:'user-edit-lens', model:[label:'CsUser.08', description:'User\'s edit lens with user definition',
-			roles: Role.list(), userRoles:getUserRoles(User.list()[0]), user:User.list()[0], msgError: 'error', msgWarning: 'warning']);
+			roles: Role.list(), userRoles:UserUtils.getUserRoles(User.list()[0]), user:User.list()[0], msgError: 'error', msgWarning: 'warning']);
 	}
-	
-	def getUserRoles(def user) {
-		def userRoles = []
-		def ur = UserRole.findAllByUser(user)
-		ur.each { userRoles.add(it.role)}
-		return userRoles
-	}
-
 }
