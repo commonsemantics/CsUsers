@@ -13,19 +13,22 @@ Stylesheet
 				<g:hiddenField name="id" value="${user?.id}" /> 
 				<g:hiddenField name="username" value="${user?.username}" />
 				
-				********* to add warning and error lenses
-				
 				<tr>
-					<td valign="top" colspan="2">
+					<td valign="top" >
 						<g:if test="${msgError!=null}">
-							${msgError}
+							<g:render plugin="cs-commons" template="/lenses/error" model="['message':msgError]"/>
 						</g:if>
+						<g:elseif test="${msgWarning!=null}">
+							<g:render plugin="cs-commons" template="/lenses/warning" model="['message':msgWarning]"/>
+						</g:elseif>
 					</td>
 				</tr>
-				
+				<tr>
+					<td>
 				<g:render plugin="cs-user" template="/users/uProfileFields" />
 				<g:render plugin="cs-user" template="/users/uAccountFields" />
-				
+					</td>
+				</tr>
 
 			</table>
 	</g:if>

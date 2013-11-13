@@ -67,6 +67,16 @@ class TestController {
 	
 	def testUserEditLens =  {
 		render (view:'user-edit-lens', model:[label:'CsUser.08', description:'User\'s edit lens with user definition',
-			roles: Role.list(), userRoles:UserUtils.getUserRoles(User.list()[0]), user:User.list()[0], msgError: 'error', msgWarning: 'warning']);
+			roles: Role.list(), userRoles:UserUtils.getUserRoles(User.list()[0]), user:User.list()[0]]);
+	}
+	
+	def testUserEditLensWithError = {
+		render (view:'user-edit-lens', model:[label:'CsUser.08', description:'User\'s edit lens with user definition',
+			roles: Role.list(), userRoles:UserUtils.getUserRoles(User.list()[0]), user:User.list()[0], msgError: 'test error message']);
+	}
+	
+	def testUserEditLensWithWarning = {
+		render (view:'user-edit-lens', model:[label:'CsUser.08', description:'User\'s edit lens with user definition',
+			roles: Role.list(), userRoles:UserUtils.getUserRoles(User.list()[0]), user:User.list()[0], msgWarning: 'test warning message']);
 	}
 }
