@@ -21,9 +21,20 @@
 			* to change the Locale add ?lang=language to the URL of this page
 			</p>
 			<br/>
-			<div class="csc-lens-container">
-				<g:render plugin="cs-users" template="/users/uAccountFields" />
-			</div>
+			<g:form method="post" >
+				<div class="csc-lens-container">
+					<g:render plugin="cs-users" template="/users/uAccountFields" />
+				</div>	
+				<br>
+				<div class="buttons">
+					<span class="button">
+						<g:actionSubmit class="save" action="updateUser" value="${message(code: 'org.commonsemantics.grails.users.profile.submit', default: 'Update Profile')}" />
+					</span>
+					<span class="button">
+						<g:actionSubmit class="cancel" action="showUser" value="${message(code: 'org.commonsemantics.grails.cancel', default: 'Cancel')}" />
+					</span>
+				</div>	
+			</g:form>	
 		</div>
 	</body>
 </html>
