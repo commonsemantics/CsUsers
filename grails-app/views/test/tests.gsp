@@ -5,7 +5,7 @@
 	</head>
 	<body>
 		<div style="padding-left:10px;">
-		<h1>Tests list</h1>
+		<h1>${grailsApplication.metadata['app.name']} UI Components Tests list</h1>
 		<blockquote>
 			CsUser.01 <g:link plugin="cs-users" controller="test" action="testUserDisplayLensNoUser">User's display lens with no user definition</g:link><br/>
 			CsUser.02 <g:link plugin="cs-users" controller="test" action="testUserDisplayLens">User's display lens with user definition</g:link><br/>

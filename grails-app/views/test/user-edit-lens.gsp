@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 	<head>
-		<meta name="layout" content="commonsemantics"/>
+		<meta name="layout" content="commonsemantics-tests"/>
 		<title>${label}</title>
 	</head>
 	<body>
