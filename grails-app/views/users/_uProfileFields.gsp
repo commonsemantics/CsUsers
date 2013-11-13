@@ -15,7 +15,7 @@ Stylesheet
 						<label for="name"><g:message code="org.commonsemantics.grails.users.model.field.title" default="Title"/></label>
 					</td>
 					<td valign="top" width="155px" class="value">
-						<g:textField name="title" style="width: 240px;"
+						<g:textField name="title" style="width: 276px;"
 							value="${user?.title}"  class="${hasErrors(bean: user, field: 'title', 'fieldError')}"/>
 					</td>
 					<td valign="top" class="caption">
@@ -23,7 +23,7 @@ Stylesheet
 							<g:renderErrors bean="${user}" field="title" />
 						</g:if> 
 						<g:else>
-			           		(max 255 chars)
+			           		(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			            </g:else>
 			        </td>
 				</tr>
@@ -34,7 +34,7 @@ Stylesheet
 						<label for="name"><g:message code="org.commonsemantics.grails.users.model.field.firstName" default="First name"/></label>
 					</td>
 					<td valign="top" width="155px" class="value">
-						<g:textField name="firstName" style="width: 240px;"
+						<g:textField name="firstName" style="width: 276px;"
 							value="${user?.firstName}"  class="${hasErrors(bean: user, field: 'firstName', 'fieldError')}"/>
 					</td>
 					<td valign="top" class="caption">
@@ -42,7 +42,7 @@ Stylesheet
 							<g:renderErrors bean="${user}" field="firstName" />
 						</g:if> 
 						<g:else>
-			           		(max 255 chars)
+			           		(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			            </g:else>
 			        </td>
 				</tr>
@@ -55,7 +55,7 @@ Stylesheet
 						</label>
 					</td>
 					<td valign="top" width="155px" class="value">
-						<g:textField name="middleName" style="width: 240px;"
+						<g:textField name="middleName" style="width: 276px;"
 							value="${user?.middleName}"  class="${hasErrors(bean: user, field: 'middleName', 'fieldError')}"/>
 					</td>
 					<td valign="top" class="caption">
@@ -63,7 +63,7 @@ Stylesheet
 							<g:renderErrors bean="${user}" field="middleName" />
 						</g:if> 
 						<g:else>
-			           		(max 255 chars)
+			           		(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			            </g:else>
 			        </td>
 				</tr>
@@ -76,7 +76,7 @@ Stylesheet
 						</label>
 					</td>
 					<td valign="top" class="value">
-						<g:textField name="lastName" style="width: 240px;"
+						<g:textField name="lastName" style="width: 276px;"
 							value="${user?.lastName}"  class="${hasErrors(bean: user, field: 'lastName', 'fieldError')}"/>
 					</td>
 					<td valign="top" class="caption">
@@ -84,7 +84,7 @@ Stylesheet
 							<g:renderErrors bean="${user}" field="lastName" />
 						</g:if> 
 						<g:else>
-			           		(max 255 chars)
+			           		(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			            </g:else>
 			        </td>
 				</tr>
@@ -96,7 +96,7 @@ Stylesheet
 					</label>
 				</td>
 				<td valign="top" class="value">
-					<g:textField name="displayName" style="width: 240px;"
+					<g:textField name="displayName" style="width: 276px;"
 						value="${user?.displayName}"  class="${hasErrors(bean: user, field: 'displayName', 'fieldError')}"/>
 				</td>
 				<td valign="top" class="caption">
@@ -104,7 +104,7 @@ Stylesheet
 						<g:renderErrors bean="${user}" field="displayName" />
 					</g:if> 
 					<g:else>
-		           		(max 255 chars)
+		           		(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 		            </g:else>
 		        </td>
 			</tr>
@@ -113,7 +113,7 @@ Stylesheet
 					<label for="name">Email*</label>
 				</td>
 				<td valign="top" class="value">
-					<g:textField name="email" style="width: 240px;"
+					<g:textField name="email" style="width: 276px;"
 						value="${user?.email}"  class="${hasErrors(bean: user, field: 'displayName', 'fieldError')}"/>
 				</td>
 				<td valign="top" class="caption">
@@ -133,7 +133,7 @@ Stylesheet
 						</label>
 					</td>
 					<td valign="top" class="value">
-						<g:textField name="affiliation" style="width: 240px;"
+						<g:textField name="affiliation" style="width: 276px;"
 							value="${user?.affiliation}"  class="${hasErrors(bean: user, field: 'affiliation', 'fieldError')}"/>
 					</td>
 					<td valign="top" class="caption">
@@ -141,7 +141,7 @@ Stylesheet
 							<g:renderErrors bean="${user}" field="affiliation" />
 						</g:if> 
 						<g:else>
-			           		(max 255 chars)
+			           		(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			            </g:else>
 			        </td>
 				</tr>
@@ -154,16 +154,21 @@ Stylesheet
 						</label>
 					</td>
 					<td valign="top" class="value">
+						<%-- 
 						<g:textField name="country" style="width: 240px;"
 							value="${user?.country}"  class="${hasErrors(bean: user, field: 'displayName', 'fieldError')}"/>
+						--%>
+						<%-- http://grails.org/doc/latest/ref/Tags/countrySelect.html --%>
+						<g:countrySelect name="country" value="${user?.country}"
+                 			noSelection="['':'-Choose your country-']" default="usa"/>
+                 		
+                 		<%--  create select from a list of ISO3166_3 country codes --%>
+						<%-- <g:countrySelect name="country" from="['gbr', 'usa', 'deu', 'ita']" value="${user?.country}"/> --%>
 					</td>
 					<td valign="top" class="caption">
 						<g:if test="${user?.country!=null}">
 							<g:renderErrors bean="${user}" field="country" />
 						</g:if> 
-						<g:else>
-			           		(valid country)
-			            </g:else>
 			        </td>
 				</tr>
 			</g:if>

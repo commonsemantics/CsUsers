@@ -10,7 +10,7 @@
 			
 			<g:render plugin="cs-users" template="/test/configurationDetails" />
 			
-			<h3>User Edit Lens</h3>
+			<h2>User Edit Lens</h2>
 			<g:form method="post" >
 				<div class="csc-lens-container">
 					<g:render plugin="cs-users" template="/users/userEdit" />
@@ -23,7 +23,7 @@
 								<g:actionSubmit class="save" action="updateUser" value="${message(code: 'org.commonsemantics.grails.users.profile.submit', default: 'Update Profile')}" />
 							</span>
 							<span class="button">
-								<g:actionSubmit class="cancel" action="showUser" value="${message(code: 'org.commonsemantics.grails.cancel', default: 'Cancel')}" />
+								<g:actionSubmit class="cancel" action="showUser" value="${message(code: 'org.commonsemantics.grails.general.cancel', default: 'Cancel')}" />
 							</span>
 						</div>
 					</td>

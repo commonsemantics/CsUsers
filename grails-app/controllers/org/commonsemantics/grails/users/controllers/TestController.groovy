@@ -40,7 +40,7 @@ class TestController {
 	}
 	
 	def testUserDisplayLens = {
-		render (view:'user-show-lens', model:[label:'CsUser.02', description:'User\'s display lens with user definition', 
+		render (view:'user-show-lens', model:[label:'CsUser.02', description:'User\'s display lens', 
 			roles: Role.list(), userRoles:UserUtils.getUserRoles(User.list()[0]), user:User.list()[0]]);
 	}
 	
@@ -49,7 +49,7 @@ class TestController {
 	}
 	
 	def testUserProfileFieldsLens = {
-		render (view:'user-profile-edit-lens', model:[label:'CsUser.04', description:'User\'s profile edit lens with user definition', user:User.list()[0]]);
+		render (view:'user-profile-edit-lens', model:[label:'CsUser.04', description:'User\'s profile edit lens', user:User.list()[0]]);
 	}
 	
 	def testUserAccountFieldsLensNoUser =  {
@@ -57,7 +57,7 @@ class TestController {
 	}
 	
 	def testUserAccountFieldsLens =  {
-		render (view:'user-account-edit-lens', model:[label:'CsUser.06', description:'User\'s account edit lens with user definition', 
+		render (view:'user-account-edit-lens', model:[label:'CsUser.06', description:'User\'s account edit lens', 
 			roles: Role.list(), userRoles:UserUtils.getUserRoles(User.list()[0]), user:User.list()[0]]);
 	}
 	
@@ -66,17 +66,27 @@ class TestController {
 	}
 	
 	def testUserEditLens =  {
-		render (view:'user-edit-lens', model:[label:'CsUser.08', description:'User\'s edit lens with user definition',
+		render (view:'user-edit-lens', model:[label:'CsUser.08', description:'User\'s edit lens',
 			roles: Role.list(), userRoles:UserUtils.getUserRoles(User.list()[0]), user:User.list()[0]]);
 	}
 	
 	def testUserEditLensWithError = {
-		render (view:'user-edit-lens', model:[label:'CsUser.08', description:'User\'s edit lens with user definition',
+		render (view:'user-edit-lens', model:[label:'CsUser.09', description:'User\'s edit lens with error ',
 			roles: Role.list(), userRoles:UserUtils.getUserRoles(User.list()[0]), user:User.list()[0], msgError: 'test error message']);
 	}
 	
+	def testUserEditLensWithLongError = {
+		render (view:'user-edit-lens', model:[label:'CsUser.10', description:'User\'s edit lens with long error ',
+			roles: Role.list(), userRoles:UserUtils.getUserRoles(User.list()[0]), user:User.list()[0], msgError: 'test error message test error message test error message test error message test error message test error message test error message test error message']);
+	}
+	
 	def testUserEditLensWithWarning = {
-		render (view:'user-edit-lens', model:[label:'CsUser.08', description:'User\'s edit lens with user definition',
+		render (view:'user-edit-lens', model:[label:'CsUser.11', description:'User\'s edit lens with warning',
 			roles: Role.list(), userRoles:UserUtils.getUserRoles(User.list()[0]), user:User.list()[0], msgWarning: 'test warning message']);
+	}
+	
+	def testUserEditLensWithLongWarning = {
+		render (view:'user-edit-lens', model:[label:'CsUser.12', description:'User\'s edit lens with long warning',
+			roles: Role.list(), userRoles:UserUtils.getUserRoles(User.list()[0]), user:User.list()[0], msgWarning: 'test warning message test warning message test warning message test warning message test warning message test warning message test warning message']);
 	}
 }

@@ -1,6 +1,7 @@
 <%@ page import="org.commonsemantics.grails.users.model.User" %>
 
-<h3>Optional Fields Configuration (External configuration)</h3>
+<h2>Configurations (External configuration)</h2>
+<h3>Optional Fields </h3>
 &nbsp;${User.optional}<br/><br/>
 
 <%-- Alternative A --%>
