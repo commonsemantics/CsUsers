@@ -12,7 +12,7 @@ Stylesheet
 	<table>
 		<tbody>
 			<tr class="prop">
-				<td valign="top" width="190px" class="name">
+				<td valign="top" width="160px" class="name">
 					<label for="username">
 						<g:message code="org.commonsemantics.grails.users.model.field.username" default="Username"/>
 					</label>

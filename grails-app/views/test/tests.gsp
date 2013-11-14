@@ -19,6 +19,7 @@
 			CsUser.10 <g:link plugin="cs-users" controller="test" action="testUserEditLensWithLongError">User's edit lens with longerror</g:link><br/>
 			CsUser.11 <g:link plugin="cs-users" controller="test" action="testUserEditLensWithWarning">User's edit lens with warning</g:link><br/>
 			CsUser.12 <g:link plugin="cs-users" controller="test" action="testUserEditLensWithLongWarning">User's edit lens with long warning</g:link><br/>
+			CsUser.13 <g:link plugin="cs-users" controller="test" action="testUserEditLensWithFieldValueError">User's edit lens with field value error</g:link><br/>
 		</blockquote>
 		</div>
 	</body>

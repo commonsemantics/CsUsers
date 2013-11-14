@@ -27,12 +27,10 @@ import org.commonsemantics.grails.users.model.UserRole
 /**
  * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
  */
-class UsersUtilsService {
+class UsersService {
 	
+	static transactional = false
 	
-
-
-
 	/**
 	 * Returns the list of all the users of the node with pagination
 	 * @param user		The user requesting the list
@@ -117,59 +115,11 @@ class UsersUtilsService {
 		users
 	}
 	
-	def listRoles(def user, def max, def offset, def sort, def _order) {
-		def rolesCount = [:]
-		Role.list().each { arole ->
-			rolesCount.put (arole.id, UserRole.findAllWhere(role: arole).size())
-		}
-		
-		def roles = [];
-		if (sort == 'rolesCount') {
-			rolesCount.sort({ a, b -> a <=> b } as Comparator)
-			if(order == "desc")
-				rolesCount.each { roleCount ->
-					roles.add Role.findById(roleCount.key);
-				}
-			else
-				rolesCount.reverseEach { roleCount ->
-					roles.add Role.findById(roleCount.key);
-				}
-		} else {
-			roles = Role.withCriteria {
-				maxResults(max?.toInteger())
-				firstResult(offset?.toInteger())
-				order(sort, _order)
-			}
-		}
-		[roles, rolesCount]
-	}
-	
 	def getUserRoles(def user) {
 		def userRoles = []
 		def ur = UserRole.findAllByUser(user)
-		println ur
 		ur.each { userRoles.add(it.role)}
-		return userRoles;
-	}
-	
-	def getUserCircles(def user) {
-		def ur = []
-		/*
-		def userCircles = []
-		ur = UserCircle.findAllByUser(user)
-		ur.each { userCircles.add(it.circle)}
-		*/
-		return ur;
-	}
-	
-	def getUserCommunities(def user) {
-		def ur = []
-		/*
-		def userCommunities = []
-		ur = UserCommunity.findAllByUser(user)
-		ur.each { userCommunities.add(it.community)}
-		*/
-		return ur;
+		return userRoles
 	}
 
 	
@@ -242,65 +192,4 @@ class UsersUtilsService {
 			return "Error"
 		}
 	}
-	
-
-	def listSystems(def max, def offset, def sort, def _order) {
-		
-		def systems = [];
-		def systemsCount = [:]
-		SystemApi.list().each { system ->
-			systemsCount.put (system.id, UserSystemApi.findAllWhere(system: system).size())
-		}
-		def systemsStatus = [:]
-		SystemApi.list().each { system ->
-			systemsStatus.put (system.id, system.enabled)
-		}
-		
-		if (sort == 'systemsCount') {
-			systemsCount = systemsCount.sort{ a, b -> a.value <=> b.value }
-			if(_order == "desc")
-				systemsCount.each { groupCount ->
-					systems.add SystemApi.findById(groupCount.key);
-				}
-			else
-				systemsCount.reverseEach { groupCount ->
-					systems.add SystemApi.findById(groupCount.key);
-				}
-		} else if (sort == 'status') {
-			systemsStatus = systemsStatus.sort{ a, b -> a.value.compareTo(b.value) }
-			if(_order == "desc")
-				systemsStatus.each { groupStatus ->
-					systems.add Group.findById(groupStatus.key);
-				}
-			else
-				systemsStatus.reverseEach { groupStatus ->
-					systems.add Group.findById(groupStatus.key);
-				}
-		} else {
-			systems = SystemApi.withCriteria {
-				maxResults(max?.toInteger())
-				firstResult(offset?.toInteger())
-				order(sort, _order)
-			}
-		}
-		
-		[systems, systemsCount]
-	}
-	
-
-	
-	def listSystemAdministrators(def system, def _max, def _offset, def sort, def _order) {
-		
-		def admins = UserSystemApi.findAllBySystem(system);
-		[admins, admins.size()] ;
-	}
-	
-	
-	
-	
-	def listSystemUsers(def system, def _max, def _offset, def sort, def _order) {
-		system.users
-	}
-	
-
 }

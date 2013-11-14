@@ -1,3 +1,4 @@
+<%@ page import="org.commonsemantics.grails.users.utils.UserUtils" %>
 
 <%-- by Paolo Ciccarese --%>
 <%-- 
@@ -11,145 +12,164 @@ Stylesheet
 		<tbody>
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.title!='hide'}">
 				<tr class="prop">
-					<td valign="top" width="190px" class="name">
-						<label for="name"><g:message code="org.commonsemantics.grails.users.model.field.title" default="Title"/></label>
+					<td valign="top" width="160px" class="name">
+						<label for="title"><g:message code="org.commonsemantics.grails.users.model.field.title" default="Title"/></label>
 					</td>
 					<td valign="top" width="155px" class="value">
 						<g:textField name="title" style="width: 276px;"
-							value="${user?.title}"  class="${hasErrors(bean: user, field: 'title', 'fieldError')}"/>
+							value="${user?.title}"  class="${hasErrors(bean: user, field: 'title', 'csc-field-error')}"/>
 					</td>
 					<td valign="top" class="caption">
-						<g:if test="${user?.title!=null}">
-							<g:renderErrors bean="${user}" field="title" />
-						</g:if> 
-						<g:else>
-			           		(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
-			            </g:else>
+						(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			        </td>
 				</tr>
+				<g:if test="${user?.errors.hasFieldErrors('title')}">
+					<tr>
+						<td></td>
+						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="title" /></td>
+					</tr>
+				</g:if>
 			</g:if>
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.firstName!='hide'}">
 				<tr class="prop">
-					<td valign="top" width="190px" class="name">
-						<label for="name"><g:message code="org.commonsemantics.grails.users.model.field.firstName" default="First name"/></label>
+					<td valign="top" width="160px" class="name">
+						<label for="firstName"><g:message code="org.commonsemantics.grails.users.model.field.firstName" default="First name"/></label>
 					</td>
 					<td valign="top" width="155px" class="value">
 						<g:textField name="firstName" style="width: 276px;"
-							value="${user?.firstName}"  class="${hasErrors(bean: user, field: 'firstName', 'fieldError')}"/>
+							value="${user?.firstName}"  class="${hasErrors(bean: user, field: 'firstName', 'csc-field-error')}"/>
 					</td>
 					<td valign="top" class="caption">
-						<g:if test="${user?.firstName!=null}">
-							<g:renderErrors bean="${user}" field="firstName" />
-						</g:if> 
-						<g:else>
-			           		(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
-			            </g:else>
+			           	(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			        </td>
 				</tr>
+				<g:if test="${user?.errors.hasFieldErrors('firstName')}">
+					<tr>
+						<td></td>
+						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="firstName" /></td>
+					</tr>
+				</g:if>
 			</g:if>
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.middleName!='hide'}">
 				<tr class="prop">
-					<td valign="top" width="190px" class="name">
-						<label for="name">
+					<td valign="top" width="160px" class="name">
+						<label for="middleName">
 							<g:message code="org.commonsemantics.grails.users.model.field.middleName" default="Middle name"/>
 						</label>
 					</td>
 					<td valign="top" width="155px" class="value">
 						<g:textField name="middleName" style="width: 276px;"
-							value="${user?.middleName}"  class="${hasErrors(bean: user, field: 'middleName', 'fieldError')}"/>
+							value="${user?.middleName}"  class="${hasErrors(bean: user, field: 'middleName', 'csc-field-error')}"/>
 					</td>
 					<td valign="top" class="caption">
-						<g:if test="${user?.middleName!=null}">
-							<g:renderErrors bean="${user}" field="middleName" />
-						</g:if> 
-						<g:else>
-			           		(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
-			            </g:else>
+						(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			        </td>
 				</tr>
+				<g:if test="${user?.errors.hasFieldErrors('middleName')}">
+					<tr>
+						<td></td>
+						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="middleName" /></td>
+					</tr>
+				</g:if>
 			</g:if>
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.lastName!='hide'}">
 				<tr class="prop">
 					<td valign="top" class="name">
-						<label for="name">
+						<label for="lastName">
 							<g:message code="org.commonsemantics.grails.users.model.field.lastName" default="Last name"/>
 						</label>
 					</td>
 					<td valign="top" class="value">
 						<g:textField name="lastName" style="width: 276px;"
-							value="${user?.lastName}"  class="${hasErrors(bean: user, field: 'lastName', 'fieldError')}"/>
+							value="${user?.lastName}"  class="${hasErrors(bean: user, field: 'lastName', 'csc-field-error')}"/>
 					</td>
 					<td valign="top" class="caption">
-						<g:if test="${user?.lastName!=null}">
-							<g:renderErrors bean="${user}" field="lastName" />
-						</g:if> 
-						<g:else>
-			           		(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
-			            </g:else>
+						(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			        </td>
 				</tr>
+				<g:if test="${user?.errors.hasFieldErrors('lastName')}">
+					<tr>
+						<td></td>
+						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="lastName" /></td>
+					</tr>
+				</g:if>
 			</g:if>
 			<tr class="prop">
 				<td valign="top" class="name">
-					<label for="name">
-						<g:message code="org.commonsemantics.grails.users.model.field.displayName" default="Display name"/>
+					<label for="displayName">
+						<g:message code="org.commonsemantics.grails.users.model.field.displayName" default="Display name"/>*
 					</label>
 				</td>
 				<td valign="top" class="value">
 					<g:textField name="displayName" style="width: 276px;"
-						value="${user?.displayName}"  class="${hasErrors(bean: user, field: 'displayName', 'fieldError')}"/>
+						value="${user?.displayName}"  class="${hasErrors(bean: user, field: 'displayName', 'csc-field-error')}"/>
 				</td>
 				<td valign="top" class="caption">
-					<g:if test="${user?.displayName!=null}">
-						<g:renderErrors bean="${user}" field="displayName" />
-					</g:if> 
-					<g:else>
-		           		(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
-		            </g:else>
+					(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 		        </td>
+		        <g:if test="${user?.errors.hasFieldErrors('displayName')}">
+					<tr>
+						<td></td>
+						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="displayName" /></td>
+					</tr>
+				</g:if>
 			</tr>
+			
+			<%-- 
+			<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
+				messageCode:'org.commonsemantics.grails.users.model.field.displayName',
+				messageDefault:'Display name',
+				mandatory:UserUtils.isFieldMandatory(grailsApplication, 'displayName'),
+				variable: 'displayName',
+				value: user?.displayName,
+				caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
+			]" />
+			--%>
+			
 			<tr class="prop">
 				<td valign="top" class="name">
-					<label for="name">Email*</label>
+					<label for="email">Email*</label>
 				</td>
 				<td valign="top" class="value">
 					<g:textField name="email" style="width: 276px;"
-						value="${user?.email}"  class="${hasErrors(bean: user, field: 'displayName', 'fieldError')}"/>
+						value="${user?.email}"  class="${hasErrors(bean: user, field: 'email', 'csc-field-error')}"/>
 				</td>
 				<td valign="top" class="caption">
-					<g:if test="${user?.email!=null}">
-						<g:renderErrors bean="${user}" field="email" />
-					</g:if> 
-					<g:else>
-		           		(valid email)
-		            </g:else>
+					(valid email)
 		        </td>
+		        <g:if test="${user?.errors.hasFieldErrors('email')}">
+					<tr>
+						<td></td>
+						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="email" /></td>
+					</tr>
+				</g:if>
 			</tr>
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.affiliation!='hide'}">
 				<tr class="prop">
 					<td valign="top" class="name">
-						<label for="name">
+						<label for="affiliation">
 							<g:message code="org.commonsemantics.grails.users.model.field.affiliation" default="Affiliation"/>
 						</label>
 					</td>
 					<td valign="top" class="value">
 						<g:textField name="affiliation" style="width: 276px;"
-							value="${user?.affiliation}"  class="${hasErrors(bean: user, field: 'affiliation', 'fieldError')}"/>
+							value="${user?.affiliation}"  class="${hasErrors(bean: user, field: 'affiliation', 'csc-field-error')}"/>
 					</td>
 					<td valign="top" class="caption">
-						<g:if test="${user?.affiliation!=null}">
-							<g:renderErrors bean="${user}" field="affiliation" />
-						</g:if> 
-						<g:else>
-			           		(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
-			            </g:else>
+						(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			        </td>
+			        <g:if test="${user?.errors.hasFieldErrors('affiliation')}">
+						<tr>
+							<td></td>
+							<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="affiliation" /></td>
+						</tr>
+					</g:if>
 				</tr>
 			</g:if>
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.country!='hide'}">
 				<tr class="prop">
 					<td valign="top" class="name">
-						<label for="name">
+						<label for="country">
 							<g:message code="org.commonsemantics.grails.users.model.field.country" default="Country"/>
 						</label>
 					</td>
@@ -166,9 +186,6 @@ Stylesheet
 						<%-- <g:countrySelect name="country" from="['gbr', 'usa', 'deu', 'ita']" value="${user?.country}"/> --%>
 					</td>
 					<td valign="top" class="caption">
-						<g:if test="${user?.country!=null}">
-							<g:renderErrors bean="${user}" field="country" />
-						</g:if> 
 			        </td>
 				</tr>
 			</g:if>
