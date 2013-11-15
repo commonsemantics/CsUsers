@@ -34,7 +34,7 @@ import org.commonsemantics.grails.users.utils.UserUtils
 /**
  * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
  */
-class TestController {
+class TestsController {
 
 	static defaultAction = "index"
 	
@@ -227,7 +227,7 @@ class TestController {
 				user.email = params.email;
 				user.username =  params.username;
 				
-				if(!user.save()) {
+				if(!user.save(flush: true)) {
 					println 'problems ' + user.errors;
 					
 					render (view:'user-create-lens', model:[label:'CsUser.14', description:'User\'s create lens with field value error', user:user]);
@@ -239,7 +239,7 @@ class TestController {
 		
 					updateUserStatus(user, params.userStatus)
 					
-					render (view:'user-edit-lens', model:[label:'CsUser.13', description:'User\'s edit lens with field value error', user:user]);
+					render (view:'user-edit-lens', model:[label:'CsUser.08', description:'User\'s edit lens', user:user]);
 					return;
 				}
 

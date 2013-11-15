@@ -107,25 +107,15 @@ Stylesheet
 <g:elseif test="${command=='create'}">
 		<table>
 		<tbody>
-			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.title!='hide'}">
-				<tr class="prop">
-					<td valign="top" width="160px" class="name">
-						<label for="title"><g:message code="org.commonsemantics.grails.users.model.field.title" default="Title"/></label>
-					</td>
-					<td valign="top" width="155px" class="value">
-						<g:textField name="title" style="width: 276px;"
-							value="${user?.title}"  class="${hasErrors(bean: user, field: 'title', 'csc-field-error')}"/>
-					</td>
-					<td valign="top" class="caption">
-						(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
-			        </td>
-				</tr>
-				<g:if test="${user?.errors?.hasFieldErrors('title')}">
-					<tr>
-						<td></td>
-						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="title" /></td>
-					</tr>
-				</g:if>
+			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.title!='hide'}">			
+				<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
+					messageCode:'org.commonsemantics.grails.users.model.field.title',
+					messageDefault:'Title',
+					mandatory:UserUtils.isFieldMandatory(grailsApplication, 'title'),
+					variable: 'title',
+					value: user?.title,
+					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
+				]" />
 			</g:if>
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.firstName!='hide'}">
 				<tr class="prop">

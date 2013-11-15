@@ -10,7 +10,7 @@
 		<div class="csc-main">
 			<h1>${label} ${description}</h1>
 					
-			<g:render plugin="cs-users" template="/test/configurationDetails" />
+			<g:render plugin="cs-users" template="/tests/configurationDetails" />
 			
 			<h3>User Display Lens (lang=<%=RequestContextUtils.getLocale(request).language %>)*</h3>
 			<p>

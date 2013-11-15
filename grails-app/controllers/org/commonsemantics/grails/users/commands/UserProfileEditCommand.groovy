@@ -35,8 +35,6 @@ class UserProfileEditCommand {
 
 	public static final Integer NAME_MAX_SIZE = 255;
 	
-	
-	//Users' data
 	String id
 	String title
 	String firstName
@@ -48,7 +46,6 @@ class UserProfileEditCommand {
 	String country
 	
 	static constraints = {
-		//Users' data
 		id (blank: false)
 		title (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
 		firstName (blank: false, maxSize:NAME_MAX_SIZE)
@@ -58,7 +55,5 @@ class UserProfileEditCommand {
 		email (blank: false, email: true,  maxSize:NAME_MAX_SIZE)
 		affiliation (blank: true, maxSize:NAME_MAX_SIZE)
 		country (blank: true, maxSize:NAME_MAX_SIZE)
-		//Account credentials
-		
 	}
 }

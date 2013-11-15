@@ -33,13 +33,7 @@ import org.commonsemantics.grails.users.utils.UserStatus
 @Validateable
 class UserEditCommand {
 
-	def springSecurityService;
-	
 	public static final Integer NAME_MAX_SIZE = 255;
-	
-	// Users status values
-	//---------------------
-	String status
 	
 	//Users' data
 	String title
@@ -53,6 +47,7 @@ class UserEditCommand {
 	
 	//Account credentials
 	String id
+	String status
 	String username
 	
 	static constraints = {

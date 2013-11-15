@@ -31,8 +31,6 @@ import grails.validation.Validateable
 @Validateable
 class UserResetPasswordCommand {
 
-	def springSecurityService;
-	
 	public static final Integer NAME_MAX_SIZE = 255;
 
 	//Account credentials

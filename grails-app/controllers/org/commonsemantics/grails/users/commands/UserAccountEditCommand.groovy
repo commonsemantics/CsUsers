@@ -35,8 +35,6 @@ class UserAccountEditCommand {
 
 	public static final Integer NAME_MAX_SIZE = 255;
 	
-	// Users status values
-	//---------------------
 	String id
 	String status
 	String username
