@@ -20,13 +20,13 @@
 			<g:form method="post" >
 				<div class="csc-lens-container">	
 					<g:hiddenField name="id" value="${user?.id}" /> 
-					<g:hiddenField name="username" value="${user?.username}" />
+					<g:hiddenField name="username" value="${user?.username}" /> 
 					<g:render plugin="cs-users" template="/users/uProfileFields" />
 				</div>
 				<br/>
 				<div class="buttons">
 					<span class="button">
-						<g:actionSubmit class="save" action="updateUser" value="${message(code: 'org.commonsemantics.grails.users.profile.submit', default: 'Update Profile')}" />
+						<g:actionSubmit class="save" action="updateUserProfile" value="${message(code: 'org.commonsemantics.grails.users.profile.submit', default: 'Update Profile')}" />
 					</span>
 					<span class="button">
 						<g:actionSubmit class="cancel" action="showUser" value="${message(code: 'org.commonsemantics.grails.general.cancel', default: 'Cancel')}" />

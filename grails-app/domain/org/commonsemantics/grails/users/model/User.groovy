@@ -50,21 +50,21 @@ class User {
 	
 	static hasMany = [openIds: OpenId]
 	
-	static mandatory = ['username','email','displayName']
+	static mandatory = ['displayName']
 	static optional = ['title','firstName','middleName','lastName','affiliation','country']
 
 	static constraints = {
 		id maxSize: 36
 		email blank: false, unique: true, email: true
 		username blank: false, unique: true
-		password blank: false
+		password (nullable: true, blank: true)
 		
 		//User's data
 		title (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
-		firstName (blank: false, maxSize:NAME_MAX_SIZE)
+		firstName (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
 		middleName (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
-		lastName (blank: false, maxSize:NAME_MAX_SIZE)
-		displayName (blank: false, maxSize:NAME_MAX_SIZE)
+		lastName (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
+		displayName (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
 		affiliation (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
 		country (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
 	}

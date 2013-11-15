@@ -11,6 +11,103 @@ Stylesheet
 	<table>
 		<tbody>
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.title!='hide'}">
+				<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
+					messageCode:'org.commonsemantics.grails.users.model.field.title',
+					messageDefault:'Title',
+					mandatory:UserUtils.isFieldMandatory(grailsApplication, 'title'),
+					variable: 'title',
+					value: user?.title,
+					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
+				]" />
+			</g:if>
+			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.firstName!='hide'}">
+				<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
+					messageCode:'org.commonsemantics.grails.users.model.field.firstName',
+					messageDefault:'First name',
+					mandatory:UserUtils.isFieldMandatory(grailsApplication, 'firstName'),
+					variable: 'firstName',
+					value: user?.firstName,
+					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
+				]" />
+			</g:if>
+			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.middleName!='hide'}">
+				<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
+					messageCode:'org.commonsemantics.grails.users.model.field.middleName',
+					messageDefault:'Middle name',
+					mandatory:UserUtils.isFieldMandatory(grailsApplication, 'middleName'),
+					variable: 'middleName',
+					value: user?.middleName,
+					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
+				]" />
+			</g:if>
+			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.lastName!='hide'}">				
+				<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
+					messageCode:'org.commonsemantics.grails.users.model.field.lastName',
+					messageDefault:'Last name',
+					mandatory:UserUtils.isFieldMandatory(grailsApplication, 'lastName'),
+					variable: 'lastName',
+					value: user?.lastName,
+					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
+				]" />
+			</g:if>			
+			<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
+				messageCode:'org.commonsemantics.grails.users.model.field.displayName',
+				messageDefault:'Display name',
+				mandatory:UserUtils.isFieldMandatory(grailsApplication, 'displayName'),
+				variable: 'displayName',
+				value: user?.displayName,
+				caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
+			]" />
+			<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
+				messageCode:'org.commonsemantics.grails.users.model.field.email',
+				messageDefault:'Email',
+				mandatory:UserUtils.isFieldMandatory(grailsApplication, 'email'),
+				variable: 'email',
+				value: user?.email,
+				caption: '(valid email)'
+			]" />
+			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.affiliation!='hide'}">
+				<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
+					messageCode:'org.commonsemantics.grails.users.model.field.affiliation',
+					messageDefault:'Affiliation',
+					mandatory:UserUtils.isFieldMandatory(grailsApplication, 'affiliation'),
+					variable: 'affiliation',
+					value: user?.affiliation,
+					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
+				]" />
+			</g:if>
+			<%-- Custom code to accommodate the country selector --%>
+			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.country!='hide'}">
+				<tr class="prop">
+					<td valign="top" class="name">
+						<label for="country">
+							<g:message code="org.commonsemantics.grails.users.model.field.country" default="Country"/>
+							<g:if test="${UserUtils.isFieldMandatory(grailsApplication, 'country')==true}">*</g:if>
+						</label>
+					</td>
+					<td valign="top" class="value">
+						<%-- 
+						<g:textField name="country" style="width: 240px;"
+							value="${user?.country}"  class="${hasErrors(bean: user, field: 'displayName', 'fieldError')}"/>
+						--%>
+						<%-- http://grails.org/doc/latest/ref/Tags/countrySelect.html --%>
+						<g:countrySelect name="country" value="${user?.country}"
+                 			noSelection="['':'-Choose your country-']" default="usa"/>
+                 		
+                 		<%--  create select from a list of ISO3166_3 country codes --%>
+						<%-- <g:countrySelect name="country" from="['gbr', 'usa', 'deu', 'ita']" value="${user?.country}"/> --%>
+					</td>
+					<td valign="top" class="caption">
+			        </td>
+				</tr>
+			</g:if>
+		</tbody>
+	</table>
+</g:if>
+<g:elseif test="${command=='create'}">
+		<table>
+		<tbody>
+			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.title!='hide'}">
 				<tr class="prop">
 					<td valign="top" width="160px" class="name">
 						<label for="title"><g:message code="org.commonsemantics.grails.users.model.field.title" default="Title"/></label>
@@ -23,7 +120,7 @@ Stylesheet
 						(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			        </td>
 				</tr>
-				<g:if test="${user?.errors.hasFieldErrors('title')}">
+				<g:if test="${user?.errors?.hasFieldErrors('title')}">
 					<tr>
 						<td></td>
 						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="title" /></td>
@@ -43,7 +140,7 @@ Stylesheet
 			           	(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			        </td>
 				</tr>
-				<g:if test="${user?.errors.hasFieldErrors('firstName')}">
+				<g:if test="${user?.errors?.hasFieldErrors('firstName')}">
 					<tr>
 						<td></td>
 						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="firstName" /></td>
@@ -65,7 +162,7 @@ Stylesheet
 						(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			        </td>
 				</tr>
-				<g:if test="${user?.errors.hasFieldErrors('middleName')}">
+				<g:if test="${user?.errors?.hasFieldErrors('middleName')}">
 					<tr>
 						<td></td>
 						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="middleName" /></td>
@@ -87,7 +184,7 @@ Stylesheet
 						(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			        </td>
 				</tr>
-				<g:if test="${user?.errors.hasFieldErrors('lastName')}">
+				<g:if test="${user?.errors?.hasFieldErrors('lastName')}">
 					<tr>
 						<td></td>
 						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="lastName" /></td>
@@ -107,7 +204,7 @@ Stylesheet
 				<td valign="top" class="caption">
 					(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 		        </td>
-		        <g:if test="${user?.errors.hasFieldErrors('displayName')}">
+		        <g:if test="${user?.errors?.hasFieldErrors('displayName')}">
 					<tr>
 						<td></td>
 						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="displayName" /></td>
@@ -137,7 +234,7 @@ Stylesheet
 				<td valign="top" class="caption">
 					(valid email)
 		        </td>
-		        <g:if test="${user?.errors.hasFieldErrors('email')}">
+		        <g:if test="${user?.errors?.hasFieldErrors('email')}">
 					<tr>
 						<td></td>
 						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="email" /></td>
@@ -158,7 +255,7 @@ Stylesheet
 					<td valign="top" class="caption">
 						(max 255 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 			        </td>
-			        <g:if test="${user?.errors.hasFieldErrors('affiliation')}">
+			        <g:if test="${user?.errors?.hasFieldErrors('affiliation')}">
 						<tr>
 							<td></td>
 							<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="affiliation" /></td>
@@ -191,7 +288,7 @@ Stylesheet
 			</g:if>
 		</tbody>
 	</table>
-</g:if>
+</g:elseif>
 <g:else>
 	<g:render plugin="cs-commons" template="/lenses/error" model="['message':'CsUser._userProfileFields: user object cannot be null.']"/>
 </g:else>

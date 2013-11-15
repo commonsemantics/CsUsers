@@ -22,9 +22,8 @@ package org.commonsemantics.grails.users.commands
 
 import grails.validation.Validateable
 
-import org.commonsemantics.grails.users.model.User
 import org.commonsemantics.grails.users.utils.UserStatus
-import org.commonsemantics.grails.users.utils.UserUtils
+
 
 /**
 * Object command for User validation and creation.
@@ -32,17 +31,13 @@ import org.commonsemantics.grails.users.utils.UserUtils
 * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
 */
 @Validateable
-class UserCreateCommand {
+class UserProfileEditCommand {
 
-	def grailsApplication
-	
 	public static final Integer NAME_MAX_SIZE = 255;
 	
-	// Users status values
-	//---------------------
-	String status
 	
 	//Users' data
+	String id
 	String title
 	String firstName
 	String middleName
@@ -52,38 +47,18 @@ class UserCreateCommand {
 	String affiliation
 	String country
 	
-	//Account credentials
-	String username
-	String password
-	String passwordConfirmation
-	
 	static constraints = {
-		importFrom User
-	}
-	
-	def areMandatoryFieldDefined() {
-		println UserUtils.getMandatoryFields(grailsApplication);
-	}
-	
-	boolean isEnabled() {
-		return status.equals(UserStatus.ACTIVE_USER.value());
-	}
-	
-	boolean isLocked() {
-		return status.equals(UserStatus.LOCKED_USER.value());
-	}
-	
-	boolean isPasswordValid() {
-		return password.equals(passwordConfirmation);
-	}	
-	
-	User createUser() {
-		if(isPasswordValid()) {
-			return User.findByUsername(username) ? null:
-				new User(title: title, firstName: firstName, middleName: middleName, lastName: lastName, displayName: displayName, username: username, 
-					email: email, affiliation: affiliation, country: country, password: springSecurityService.encodePassword(password), enabled:isEnabled())
-		} else {
-			return null;
-		}
+		//Users' data
+		id (blank: false)
+		title (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
+		firstName (blank: false, maxSize:NAME_MAX_SIZE)
+		middleName (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
+		lastName (blank: false, maxSize:NAME_MAX_SIZE)
+		displayName (blank: true, maxSize:NAME_MAX_SIZE)
+		email (blank: false, email: true,  maxSize:NAME_MAX_SIZE)
+		affiliation (blank: true, maxSize:NAME_MAX_SIZE)
+		country (blank: true, maxSize:NAME_MAX_SIZE)
+		//Account credentials
+		
 	}
 }

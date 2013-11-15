@@ -22,9 +22,8 @@ package org.commonsemantics.grails.users.commands
 
 import grails.validation.Validateable
 
-import org.commonsemantics.grails.users.model.User
 import org.commonsemantics.grails.users.utils.UserStatus
-import org.commonsemantics.grails.users.utils.UserUtils
+
 
 /**
 * Object command for User validation and creation.
@@ -32,58 +31,35 @@ import org.commonsemantics.grails.users.utils.UserUtils
 * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
 */
 @Validateable
-class UserCreateCommand {
+class UserAccountEditCommand {
 
-	def grailsApplication
-	
 	public static final Integer NAME_MAX_SIZE = 255;
 	
 	// Users status values
 	//---------------------
+	String id
 	String status
-	
-	//Users' data
-	String title
-	String firstName
-	String middleName
-	String lastName
-	String displayName
-	String email
-	String affiliation
-	String country
-	
-	//Account credentials
 	String username
-	String password
-	String passwordConfirmation
 	
 	static constraints = {
-		importFrom User
-	}
-	
-	def areMandatoryFieldDefined() {
-		println UserUtils.getMandatoryFields(grailsApplication);
+		//Users' data
+		id (blank: false)
+		username (blank: false, maxSize:NAME_MAX_SIZE)
 	}
 	
 	boolean isEnabled() {
 		return status.equals(UserStatus.ACTIVE_USER.value());
 	}
 	
-	boolean isLocked() {
-		return status.equals(UserStatus.LOCKED_USER.value());
+	boolean isDisabled() {
+		return status.equals(UserStatus.DISABLED_USER.value());
 	}
 	
-	boolean isPasswordValid() {
-		return password.equals(passwordConfirmation);
-	}	
+	boolean isCreated() {
+		return status.equals(UserStatus.CREATED_USER.value());
+	}
 	
-	User createUser() {
-		if(isPasswordValid()) {
-			return User.findByUsername(username) ? null:
-				new User(title: title, firstName: firstName, middleName: middleName, lastName: lastName, displayName: displayName, username: username, 
-					email: email, affiliation: affiliation, country: country, password: springSecurityService.encodePassword(password), enabled:isEnabled())
-		} else {
-			return null;
-		}
+	boolean isLocked() {
+		return status.equals(UserStatus.LOCKED_USER.value());
 	}
 }

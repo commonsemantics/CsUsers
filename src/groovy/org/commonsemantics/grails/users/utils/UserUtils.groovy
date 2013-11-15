@@ -20,6 +20,8 @@
  */
 package org.commonsemantics.grails.users.utils
 
+import org.commonsemantics.grails.users.commands.UserCreateCommand
+import org.commonsemantics.grails.users.commands.UserEditCommand
 import org.commonsemantics.grails.users.model.Role
 import org.commonsemantics.grails.users.model.User
 import org.commonsemantics.grails.users.model.UserRole
@@ -29,7 +31,7 @@ import org.commonsemantics.grails.users.model.UserRole
 */
 class UserUtils {
 
-	static String getStatusLabel(User user) {
+	static String getStatusLabel(def user) {
 		if(user.isEnabled()) {
 			 if(user.isAccountLocked()) return UserStatus.LOCKED_USER.value();
 			 else return UserStatus.ACTIVE_USER.value();
@@ -66,12 +68,37 @@ class UserUtils {
 	}
 
 	static boolean isFieldMandatory(def grailsApplication, def fieldName) {
-		println 'field: ' + fieldName
+		// Mandatory fields by configuration
 		def mandatoryByConfiguration =  Eval.me(grailsApplication.config.org.commonsemantics.grails.users.model.fields.mandatory);
+		// Mandatory fields by coding
+		if(!User.constraints[fieldName].nullable) mandatoryByConfiguration.add(fieldName);
 		if(fieldName in User.mandatory || fieldName in mandatoryByConfiguration) {
 			println 'mandatory: ' + fieldName;
 			return true;
 		}
 		return false;
+	}
+	
+	static def getMandatoryFields(def grailsApplication) {
+		def mandatory = User.mandatory.clone();
+		mandatory.addAll(Eval.me(grailsApplication.config.org.commonsemantics.grails.users.model.fields.mandatory));
+		return mandatory;
+	}
+	
+	static def getUserRoles(def user) {
+		def userRoles = []
+		def ur = UserRole.findAllByUser(user)
+		ur.each { userRoles.add(it.role)}
+		return userRoles
+	}
+	
+	static def getUserRoles(UserCreateCommand user) {
+		def userRoles = []
+		return userRoles
+	}
+	
+	static def getUserRoles(UserEditCommand user) {
+		def userRoles = []
+		return userRoles
 	}
 }

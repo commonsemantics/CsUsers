@@ -22,6 +22,8 @@ package org.commonsemantics.grails.users.commands
 
 import grails.validation.Validateable
 
+import org.commonsemantics.grails.users.utils.UserStatus
+
 
 /**
 * Object command for User validation and creation.
