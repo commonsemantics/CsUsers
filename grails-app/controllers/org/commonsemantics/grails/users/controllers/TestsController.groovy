@@ -45,7 +45,7 @@ class TestsController {
 	}
 	
 	def testUserDisplayLensNoUser = {
-		render (view:'user-show-lens', model:[label:'CsUser.01', description:'User\'s display lens with no user definition']);
+		render (view:'user-show-lens', model:[label:params.testId, description:'User\'s display lens with no user definition']);
 	}
 	
 	def testUserDisplayLens = {
