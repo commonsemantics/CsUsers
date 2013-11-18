@@ -3,6 +3,7 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 
 grails.plugin.location.'cs-commons' = '../../commonsemantics/CsCommons'
+grails.plugin.location.'cs-agents' = '../../commonsemantics/CsAgents'
 
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies

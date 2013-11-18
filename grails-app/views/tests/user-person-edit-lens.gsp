@@ -10,18 +10,18 @@
 		<div style="padding-left:10px;">
 			<h1>${grailsApplication.metadata['app.name']}.${label} ${description}</h1>
 			
-			<g:render plugin="cs-users" template="/tests/configurationDetails" />
+			<g:render plugin="cs-agents" template="/tests/personConfigurationDetails" />
 			
-			<h3>Edit Profile Lens (lang=<%=RequestContextUtils.getLocale(request).language %>)*</h3>
+			<h3>${description} (lang=<%=RequestContextUtils.getLocale(request).language %>)*</h3>
 			<p>
 			* to change the Locale add ?lang=language to the URL of this page
 			</p>
 			<br/>
+			Person id: ${person?.id}
 			<g:form method="post" >
 				<div class="csc-lens-container">	
-					<g:hiddenField name="id" value="${user?.id}" /> 
-					<g:hiddenField name="username" value="${user?.username}" /> 
-					<g:render plugin="cs-users" template="/users/uProfileFields" />
+					<g:hiddenField name="id" value="${person?.id}" /> 
+					<g:render plugin="cs-agents" template="/agents/personEdit" />
 				</div>
 				<br/>
 				<div class="buttons">

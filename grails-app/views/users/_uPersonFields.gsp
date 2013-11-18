@@ -7,72 +7,78 @@ Parameters list
 Stylesheet
  1) fieldError | background and font color in erroneous text fields
 --%>
-<g:if test="${user!=null}">
+<g:if test="${person!=null}">
 	<table>
 		<tbody>
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.title!='hide'}">
-				<g:render plugin="cs-user" template="/users/uPersonEntry" model="[
+				<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
 					messageCode:'org.commonsemantics.grails.users.model.field.title',
 					messageDefault:'Title',
 					mandatory:UserUtils.isFieldMandatory(grailsApplication, 'title'),
 					variable: 'title',
-					value: user?.person?.title,
+					bean: person,
+					value: person?.title,
 					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
 				]" />
 			</g:if>
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.firstName!='hide'}">
-				<g:render plugin="cs-user" template="/users/uPersonEntry" model="[
+				<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
 					messageCode:'org.commonsemantics.grails.users.model.field.firstName',
 					messageDefault:'First name',
 					mandatory:UserUtils.isFieldMandatory(grailsApplication, 'firstName'),
 					variable: 'firstName',
-					value: user?.person?.firstName,
+					bean: person,
+					value: person?.firstName,
 					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
 				]" />
 			</g:if>
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.middleName!='hide'}">
-				<g:render plugin="cs-user" template="/users/uPersonEntry" model="[
+				<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
 					messageCode:'org.commonsemantics.grails.users.model.field.middleName',
 					messageDefault:'Middle name',
 					mandatory:UserUtils.isFieldMandatory(grailsApplication, 'middleName'),
 					variable: 'middleName',
-					value: user?.person?.middleName,
+					bean: person,
+					value: person?.middleName,
 					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
 				]" />
 			</g:if>
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.lastName!='hide'}">				
-				<g:render plugin="cs-user" template="/users/uPersonEntry" model="[
+				<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
 					messageCode:'org.commonsemantics.grails.users.model.field.lastName',
 					messageDefault:'Last name',
 					mandatory:UserUtils.isFieldMandatory(grailsApplication, 'lastName'),
 					variable: 'lastName',
-					value: user?.person?.lastName,
+					bean: person,
+					value: person?.lastName,
 					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
 				]" />
 			</g:if>			
-			<g:render plugin="cs-user" template="/users/uPersonEntry" model="[
+			<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
 				messageCode:'org.commonsemantics.grails.users.model.field.displayName',
 				messageDefault:'Display name',
 				mandatory:UserUtils.isFieldMandatory(grailsApplication, 'displayName'),
 				variable: 'displayName',
-				value: user?.person?.displayName,
+				value: person?.displayName,
 				caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
 			]" />
-			<g:render plugin="cs-user" template="/users/uPersonEntry" model="[
+			<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
 				messageCode:'org.commonsemantics.grails.users.model.field.email',
 				messageDefault:'Email',
 				mandatory:UserUtils.isFieldMandatory(grailsApplication, 'email'),
 				variable: 'email',
-				value: user?.person?.email,
+				bean: person,
+				value: person?.email,
 				caption: '(valid email)'
 			]" />
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.affiliation!='hide'}">
-				<g:render plugin="cs-user" template="/users/uPersonEntry" model="[
+				<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
 					messageCode:'org.commonsemantics.grails.users.model.field.affiliation',
 					messageDefault:'Affiliation',
 					mandatory:UserUtils.isFieldMandatory(grailsApplication, 'affiliation'),
 					variable: 'affiliation',
-					value: user?.person?.affiliation,
+					bean: person,
+					value: person?.affiliation,
 					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
 				]" />
 			</g:if>
@@ -91,7 +97,7 @@ Stylesheet
 							value="${user?.country}"  class="${hasErrors(bean: user, field: 'displayName', 'fieldError')}"/>
 						--%>
 						<%-- http://grails.org/doc/latest/ref/Tags/countrySelect.html --%>
-						<g:countrySelect name="country" value="${user?.person?.country}"
+						<g:countrySelect name="country" value="${person?.country}"
                  			noSelection="['':'-Choose your country-']" default="usa"/>
                  		
                  		<%--  create select from a list of ISO3166_3 country codes --%>
@@ -108,7 +114,7 @@ Stylesheet
 		<table>
 		<tbody>
 			<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.title!='hide'}">			
-				<g:render plugin="cs-user" template="/users/uPersonEntry" model="[
+				<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
 					messageCode:'org.commonsemantics.grails.users.model.field.title',
 					messageDefault:'Title',
 					mandatory:UserUtils.isFieldMandatory(grailsApplication, 'title'),
@@ -203,7 +209,7 @@ Stylesheet
 			</tr>
 			
 			<%-- 
-			<g:render plugin="cs-user" template="/users/uPersonEntry" model="[
+			<g:render plugin="cs-user" template="/users/uPropertyEntry" model="[
 				messageCode:'org.commonsemantics.grails.users.model.field.displayName',
 				messageDefault:'Display name',
 				mandatory:UserUtils.isFieldMandatory(grailsApplication, 'displayName'),

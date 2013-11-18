@@ -20,6 +20,8 @@
  */
 package org.commonsemantics.grails.users.model
 
+import org.commonsemantics.grails.agents.model.Person;
+
 /**
  * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
  */
@@ -30,6 +32,8 @@ class User {
 	String id
 	String username
 	String password
+	
+	Person person;
 	
 	// User's data
 	String email

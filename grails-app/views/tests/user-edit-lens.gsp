@@ -2,11 +2,11 @@
 <html>
 	<head>
 		<meta name="layout" content="commonsemantics-tests"/>
-		<title>${label}</title>
+		<title>${grailsApplication.metadata['app.name']}.${label}</title>
 	</head>
 	<body>
 		<div class="csc-main">
-			<h1>${label} ${description}</h1>
+			<h1>${grailsApplication.metadata['app.name']}.${label} ${description}</h1>
 			
 			<g:render plugin="cs-users" template="/tests/configurationDetails" />
 			

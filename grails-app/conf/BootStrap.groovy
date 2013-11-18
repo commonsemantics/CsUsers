@@ -1,3 +1,4 @@
+import org.commonsemantics.grails.agents.model.Person;
 import org.commonsemantics.grails.users.model.Role
 import org.commonsemantics.grails.users.model.User
 import org.commonsemantics.grails.users.model.UserRole
@@ -27,13 +28,24 @@ class BootStrap {
 		separator();
 		log.info  '** Users'
 		
+		def person = Person.findByEmail('paolo.ciccarese@gmail.com');
+		if(person==null) {
+			person = new Person(
+				firstName: 'Jack', 
+				lastName: 'White',
+				displayName: 'Dr. White',
+				email:'paolo.ciccarese@gmail.com'
+			).save(failOnError: true);
+		}
+		
+		
 		def password = 'password'
 		def adminUsername = 'admin'
 		log.info  "Initializing: " + adminUsername
 		def admin = User.findByUsername(adminUsername);
 		if(admin==null) {
 			admin = new User(username: adminUsername,
-				password: password, firstName: 'Jack', lastName: 'White',
+				password: password, person: person, firstName: 'Jack', lastName: 'White',
 				displayName: 'Dr. White', enabled: true, email:'paolo.ciccarese@gmail.com').save(failOnError: true)
 			log.warn  "CHANGE PASSWORD for: " + adminUsername + "!!!"
 		}

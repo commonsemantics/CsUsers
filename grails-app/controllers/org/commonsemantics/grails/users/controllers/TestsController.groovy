@@ -20,6 +20,9 @@
  */
 package org.commonsemantics.grails.users.controllers
 
+import org.commonsemantics.grails.agents.commands.PersonEditCommand
+import org.commonsemantics.grails.agents.model.Person
+import org.commonsemantics.grails.agents.utils.AgentsUtils
 import org.commonsemantics.grails.users.commands.UserAccountEditCommand
 import org.commonsemantics.grails.users.commands.UserCreateCommand
 import org.commonsemantics.grails.users.commands.UserEditCommand
@@ -44,58 +47,172 @@ class TestsController {
 		render (view:'tests')
 	}
 	
+	def testAgentsPersonShow = {
+		def person = getPerson(params.id)
+		render (plugin:'cs-agents', view:'person-show', model:[label:params.testId, description:params.testDescription, person:person]);
+	}
+	
+	def testAgentsPersonEdit = {
+		def person = getPerson(params.id)
+		render (plugin:'cs-agents', view:'person-edit', model:[label:params.testId, description:params.testDescription, person:person]);
+	}
+	
+	def testAgentsPersonCreate = {
+		render (plugin:'cs-agents', view:'person-create', model:[label:params.testId, description:params.testDescription]);
+	}
+	
+	def testAgentsListPersons = {
+		//params.max = 2;
+		render (plugin:'cs-agents', view:'persons-list', model:[label:params.testId, description:params.testDescription, persons:Person.list(params), personsTotal: Person.count(),
+			max: params.max, offset: params.offset, controller:'tests', action: 'testAgentsListPersons']);
+	}
+	
+	
+	def testUsersPersonShow = {
+		def person = getPerson(params.id)
+		render (view:'user-person-show-lens', model:[label:params.testId, description:params.testDescription, person:person]);
+	}
+	
+	def testUsersPersonEdit = {
+		def person = getPerson(params.id)
+		render (view:'user-person-edit-lens', model:[label:params.testId, description:params.testDescription, person:person]);
+	}
+	
+	private def getPerson(def id) {
+		def person;
+		if(id==null)  person=Person.list()[0];
+		else person = Person.findById(id);
+		person
+	}
+	
+	def updateUserPerson = { PersonEditCommand cmd ->
+		def validationFailed = validatePerson(cmd);
+		if (validationFailed) {
+			println 'problems ' + cmd.errors;
+		} else {
+			def person = Person.findById(params.id);
+			println person
+			if(person!=null) {
+				person.title = params.title;
+				person.firstName = params.firstName;
+				person.middleName = params.middleName;
+				person.lastName = params.lastName;
+				person.affiliation = params.affiliation;
+				person.country = params.country;
+				person.displayName = params.displayName;
+				person.email = params.email;
+	
+				render (view:'person-show', model:[label:params.testId, description:params.testDescription, person:person]);
+				return;
+			}
+		}
+		render (view:'user-person-edit-lens', model:[label:'CsUser.04', description:'User\'s profile edit lens', person:cmd]);
+	}
+	
+	private def validatePerson(PersonEditCommand cmd) {
+		boolean validationFailed = false;
+		def mandatory = AgentsUtils.getPersonMandatoryFields(grailsApplication);
+		println mandatory
+
+		if(!cmd.validate()) {
+			println 'validationFailed'
+			validationFailed=true;
+		}
+		
+		mandatory.each { item ->
+			if(!(cmd[item]!=null && cmd[item].trim().length()>0)) {
+				println 'problem ' + item;
+				//cmd.errors.reject(g.message(code: 'org.commonsemantics.grails.general.message.error.cannotbenull', default: 'Field cannot be null'),
+				//	[item, 'class User'] as Object[],
+				//	'[Property [{0}] of class [{1}] does not match confirmation]')
+				cmd.errors.rejectValue(item,
+					g.message(code: 'default.blank.message', default: 'Field cannot be null'))
+				validationFailed=true;
+			}
+		}
+		
+		//if(!validationFailed) {
+			
+		//}
+		
+		validationFailed;
+	}
+	
+	def testUserDisplayLens = {
+		render (view:'user-show-lens', model:[label:params.testId, description:'User\'s display lens',
+			roles: Role.list(), userRoles:usersService.getUserRoles(User.list()[0]), user:User.list()[0]]);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	def testUserPersonEditLens = {
+		render (view:'user-person-edit-lens', model:[label:params.testId, description:params.testDescription, person:User.list()[0].person]);
+	}
+	
+
+	
+	
+	
 	def testUserDisplayLensNoUser = {
 		render (view:'user-show-lens', model:[label:params.testId, description:'User\'s display lens with no user definition']);
 	}
 	
-	def testUserDisplayLens = {
-		render (view:'user-show-lens', model:[label:'CsUser.02', description:'User\'s display lens', 
-			roles: Role.list(), userRoles:usersService.getUserRoles(User.list()[0]), user:User.list()[0]]);
+	
+	
+	def showUser = {
+		render (view:'user-show-lens', model:[label:params.testId, description:'User\'s display lens',
+			roles: Role.list(), userRoles:usersService.getUserRoles(User.findById(params.id)), user:User.findById(params.id)]);
 	}
 	
 	def testUserProfileFieldsLensNoUser =  {
-		render (view:'user-profile-edit-lens', model:[label:'CsUser.03', description:'User\'s profile edit lens with no user definition']);
+		render (view:'user-profile-edit-lens', model:[label:params.testId, description:'User\'s profile edit lens with no user definition']);
 	}
 	
 	def testUserProfileFieldsLens = {
-		render (view:'user-profile-edit-lens', model:[label:'CsUser.04', description:'User\'s profile edit lens', user:User.list()[0]]);
+		render (view:'user-profile-edit-lens', model:[label:params.testId, description:'User\'s profile edit lens', user:User.list()[0]]);
 	}
 	
 	def testUserAccountFieldsLensNoUser =  {
-		render (view:'user-account-edit-lens', model:[label:'CsUser.05', description:'User\'s account edit lens with no user definition']);
+		render (view:'user-account-edit-lens', model:[label:params.testId, description:'User\'s account edit lens with no user definition']);
 	}
 	
 	def testUserAccountFieldsLens =  {
-		render (view:'user-account-edit-lens', model:[label:'CsUser.06', description:'User\'s account edit lens', 
+		render (view:'user-account-edit-lens', model:[label:params.testId, description:'User\'s account edit lens', 
 			roles: Role.list(), userRoles:usersService.getUserRoles(User.list()[0]), user:User.list()[0]]);
 	}
 	
 	def testUserEditLensNoUser =  {
-		render (view:'user-edit-lens', model:[label:'CsUser.07', description:'User\'s edit lens with no user definition']);
+		render (view:'user-edit-lens', model:[label:params.testId, description:'User\'s edit lens with no user definition']);
 	}
 	
 	def testUserEditLens =  {
-		render (view:'user-edit-lens', model:[label:'CsUser.08', description:'User\'s edit lens',
+		render (view:'user-edit-lens', model:[label:params.testId, description:'User\'s edit lens',
 			roles: Role.list(), userRoles:usersService.getUserRoles(User.list()[0]), user:User.list()[0]]);
 	}
 	
 	def testUserEditLensWithError = {
-		render (view:'user-edit-lens', model:[label:'CsUser.09', description:'User\'s edit lens with error ',
+		render (view:'user-edit-lens', model:[label:params.testId, description:'User\'s edit lens with error ',
 			roles: Role.list(), userRoles:usersService.getUserRoles(User.list()[0]), user:User.list()[0], msgError: 'test error message']);
 	}
 	
 	def testUserEditLensWithLongError = {
-		render (view:'user-edit-lens', model:[label:'CsUser.10', description:'User\'s edit lens with long error ',
+		render (view:'user-edit-lens', model:[label:params.testId, description:'User\'s edit lens with long error ',
 			roles: Role.list(), userRoles:usersService.getUserRoles(User.list()[0]), user:User.list()[0], msgError: 'test error message test error message test error message test error message test error message test error message test error message test error message']);
 	}
 	
 	def testUserEditLensWithWarning = {
-		render (view:'user-edit-lens', model:[label:'CsUser.11', description:'User\'s edit lens with warning',
+		render (view:'user-edit-lens', model:[label:params.testId, description:'User\'s edit lens with warning',
 			roles: Role.list(), userRoles:usersService.getUserRoles(User.list()[0]), user:User.list()[0], msgWarning: 'test warning message']);
 	}
 	
 	def testUserEditLensWithLongWarning = {
-		render (view:'user-edit-lens', model:[label:'CsUser.12', description:'User\'s edit lens with long warning',
+		render (view:'user-edit-lens', model:[label:params.testId, description:'User\'s edit lens with long warning',
 			roles: Role.list(), userRoles:usersService.getUserRoles(User.list()[0]), user:User.list()[0], msgWarning: 'test warning message test warning message test warning message test warning message test warning message test warning message test warning message']);
 	}
 	
@@ -148,12 +265,20 @@ class TestsController {
 		user.errors.rejectValue('affiliation',                                                 // Field in view to highlight using <g:hasErrors> tag
 			'reason affiliation 1')
 		
-		render (view:'user-edit-lens', model:[label:'CsUser.13', description:'User\'s edit lens with field value error', user:user]);
+		render (view:'user-edit-lens', model:[label:params.testId, description:'User\'s edit lens with field value error', user:user]);
 	}
 	
 	def testUserCreationLens =  {
-		render (view:'user-create-lens', model:[label:'CsUser.14', description:'User\'s creation lens']);
+		render (view:'user-create-lens', model:[label:params.testId, description:'User\'s creation lens']);
 	}
+	
+	def testUsersList =  {
+		render (view:'users-list', model:[label:params.testId, description:params.testDescription, users: User.list(), usersTotal: User.count()]);
+	}
+	
+	
+	
+
 	
 	def updateUserProfile = { UserProfileEditCommand cmd ->
 		def validationFailed = validateUser(cmd);
@@ -180,7 +305,6 @@ class TestsController {
 		
 		// Validate agains build in rules
 		render (view:'user-profile-edit-lens', model:[label:'CsUser.04', description:'User\'s profile edit lens', user:cmd]);
-		
 	}
 	
 	def updateUserAccount = { UserAccountEditCommand cmd ->

@@ -1,11 +1,16 @@
 <%@ page import="org.commonsemantics.grails.users.model.User" %>
+<%@ page import="org.commonsemantics.grails.users.utils.UserUtils" %>
 
 <h2>Configurations (External configuration)</h2>
-<h3>Optional Fields </h3>
+
+<h3>Mandatory Fields </h3>
+&nbsp;org.commonsemantics.grails.users.model.fields.mandatory = ${UserUtils.getMandatoryFields(grailsApplication)}<br/><br/>
+
+<h3>Flexible Fields </h3>
 &nbsp;${User.optional}<br/><br/>
 
 <%-- Alternative A --%>
-<table cellpadding=5>
+<table class="tabletest">
 	<tr align="left">
 		<th>Field</th><th>Value</th><th>Configuration entry</th>
 	</tr>

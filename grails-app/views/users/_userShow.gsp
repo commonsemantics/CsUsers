@@ -25,7 +25,7 @@ Stylesheet
 							<g:message code="org.commonsemantics.grails.users.model.field.title" default="Title"/>
 						</td>
 						<td valign="top" width="265px" align="left">
-							<g:if test="${user?.title}">${user?.title}</g:if>
+							<g:if test="${user?.person?.title}">${user?.person?.title}</g:if>
 							<g:else>-</g:else>
 						</td>
 					</tr>
@@ -36,7 +36,7 @@ Stylesheet
 							<g:message code="org.commonsemantics.grails.users.model.field.firstName" default="First name"/>
 						</td>
 						<td valign="top" align="left">
-							<g:if test="${user?.firstName}">${user?.firstName}</g:if>
+							<g:if test="${user?.person?.firstName}">${user?.person?.firstName}</g:if>
 							<g:else>-</g:else>
 						</td>
 					</tr>
@@ -47,7 +47,7 @@ Stylesheet
 							<g:message code="org.commonsemantics.grails.users.model.field.middleName" default="Middle name"/>
 						</td>
 						<td valign="top" align="left">
-							<g:if test="${user?.middleName}">${user?.middleName}</g:if>
+							<g:if test="${user?.person?.middleName}">${user?.person?.middleName}</g:if>
 							<g:else>-</g:else>
 						</td>
 					</tr>
@@ -58,7 +58,7 @@ Stylesheet
 							<g:message code="org.commonsemantics.grails.users.model.field.lastName" default="Last name"/>
 						</td>
 						<td valign="top" align="left">
-							<g:if test="${user?.lastName}">${user?.lastName}</g:if>
+							<g:if test="${user?.person?.lastName}">${user?.person?.lastName}</g:if>
 							<g:else>-</g:else>
 						</td>
 					</tr>
@@ -68,21 +68,13 @@ Stylesheet
 						<g:message code="org.commonsemantics.grails.users.model.field.displayName" default="Display name"/>
 					</td>
 					<td valign="top" align="left">
-						${user?.displayName}
-					</td>
-				</tr>
-				<tr>
-					<td valign="top"  align="left">
-						<g:message code="org.commonsemantics.grails.users.model.field.username" default="Username"/>
-					</td>
-					<td valign="top" align="left">
-						${user?.username}
+						${user?.person?.displayName}
 					</td>
 				</tr>
 				<tr>
 					<td valign="top"  align="left">Email</td>
 					<td valign="top" align="left">
-						${user?.email}
+						${user?.person?.email}
 					</td>
 				</tr>
 				<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.affiliation!='hide'}">
@@ -91,7 +83,7 @@ Stylesheet
 							<g:message code="org.commonsemantics.grails.users.model.field.affiliation" default="Affiliation"/>
 						</td>
 						<td valign="top" align="left">
-							<g:if test="${user?.affiliation}">${user?.affiliation}</g:if>
+							<g:if test="${user?.person?.affiliation}">${user?.person?.affiliation}</g:if>
 							<g:else>-</g:else>
 						</td>
 					</tr>
@@ -102,11 +94,19 @@ Stylesheet
 							<g:message code="org.commonsemantics.grails.users.model.field.country" default="Country"/>
 						</td>
 						<td valign="top" align="left">
-							<g:if test="${user?.country}">${user?.country}</g:if>
+							<g:if test="${user?.person?.country}">${user?.person?.country}</g:if>
 							<g:else>-</g:else>
 						</td>
 					</tr>
 				</g:if>
+				<tr>
+					<td valign="top"  align="left">
+						<g:message code="org.commonsemantics.grails.users.model.field.username" default="Username"/>
+					</td>
+					<td valign="top" align="left">
+						${user?.username}
+					</td>
+				</tr>
 				<tr>
 					<td valign="top" align="left">
 						<g:message code="org.commonsemantics.grails.users.model.field.role" default="Role"/>

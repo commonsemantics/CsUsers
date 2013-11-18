@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta name="layout" content="commonsemantics-tests"/>
-		<title>${label}</title>
+		<title>${grailsApplication.metadata['app.name']}.${label}</title>
 		<style>
 			.prop .value {
 			    text-align: left;
@@ -14,7 +14,7 @@
 	</head>
 	<body>
 		<div style="padding-left:10px;">
-			<h1>${label} ${description}</h1>
+			<h1>${grailsApplication.metadata['app.name']}.${label} ${description}</h1>
 			
 			<h3>Edit Account Lens (lang=<%=RequestContextUtils.getLocale(request).language %>)*</h3>
 			<p>

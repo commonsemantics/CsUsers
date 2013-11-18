@@ -12,13 +12,13 @@
 					
 			<g:render plugin="cs-users" template="/tests/configurationDetails" />
 			
-			<h3>User Display Lens (lang=<%=RequestContextUtils.getLocale(request).language %>)*</h3>
+			<h3>${description} (lang=<%=RequestContextUtils.getLocale(request).language %>)*</h3>
 			<p>
 			* to change the Locale add ?lang=language to the URL of this page
 			</p>
 			<br/>
 			<div class="csc-lens-container">
-				<g:render plugin="cs-users" template="/users/userShow" />
+				<g:render plugin="cs-users" template="/users/usersList" />
 			</div>
 			
 		</div>
