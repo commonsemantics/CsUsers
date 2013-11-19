@@ -1,4 +1,5 @@
-import org.commonsemantics.grails.agents.model.Person;
+import org.commonsemantics.grails.agents.model.Person
+import org.commonsemantics.grails.agents.model.Software
 import org.commonsemantics.grails.users.model.Role
 import org.commonsemantics.grails.users.model.User
 import org.commonsemantics.grails.users.model.UserRole
@@ -53,6 +54,19 @@ class BootStrap {
 		UserRole.create admin, Role.findByAuthority(DefaultUsersRoles.MANAGER.value())
 		UserRole.create admin, Role.findByAuthority(DefaultUsersRoles.ADMIN.value())
 	
+		
+		separator();
+		def name = 'Software Test';
+		log.info  '** Software ' + name
+		def software = Software.findByName(name);
+		if(software==null) {
+			software = new Software(
+				ver: '1.0',
+				name: name,
+				displayName: 'Software Test display',
+				description: 'Software Test description'
+			).save(failOnError: true);
+		}
 		
 		separator();
 
