@@ -15,105 +15,126 @@
 				
 				<g:render plugin="cs-agents" template="/tests/testEntry" 
 					model="[
-						action:'testAgentsPersonShow', 
+						action:'testShowPerson', 
+						plugin:'cs-agents',
 						testId: '00', 
-						testDescription: 'CsAgents :: Person show lens',
+						testDescription: 'Person show',
 						passed: 'true']" />
 						
 				<g:render plugin="cs-agents" template="/tests/testEntry" 
 					model="[
-						action:'testAgentsPersonEdit', 
+						action:'testShowPersonLensNoPerson', 
+						plugin:'cs-agents',
 						testId: '01', 
-						testDescription: 'CsAgents :: Person edit lens',
+						testDescription: 'Person show (no person defined)',
 						passed: 'true']" />
 						
 				<g:render plugin="cs-agents" template="/tests/testEntry" 
 					model="[
-						action:'testAgentsPersonCreate', 
+						action:'testEditPerson', 
+						plugin:'cs-agents',
 						testId: '02', 
-						testDescription: 'CsAgents :: Person create lens',
-						passed: 'true']" />
-				
+						testDescription: 'Person edit',
+						passed: 'true']" />	
+						
 				<g:render plugin="cs-agents" template="/tests/testEntry" 
 					model="[
-						action:'testAgentsListPersons', 
+						action:'testCreatePerson',
+						plugin:'cs-agents',
 						testId: '03', 
-						testDescription: 'CsAgents :: Person list',
-						passed: 'true']" />
+						testDescription: 'Person create',
+						passed: 'true']" />	
 						
-				<tr>
-					<th>Test Id</th>
-					<th>Description</th>
-					<th>Version 0.1</th>
-				</tr>
-				
-				<g:render plugin="cs-agents" template="/tests/testEntry" 
-					model="[
-						action:'testAgentsSoftwareShow', 
-						testId: '04', 
-						testDescription: 'CsAgents :: Software show lens',
-						passed: 'false']" />
-						
-				<g:render plugin="cs-agents" template="/tests/testEntry" 
-					model="[
-						action:'testAgentsSoftwareEdit', 
-						testId: '05', 
-						testDescription: 'CsAgents :: Software edit lens',
-						passed: 'false']" />
-
-				<g:render plugin="cs-agents" template="/tests/testEntry" 
-					model="[
-						action:'testAgentsSoftwareCreate', 
-						testId: '06', 
-						testDescription: 'CsAgents :: Software create lens',
-						passed: 'false']" />
-				
-				<g:render plugin="cs-agents" template="/tests/testEntry" 
-					model="[
-						action:'testAgentsListSoftware', 
-						testId: '07', 
-						testDescription: 'CsAgents :: Software list',
-						passed: 'false']" />
-
-				<tr>
-					<th>Test Id</th>
-					<th>Description</th>
-					<th>Version 0.1</th>
-				</tr>
-				
-				<g:render plugin="cs-agents" template="/tests/testEntry" 
-					model="[
-						action:'testPersonShow', 
-						testId: '08', 
-						testDescription: 'Person show lens',
-						passed: 'false']" />
-						
-				<g:render plugin="cs-agents" template="/tests/testEntry" 
-					model="[
-						action:'testPersonEdit', 
-						testId: '09', 
-						testDescription: 'Person edit lens',
-						passed: 'false']" />
-						
-				<g:render plugin="cs-agents" template="/tests/testEntry" 
-					model="[
-						action:'testPersonCreate', 
-						testId: '10', 
-						testDescription: 'Person create lens',
-						passed: 'false']" />
-				
 				<g:render plugin="cs-agents" template="/tests/testEntry" 
 					model="[
 						action:'testListPersons', 
+						plugin:'cs-agents',
+						testId: '04', 
+						testDescription: 'Persons list',
+						passed: 'true']" />		
+
+				<tr>
+					<th>Test Id</th>
+					<th>Description</th>
+					<th>Version 0.1</th>
+				</tr>	
+			
+				<g:render plugin="cs-agents" template="/tests/testEntry" 
+					model="[
+						action:'testShowSoftware', 
+						plugin:'cs-agents',
+						testId: '10', 
+						testDescription: 'Software show',
+						passed: 'true']" />
+						
+				<g:render plugin="cs-agents" template="/tests/testEntry" 
+					model="[
+						action:'testShowSoftwareLensNoSoftware', 
+						plugin:'cs-agents',
 						testId: '11', 
-						testDescription: 'Person list',
+						testDescription: 'Software show (no software defined)',
+						passed: 'true']" />		
+						
+				<g:render plugin="cs-agents" template="/tests/testEntry" 
+					model="[
+						action:'testEditSoftware', 
+						plugin:'cs-agents',
+						testId: '12', 
+						testDescription: 'Software edit',
+						passed: 'true']" />
+						
+				<g:render plugin="cs-agents" template="/tests/testEntry" 
+					model="[
+						action:'testCreateSoftware', 
+						plugin:'cs-agents',
+						testId: '13', 
+						testDescription: 'Software create',
+						passed: 'true']" />
+						
+				<g:render plugin="cs-agents" template="/tests/testEntry" 
+					model="[
+						action:'testListSoftware', 
+						plugin:'cs-agents',
+						testId: '14', 
+						testDescription: 'Software list',
+						passed: 'true']" />	
+
+				<tr>
+					<th>Test Id</th>
+					<th>Description</th>
+					<th>Version 0.1</th>
+				</tr>
+				
+				<g:render plugin="cs-users" template="/tests/testEntry" 
+					model="[
+						action:'testShowUserPerson',
+						plugin:'cs-users', 
+						testId: '20', 
+						testDescription: 'User Person show lens',
+						passed: 'false']" />
+						
+				<g:render plugin="cs-users" template="/tests/testEntry" 
+					model="[
+						action:'testEditUserPerson',
+						plugin:'cs-users', 
+						testId: '21', 
+						testDescription: 'User Person edit lens',
 						passed: 'false']" />
 						
 				<tr>
 					<th>Test Id</th>
 					<th>Description</th>
 					<th>Version 0.1</th>
-				</tr>		
+				</tr>	
+						
+				<%-- 
+				
+						
+			
+						
+
+						
+					
 						
 				
 				<g:render plugin="cs-user" template="/tests/testEntry" 
@@ -230,6 +251,7 @@
 						testId: '15', 
 						testDescription: 'List of users',
 						passed: 'false']" />
+				--%>					
 			</table>	
 		</div>
 	</body>

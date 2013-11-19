@@ -17,16 +17,20 @@
 			* to change the Locale add ?lang=language to the URL of this page
 			</p>
 			<br/>
-			Person id: ${person?.id}
+			Person id: ${user.person?.id}
 			<g:form method="post" >
+				<g:hiddenField name="testId" value="${label}" /> 
+				<g:hiddenField name="testDescription" value="After ${description}" /> 
+				
 				<div class="csc-lens-container">	
 					<g:hiddenField name="id" value="${person?.id}" /> 
-					<g:render plugin="cs-agents" template="/agents/personEdit" />
+					<g:hiddenField name="userid" value="${user.id}" /> 
+					<g:render plugin="cs-agents" template="/agents/personEdit"/>
 				</div>
 				<br/>
 				<div class="buttons">
 					<span class="button">
-						<g:actionSubmit class="save" action="updateUserPerson" value="${message(code: 'org.commonsemantics.grails.users.profile.submit', default: 'Update Profile')}" />
+						<g:actionSubmit class="save" action="testUpdateUserPerson" value="${message(code: 'org.commonsemantics.grails.users.profile.submit', default: 'Update Profile')}" />
 					</span>
 					<span class="button">
 						<g:actionSubmit class="cancel" action="showUser" value="${message(code: 'org.commonsemantics.grails.general.cancel', default: 'Cancel')}" />

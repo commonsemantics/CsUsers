@@ -22,6 +22,7 @@ package org.commonsemantics.grails.users.controllers
 
 import org.commonsemantics.grails.agents.commands.PersonEditCommand
 import org.commonsemantics.grails.agents.model.Person
+import org.commonsemantics.grails.agents.model.Software
 import org.commonsemantics.grails.agents.utils.AgentsUtils
 import org.commonsemantics.grails.users.commands.UserAccountEditCommand
 import org.commonsemantics.grails.users.commands.UserCreateCommand
@@ -47,35 +48,50 @@ class TestsController {
 		render (view:'tests')
 	}
 	
-	def testAgentsPersonShow = {
-		def person = getPerson(params.id)
-		render (plugin:'cs-agents', view:'person-show', model:[label:params.testId, description:params.testDescription, person:person]);
+	// ------------------------------------------------------------------------
+	//  CS-USERS:Person
+	// ------------------------------------------------------------------------
+	def testShowUserPerson = {
+		def user = getUser(params.id)
+		render (view:'user-person-show-lens', model:[label:params.testId, description:params.testDescription, user:user]);
 	}
 	
-	def testAgentsPersonEdit = {
-		def person = getPerson(params.id)
-		render (plugin:'cs-agents', view:'person-edit', model:[label:params.testId, description:params.testDescription, person:person]);
+	def testEditUserPerson = {
+		def user = getUser(params.id)
+		render (view:'user-person-edit-lens', model:[label:params.testId, description:params.testDescription, user:user, person:user.person]);
 	}
 	
-	def testAgentsPersonCreate = {
-		render (plugin:'cs-agents', view:'person-create', model:[label:params.testId, description:params.testDescription]);
+	def testUpdateUserPerson = { PersonEditCommand cmd ->
+		def validationFailed = AgentsUtils.validatePerson(grailsApplication, cmd);
+		if (validationFailed) {
+			println 'problems ' + cmd.errors;
+		} else {
+			def person = Person.findById(params.id);
+			println person
+			if(person!=null) {
+				person.title = params.title;
+				person.firstName = params.firstName;
+				person.middleName = params.middleName;
+				person.lastName = params.lastName;
+				person.affiliation = params.affiliation;
+				person.country = params.country;
+				person.displayName = params.displayName;
+				person.email = params.email;
+	
+				def user = getUser(params.userid);
+				render (view:'person-show', model:[label:params.testId, description:params.testDescription, user:user, person:user.person]);
+				return;
+			}
+		}
+		def user = getUser(params.userid);
+		render (view:'person-edit', model:[label:params.testId, description:params.testDescription, user:user, person:cmd]);
 	}
 	
-	def testAgentsListPersons = {
-		//params.max = 2;
-		render (plugin:'cs-agents', view:'persons-list', model:[label:params.testId, description:params.testDescription, persons:Person.list(params), personsTotal: Person.count(),
-			max: params.max, offset: params.offset, controller:'tests', action: 'testAgentsListPersons']);
-	}
-	
-	
-	def testUsersPersonShow = {
-		def person = getPerson(params.id)
-		render (view:'user-person-show-lens', model:[label:params.testId, description:params.testDescription, person:person]);
-	}
-	
-	def testUsersPersonEdit = {
-		def person = getPerson(params.id)
-		render (view:'user-person-edit-lens', model:[label:params.testId, description:params.testDescription, person:person]);
+	private def getUser(def id) {
+		def user;
+		if(id==null)  user = User.list()[0];
+		else user = User.findById(id);
+		user
 	}
 	
 	private def getPerson(def id) {
@@ -84,6 +100,15 @@ class TestsController {
 		else person = Person.findById(id);
 		person
 	}
+	
+	/*
+	
+	def testUsersPersonEdit = {
+		def person = getPerson(params.id)
+		render (view:'user-person-edit-lens', model:[label:params.testId, description:params.testDescription, person:person]);
+	}
+	
+
 	
 	def updateUserPerson = { PersonEditCommand cmd ->
 		def validationFailed = validatePerson(cmd);
@@ -591,4 +616,5 @@ class TestsController {
 		
 		validationFailed;
 	}
+	*/
 }
