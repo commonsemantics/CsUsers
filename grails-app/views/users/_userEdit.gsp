@@ -24,8 +24,8 @@ Stylesheet
 			</tr>
 			<tr>
 				<td>
-					<g:render plugin="cs-user" template="/users/uProfileFields" />
-					<g:render plugin="cs-user" template="/users/uAccountFields" />
+					<g:render plugin="cs-user" template="/users/userEditPersonFields" model="[user: user, person: user.person]"/>
+					<g:render plugin="cs-user" template="/users/userEditAccountFields" />
 				</td>
 			</tr>
 		</table>

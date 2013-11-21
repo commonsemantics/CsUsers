@@ -17,24 +17,18 @@
 			* to change the Locale add ?lang=language to the URL of this page
 			</p>
 			<br/>
-			Person id: ${user.person?.id}
-			<g:form method="post" >
+			
+
+			<g:form>
 				<g:hiddenField name="testId" value="${label}" /> 
 				<g:hiddenField name="testDescription" value="After ${description}" /> 
-				
+				Results per page: <g:textField name="max" style="width: 250px;" value="${max}" /><br/>
+				First page: <g:textField name="offset" style="width: 250px;" value="${offset}" /><br/>
+				<g:actionSubmit class="edit"  action="testListUserPersons" value="${message(code: 'default.button.edit.account.label', default: 'Refresh')}" />
+			
+				<br/>				
 				<div class="csc-lens-container">	
-					<g:hiddenField name="id" value="${person?.id}" /> 
-					<g:hiddenField name="userid" value="${user.id}" /> 
-					<g:render plugin="cs-agents" template="/agents/personEdit"/>
-				</div>
-				<br/>
-				<div class="buttons">
-					<span class="button">
-						<g:actionSubmit class="save" action="testUpdateUserPerson" value="${message(code: 'org.commonsemantics.grails.users.profile.submit', default: 'Update Profile')}" />
-					</span>
-					<span class="button">
-						<g:actionSubmit class="cancel" action="testShowUserPerson" value="${message(code: 'org.commonsemantics.grails.general.cancel', default: 'Cancel')}" />
-					</span>
+					<g:render plugin="cs-agents" template="/agents/personsList"/>
 				</div>
 			</g:form>
 		</div>

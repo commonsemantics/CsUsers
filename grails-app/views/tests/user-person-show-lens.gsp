@@ -7,7 +7,7 @@
 		<title>${grailsApplication.metadata['app.name']}.${label}</title>
 	</head>
 	<body>
-		<div style="padding-left:10px;">
+		<div class="csc-main">
 			<h1>${grailsApplication.metadata['app.name']}.${label} ${description}</h1>
 			
 			<g:render plugin="cs-agents" template="/tests/personConfigurationDetails"/>
@@ -23,7 +23,9 @@
 				<g:hiddenField name="testDescription" value="After ${description}" /> 
 				
 				<div class="csc-lens-container">	
-					<g:hiddenField name="id" value="${user.id}" /> 
+					<g:hiddenField name="id" value="${person?.id}" /> 
+					<g:hiddenField name="userid" value="${user.id}" /> 
+					<g:hiddenField name="personid" value="${person?.id}" />
 					<g:render plugin="cs-agents" template="/agents/personShow" model="[person:user.person]"/>
 				</div>
 				<br/>
@@ -32,7 +34,7 @@
 						<g:actionSubmit class="save" action="testEditUserPerson" value="${message(code: 'org.commonsemantics.grails.users.profile.submit', default: 'Edit Profile')}" />
 					</span>
 					<span class="button">
-						<g:actionSubmit class="cancel" action="testShowUserPerson" value="${message(code: 'org.commonsemantics.grails.general.cancel', default: 'Cancel')}" />
+						<g:actionSubmit class="save" action="testListUserPersons" value="${message(code: 'org.commonsemantics.grails.users.profile.submit', default: 'List Profiles')}" />
 					</span>
 				</div>
 			</g:form>

@@ -20,6 +20,7 @@
  */
 package org.commonsemantics.grails.users.utils
 
+import org.codehaus.groovy.grails.plugins.web.taglib.ValidationTagLib
 import org.commonsemantics.grails.users.commands.UserCreateCommand
 import org.commonsemantics.grails.users.commands.UserEditCommand
 import org.commonsemantics.grails.users.model.Role
@@ -29,14 +30,15 @@ import org.commonsemantics.grails.users.model.UserRole
 /**
 * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
 */
-class UserUtils {
+class UsersUtils {
 
 	static String getStatusLabel(def user) {
 		if(user.isEnabled()) {
 			 if(user.isAccountLocked()) return UserStatus.LOCKED_USER.value();
 			 else return UserStatus.ACTIVE_USER.value();
 		} else {
-			return UserStatus.DISABLED_USER.value();
+			if(user.isAccountLocked()) return UserStatus.LOCKED_USER.value();
+			else return UserStatus.DISABLED_USER.value();
 		}
 	}
 	
@@ -81,12 +83,40 @@ class UserUtils {
 	
 	static def getMandatoryFields(def grailsApplication) {
 		def mandatory = User.mandatory.clone();
-		mandatory.addAll(Eval.me(grailsApplication.config.org.commonsemantics.grails.users.model.fields.mandatory));
+		if(grailsApplication.config.org.commonsemantics.grails.users.model.fields.mandatory.size()>0) {
+			mandatory.addAll(Eval.me(grailsApplication.config.org.commonsemantics.grails.users.model.fields.mandatory));
+		}
 		return mandatory;
 	}
 	
+	static def validateUser(def grailsApplication, def cmd) {
+		boolean validationFailed = false;
+		def mandatory = UsersUtils.getMandatoryFields(grailsApplication);
+		println mandatory
+
+		if(!cmd.validate()) {
+			println 'validationFailed ' + cmd.errors
+			validationFailed=true;
+		}
+		
+		def g = new ValidationTagLib()
+		mandatory.each { item ->
+			if(!(cmd[item]!=null && cmd[item].trim().length()>0)) {
+				println 'problem ' + item;
+				//cmd.errors.reject(g.message(code: 'org.commonsemantics.grails.general.message.error.cannotbenull', default: 'Field cannot be null'),
+				//	[item, 'class User'] as Object[],
+				//	'[Property [{0}] of class [{1}] does not match confirmation]')
+				cmd.errors.rejectValue(item,
+					g.message(code: 'default.blank.message', default: 'Field cannot be null'))
+				validationFailed=true;
+			}
+		}
+		validationFailed;
+	}
+	
 	static def getUserRoles(def user) {
-		def userRoles = []
+		println "-------------- " + user;
+		def userRoles = [];
 		def ur = UserRole.findAllByUser(user)
 		ur.each { userRoles.add(it.role)}
 		return userRoles

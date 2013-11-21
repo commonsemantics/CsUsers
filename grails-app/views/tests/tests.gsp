@@ -111,7 +111,7 @@
 						plugin:'cs-users', 
 						testId: '20', 
 						testDescription: 'User Person show lens',
-						passed: 'false']" />
+						passed: 'true']" />
 						
 				<g:render plugin="cs-users" template="/tests/testEntry" 
 					model="[
@@ -119,22 +119,65 @@
 						plugin:'cs-users', 
 						testId: '21', 
 						testDescription: 'User Person edit lens',
+						passed: 'true']" />
+						
+				<g:render plugin="cs-users" template="/tests/testEntry" 
+					model="[
+						action:'testCreateUserPerson',
+						plugin:'cs-users', 
+						testId: '22', 
+						testDescription: 'User Person create lens',
 						passed: 'false']" />
+						
+				<g:render plugin="cs-users" template="/tests/testEntry" 
+					model="[
+						action:'testListUserPersons',
+						plugin:'cs-users', 
+						testId: '23', 
+						testDescription: 'User Persons list lens',
+						passed: 'true']" />
 						
 				<tr>
 					<th>Test Id</th>
 					<th>Description</th>
 					<th>Version 0.1</th>
 				</tr>	
+				
+				<g:render plugin="cs-users" template="/tests/testEntry" 
+					model="[
+						action:'testShowUser',
+						plugin:'cs-users', 
+						testId: '30', 
+						testDescription: 'User show lens',
+						passed: 'true']" />
+						
+				<g:render plugin="cs-users" template="/tests/testEntry" 
+					model="[
+						action:'testEditUser',
+						plugin:'cs-users', 
+						testId: '31', 
+						testDescription: 'User edit lens',
+						passed: 'true']" />
+						
+				<g:render plugin="cs-users" template="/tests/testEntry" 
+					model="[
+						action:'testCreateUser',
+						plugin:'cs-users', 
+						testId: '32', 
+						testDescription: 'User create lens',
+						passed: 'false']" />		
+						
+				<g:render plugin="cs-users" template="/tests/testEntry" 
+					model="[
+						action:'testListUsers',
+						plugin:'cs-users', 
+						testId: '33', 
+						testDescription: 'Users list lens',
+						passed: 'true']" />
 						
 				<%-- 
 				
-						
-			
-						
-
-						
-					
+							
 						
 				
 				<g:render plugin="cs-user" template="/tests/testEntry" 

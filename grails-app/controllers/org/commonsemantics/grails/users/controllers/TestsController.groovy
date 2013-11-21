@@ -22,18 +22,15 @@ package org.commonsemantics.grails.users.controllers
 
 import org.commonsemantics.grails.agents.commands.PersonEditCommand
 import org.commonsemantics.grails.agents.model.Person
-import org.commonsemantics.grails.agents.model.Software
 import org.commonsemantics.grails.agents.utils.AgentsUtils
-import org.commonsemantics.grails.users.commands.UserAccountEditCommand
 import org.commonsemantics.grails.users.commands.UserCreateCommand
 import org.commonsemantics.grails.users.commands.UserEditCommand
-import org.commonsemantics.grails.users.commands.UserProfileEditCommand
 import org.commonsemantics.grails.users.model.Role
 import org.commonsemantics.grails.users.model.User
 import org.commonsemantics.grails.users.model.UserRole
 import org.commonsemantics.grails.users.utils.DefaultUsersRoles
 import org.commonsemantics.grails.users.utils.UserStatus
-import org.commonsemantics.grails.users.utils.UserUtils
+import org.commonsemantics.grails.users.utils.UsersUtils
 
 /**
  * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
@@ -52,12 +49,12 @@ class TestsController {
 	//  CS-USERS:Person
 	// ------------------------------------------------------------------------
 	def testShowUserPerson = {
-		def user = getUser(params.id)
+		def user = getUser(params.userid)
 		render (view:'user-person-show-lens', model:[label:params.testId, description:params.testDescription, user:user]);
 	}
 	
 	def testEditUserPerson = {
-		def user = getUser(params.id)
+		def user = getUser(params.userid)
 		render (view:'user-person-edit-lens', model:[label:params.testId, description:params.testDescription, user:user, person:user.person]);
 	}
 	
@@ -79,12 +76,21 @@ class TestsController {
 				person.email = params.email;
 	
 				def user = getUser(params.userid);
-				render (view:'person-show', model:[label:params.testId, description:params.testDescription, user:user, person:user.person]);
+				render (view:'user-person-show-lens', model:[label:params.testId, description:params.testDescription, user:user, person:user.person]);
 				return;
 			}
 		}
 		def user = getUser(params.userid);
-		render (view:'person-edit', model:[label:params.testId, description:params.testDescription, user:user, person:cmd]);
+		render (view:'user-person-edit-lens', model:[label:params.testId, description:params.testDescription, user:user, person:cmd]);
+	}
+	
+	def testCreateUserPerson = {
+		render (view:'user-person-create', model:[label:params.testId, description:params.testDescription]);
+	}
+	
+	def testListUserPersons = {
+		render (view:'user-persons-list-lens', model:[label:params.testId, description:params.testDescription, persons:Person.list(params), personsTotal: Person.count(),
+			max: params.max, offset: params.offset, controller:'tests', action: 'testListPersons']);
 	}
 	
 	private def getUser(def id) {
@@ -101,12 +107,285 @@ class TestsController {
 		person
 	}
 	
-	/*
+	// ------------------------------------------------------------------------
+	//  CS-USERS:User
+	// ------------------------------------------------------------------------
 	
-	def testUsersPersonEdit = {
-		def person = getPerson(params.id)
-		render (view:'user-person-edit-lens', model:[label:params.testId, description:params.testDescription, person:person]);
+	def testShowUser = {
+		def user = getUser(params.id)
+		render (view:'user-show', model:[label:params.testId, description:params.testDescription, user:user]);
 	}
+	
+	def testEditUser = {
+		def user = getUser(params.id)
+		render (view:'user-edit', model:[label:params.testId, description:params.testDescription, user:user, 
+			userRoles: UsersUtils.getUserRoles(user)]);
+	}
+	
+	def testUpdateUser = { PersonEditCommand cmd ->
+		println params
+		def validationFailed = AgentsUtils.validatePerson(grailsApplication, cmd);
+		if (validationFailed) {
+			println 'problems ' + cmd.errors;
+		} else {
+			def user = User.findById(params.id);
+			def person = user.person;
+			if(person!=null) {
+				person.title = params.title;
+				person.firstName = params.firstName;
+				person.middleName = params.middleName;
+				person.lastName = params.lastName;
+				person.affiliation = params.affiliation;
+				person.country = params.country;
+				person.displayName = params.displayName;
+				person.email = params.email;
+				
+				
+	
+				updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.ADMIN.value()), params.Administrator)
+				updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.MANAGER.value()), params.Manager)
+				updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.USER.value()), params.User)
+	
+				updateUserStatus(user, params.userStatus)
+				
+				render (view:'user-show', model:[label:params.testId, description:params.testDescription, user:user]);
+				return;
+			}
+		}
+
+		UserEditCommand c = new UserEditCommand();
+		c.id = params.id;
+		c.username = params.username;
+		println '---userStatus ' + params.userStatus;
+		c.status = params.userStatus;
+		c.person = cmd;
+		
+		def usersRoles = [];
+		if(params.Administrator=='on') {
+			usersRoles.add(Role.findByAuthority(DefaultUsersRoles.ADMIN.value()));
+		}
+		if(params.Manager=='on') {
+			usersRoles.add(Role.findByAuthority(DefaultUsersRoles.MANAGER.value()));
+		}
+		if(params.User=='on') {
+			usersRoles.add(Role.findByAuthority(DefaultUsersRoles.USER.value()));
+		}
+		
+		
+		render (view:'user-edit', model:[label:params.testId, description:params.testDescription, user:c, userRoles: usersRoles]);
+	}
+	
+	def testCreateUser = {
+		render (view:'user-create', model:[label:params.testId, description:params.testDescription]);
+	}
+	
+	def testSaveUser = {PersonEditCommand cmd ->
+		println params
+		def validationFailed = AgentsUtils.validatePerson(grailsApplication, cmd);
+		if (validationFailed) {
+			println 'problems ' + cmd.errors;
+		} else {
+			def user = User.findById(params.id);
+			def person = user.person;
+			if(person!=null) {
+				person.title = params.title;
+				person.firstName = params.firstName;
+				person.middleName = params.middleName;
+				person.lastName = params.lastName;
+				person.affiliation = params.affiliation;
+				person.country = params.country;
+				person.displayName = params.displayName;
+				person.email = params.email;
+				
+				
+	
+				updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.ADMIN.value()), params.Administrator)
+				updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.MANAGER.value()), params.Manager)
+				updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.USER.value()), params.User)
+	
+				updateUserStatus(user, params.userStatus)
+				
+				render (view:'user-show', model:[label:params.testId, description:params.testDescription, user:user]);
+				return;
+			}
+		}
+		UserCreateCommand c = new UserCreateCommand();
+		c.username = params.username;
+		println '---userStatus ' + params.userStatus;
+		c.status = params.userStatus;
+		c.person = cmd;
+		UsersUtils.validateUser(grailsApplication, c);
+		
+		def usersRoles = [];
+		if(params.Administrator=='on') {
+			usersRoles.add(Role.findByAuthority(DefaultUsersRoles.ADMIN.value()));
+		}
+		if(params.Manager=='on') {
+			usersRoles.add(Role.findByAuthority(DefaultUsersRoles.MANAGER.value()));
+		}
+		if(params.User=='on') {
+			usersRoles.add(Role.findByAuthority(DefaultUsersRoles.USER.value()));
+		}
+		
+		
+		render (view:'user-create', model:[label:params.testId, description:params.testDescription, user:c, userRoles: usersRoles]);
+	}
+	
+	/*
+	def testSaveUser = { UserCreateCommand cmd ->
+		println 'createUser'
+
+			// Validate against custom rules
+			def validationFailed = validateUser(cmd);
+			if (validationFailed) {
+				println 'problems ' + cmd.errors;
+			} else {
+				def user = new User();
+				user.title = params.title;
+				user.firstName = params.firstName;
+				user.middleName = params.middleName;
+				user.lastName = params.lastName;
+				user.affiliation = params.affiliation;
+				user.country = params.country;
+				user.displayName = params.displayName;
+				user.email = params.email;
+				user.username =  params.username;
+				
+				if(!user.save(flush: true)) {
+					println 'problems ' + user.errors;
+					
+					render (view:'user-create', model:[label:'CsUser.14', description:'User\'s create lens with field value error', user:user]);
+					return
+				} else {
+					updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.ADMIN.value()), params.Administrator)
+					updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.MANAGER.value()), params.Manager)
+					updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.USER.value()), params.User)
+		
+					updateUserStatus(user, params.userStatus)
+					
+					render (view:'user-edit', model:[label:'CsUser.08', description:'User\'s edit lens', user:user]);
+					return;
+				}
+
+			}
+			
+			// Validate against build in rules
+			render (view:'user-create', model:[label:'CsUser.14', description:'User\'s create lens with field value error', user:cmd]);
+	}
+	*/
+	private def validateUser(def cmd) {
+		boolean validationFailed = false;
+		def mandatory = UsersUtils.getMandatoryFields(grailsApplication);
+		println mandatory
+
+		if(!cmd.validate()) {
+			println 'validationFailed'
+			validationFailed=true;
+		}
+		
+		mandatory.each { item ->
+			if(!(cmd[item]!=null && cmd[item].trim().length()>0)) {
+				println 'problem ' + item;
+				//cmd.errors.reject(g.message(code: 'org.commonsemantics.grails.general.message.error.cannotbenull', default: 'Field cannot be null'),
+				//	[item, 'class User'] as Object[],
+				//	'[Property [{0}] of class [{1}] does not match confirmation]')
+				cmd.errors.rejectValue(item,
+					g.message(code: 'default.blank.message', default: 'Field cannot be null'))
+				validationFailed=true;
+			}
+		}
+		
+		//if(!validationFailed) {
+			
+		//}
+		
+		validationFailed;
+	}
+	
+	def testListUsers = {
+		def user = getUser(params.id)
+		render (view:'users-list', model:[label:params.testId, description:params.testDescription, users:User.list(),
+			usersTotal: User.count(), max: params.max, offset: params.offset]);
+	}
+	
+	protected def updateUserRole(def user, def role, def value) {
+		if(value=='on') {
+			def ur = UserRole.findByUserAndRole(user, role)
+			if(ur==null) {
+				UserRole urr = UserRole.create(user, role)
+				urr.save(flush:true)
+			}
+		} else {
+			def ur = UserRole.findByUserAndRole(user, role)
+			if(ur!=null) {
+				ur.delete(flush:true)
+			}
+		}
+	}
+	protected def updateUserStatus(def user, def status) {
+		println 'status: ' + status
+		if(status==UserStatus.CREATED_USER.value()) {
+			user.enabled = true
+			user.accountExpired = false
+			user.accountLocked = false
+		} else if(status==UserStatus.ACTIVE_USER.value()) {
+			user.enabled = true
+			user.accountExpired = false
+			user.accountLocked = false
+		} else if(status==UserStatus.DISABLED_USER.value()) {
+			user.enabled = false
+			user.accountExpired = false
+			user.accountLocked = false
+		} else if(status==UserStatus.LOCKED_USER.value()) {
+			user.enabled = true
+			user.accountExpired = false
+			user.accountLocked = true
+		}
+	}
+	
+	def testLockUser = {
+		def user = User.findById(params.id)
+		user.accountLocked = true
+		user.enabled = true;
+		if(params.redirect)
+			redirect(action:params.redirect, params:[id: params.id])
+		else
+			redirect(action:'testShowUser', params:[id: params.id])
+			//render (view:'showProfile', model:[user: user])
+	}
+
+	def testUnlockUser = {
+		def user = User.findById(params.id)
+		user.accountLocked = false
+		user.enabled = true;
+		if(params.redirect)
+			redirect(action:params.redirect, params:[id: params.id])
+		else
+			redirect(action:'testShowUser', params:[id: params.id])
+	}
+
+	def testEnableUser = {
+		def user = User.findById(params.id)
+		user.enabled = true
+		user.accountLocked = false
+		if(params.redirect)
+			redirect(action:params.redirect, params:[id: params.id])
+		else
+			redirect(action:'testShowUser', params:[id: params.id])
+	}
+
+	def testDisableUser = {
+		def user = User.findById(params.id)
+		user.enabled = false
+		user.accountLocked = false
+		if(params.redirect)
+			redirect(action:params.redirect, params:[id: params.id])
+		else
+			redirect(action:'testShowUser', params:[id: params.id])
+	}
+	
+	
+	/*
 	
 
 	
@@ -432,40 +711,6 @@ class TestsController {
 		
 		// Validate agains build in rules
 		render (view:'user-edit-lens', model:[label:'CsUser.08', description:'User\'s edit lens with field value error', user:cmd]);
-	}
-	protected def updateUserRole(def user, def role, def value) {
-		if(value=='on') {
-			def ur = UserRole.findByUserAndRole(user, role)
-			if(ur==null) {
-				UserRole urr = UserRole.create(user, role)
-				urr.save(flush:true)
-			}
-		} else {
-			def ur = UserRole.findByUserAndRole(user, role)
-			if(ur!=null) {
-				ur.delete(flush:true)
-			}
-		}
-	}
-	def updateUserStatus(def user, def status) {
-		println 'status: ' + status
-		if(status==UserStatus.CREATED_USER.value()) {
-			user.enabled = false
-			user.accountExpired = false
-			user.accountLocked = false
-		} else if(status==UserStatus.ACTIVE_USER.value()) {
-			user.enabled = true
-			user.accountExpired = false
-			user.accountLocked = false
-		} else if(status==UserStatus.DISABLED_USER.value()) {
-			user.enabled = false
-			user.accountExpired = false
-			user.accountLocked = false
-		} else if(status==UserStatus.LOCKED_USER.value()) {
-			user.enabled = true
-			user.accountExpired = false
-			user.accountLocked = true
-		}
 	}
 	
 	private def validateUser(User cmd) {

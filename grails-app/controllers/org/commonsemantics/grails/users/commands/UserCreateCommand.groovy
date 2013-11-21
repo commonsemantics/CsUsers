@@ -22,9 +22,10 @@ package org.commonsemantics.grails.users.commands
 
 import grails.validation.Validateable
 
+import org.commonsemantics.grails.agents.commands.PersonEditCommand;
 import org.commonsemantics.grails.users.model.User
 import org.commonsemantics.grails.users.utils.UserStatus
-import org.commonsemantics.grails.users.utils.UserUtils
+import org.commonsemantics.grails.users.utils.UsersUtils
 
 /**
 * Object command for User validation and creation.
@@ -43,14 +44,7 @@ class UserCreateCommand {
 	String status
 	
 	//Users' data
-	String title
-	String firstName
-	String middleName
-	String lastName
-	String displayName
-	String email
-	String affiliation
-	String country
+	PersonEditCommand person
 	
 	//Account credentials
 	String username
@@ -62,7 +56,7 @@ class UserCreateCommand {
 	}
 	
 	def areMandatoryFieldDefined() {
-		println UserUtils.getMandatoryFields(grailsApplication);
+		println UsersUtils.getMandatoryFields(grailsApplication);
 	}
 	
 	boolean isEnabled() {
@@ -77,6 +71,7 @@ class UserCreateCommand {
 		return password.equals(passwordConfirmation);
 	}	
 	
+	/*
 	User createUser() {
 		if(isPasswordValid()) {
 			return User.findByUsername(username) ? null:
@@ -86,4 +81,5 @@ class UserCreateCommand {
 			return null;
 		}
 	}
+	*/
 }

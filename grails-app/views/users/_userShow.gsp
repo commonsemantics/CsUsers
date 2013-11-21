@@ -1,4 +1,4 @@
-<%@ page import="org.commonsemantics.grails.users.utils.UserUtils" %>
+<%@ page import="org.commonsemantics.grails.users.utils.UsersUtils" %>
 
 <%-- 
 By Dr. Paolo Ciccarese <paolo.ciccarese@gmail.com>
@@ -107,31 +107,32 @@ Stylesheet
 						${user?.username}
 					</td>
 				</tr>
+				
 				<tr>
 					<td valign="top" align="left">
 						<g:message code="org.commonsemantics.grails.users.model.field.role" default="Role"/>
 					</td>
 					<td valign="top" colspan="2" align="left">
 						<div>
-							<g:if test="${userRoles!=null && userRoles.size()>0}">
-								<g:each in="${userRoles}">
-									${it.label}
-								</g:each>
-							</g:if>
-							<g:else>-</g:else>
+							<g:each in="${UsersUtils.getUserRoles(user)}" var="userRole">
+								${userRole.label}
+							</g:each>
 						</div>
 					</td>
 				</tr>
+				
 				<tr>
 					<td valign="top" align="left">
 						<g:message code="org.commonsemantics.grails.users.model.field.accountStatus" default="Account Status"/>
 					</td>
 					<td valign="top" colspan="2" align="left">
 						<div>
-							${UserUtils.getStatusLabel(user)}						
+							${UsersUtils.getStatusLabel(user)}						
 						</div>
 					</td>
 				</tr>
+				 <%--
+				--%>
 			</tbody>
 		</table>
 	</g:if>

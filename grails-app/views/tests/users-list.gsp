@@ -10,7 +10,7 @@
 		<div class="csc-main">
 			<h1>${grailsApplication.metadata['app.name']}.${label} ${description}</h1>
 					
-			<g:render plugin="cs-users" template="/tests/configurationDetails" />
+			<g:render plugin="cs-users" template="/tests/userConfigurationDetails" />
 			
 			<h3>${description} (lang=<%=RequestContextUtils.getLocale(request).language %>)*</h3>
 			<p>

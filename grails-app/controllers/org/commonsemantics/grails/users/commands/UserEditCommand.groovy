@@ -22,6 +22,7 @@ package org.commonsemantics.grails.users.commands
 
 import grails.validation.Validateable
 
+import org.commonsemantics.grails.agents.commands.PersonEditCommand
 import org.commonsemantics.grails.users.utils.UserStatus
 
 
@@ -36,14 +37,7 @@ class UserEditCommand {
 	public static final Integer NAME_MAX_SIZE = 255;
 	
 	//Users' data
-	String title
-	String firstName
-	String middleName
-	String lastName
-	String displayName
-	String email
-	String affiliation
-	String country
+	PersonEditCommand person
 	
 	//Account credentials
 	String id
@@ -51,15 +45,6 @@ class UserEditCommand {
 	String username
 	
 	static constraints = {
-		//Users' data
-		title (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
-		firstName (blank: false, maxSize:NAME_MAX_SIZE)
-		middleName (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
-		lastName (blank: false, maxSize:NAME_MAX_SIZE)
-		displayName (blank: true, maxSize:NAME_MAX_SIZE)
-		email (blank: false, email: true,  maxSize:NAME_MAX_SIZE)
-		affiliation (blank: true, maxSize:NAME_MAX_SIZE)
-		country (blank: true, maxSize:NAME_MAX_SIZE)
 		//Account credentials
 		id (blank: false)
 		username (blank: false, maxSize:NAME_MAX_SIZE)
@@ -77,7 +62,7 @@ class UserEditCommand {
 		return status.equals(UserStatus.CREATED_USER.value());
 	}
 	
-	boolean isLocked() {
+	boolean isAccountLocked() {
 		return status.equals(UserStatus.LOCKED_USER.value());
 	}
 }

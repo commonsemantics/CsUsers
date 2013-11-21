@@ -20,7 +20,8 @@
  */
 package org.commonsemantics.grails.users.model
 
-import org.commonsemantics.grails.agents.model.Person;
+import org.commonsemantics.grails.agents.model.Person
+import org.commonsemantics.grails.users.utils.UserStatus
 
 /**
  * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
@@ -35,15 +36,15 @@ class User {
 	
 	Person person;
 	
-	// User's data
-	String email
-	String title
-	String firstName
-	String middleName
-	String lastName
-	String displayName
-	String country
-	String affiliation
+//	// User's data
+//	String email
+//	String title
+//	String firstName
+//	String middleName
+//	String lastName
+//	String displayName
+//	String country
+//	String affiliation
 	
 	Date dateCreated, lastUpdated
 	
@@ -54,23 +55,14 @@ class User {
 	
 	static hasMany = [openIds: OpenId]
 	
-	static mandatory = ['displayName']
-	static optional = ['title','firstName','middleName','lastName','affiliation','country']
+	static mandatory = []
+	static optional = []
 
 	static constraints = {
 		id maxSize: 36
-		email blank: false, unique: true, email: true
-		username blank: false, unique: true
+	
+		username blank: false, unique: true, minSize:4, maxSize:16
 		password (nullable: true, blank: true)
-		
-		//User's data
-		title (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
-		firstName (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
-		middleName (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
-		lastName (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
-		displayName (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
-		affiliation (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
-		country (nullable: true, blank: true, maxSize:NAME_MAX_SIZE)
 	}
 
 	static mapping = {

@@ -10,10 +10,10 @@ Stylesheet
 <div class="sectioncontainer">
 	<table>		
 		<tr>		
-			<td><g:render plugin="cs-user" template="/users/uProfileFields" model="[command:'create']"/></td>
+			<td><g:render plugin="cs-user" template="/users/userCreatePersonFields"/></td>
 		</tr>
 		<tr>		
-			<td><g:render plugin="cs-user" template="/users/uAccountFields" model="[command:'create']"/></td>
+			<td><g:render plugin="cs-user" template="/users/userEditAccountFields" model="[command:'create']"/></td>
 		</tr>
 	</table>
 </div>

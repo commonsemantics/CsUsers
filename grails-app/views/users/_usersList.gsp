@@ -23,8 +23,8 @@
 		<tbody>
 			<g:each in="${users}" status="i" var="user">
 				<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-		     		<td><g:link action="showUser" id="${user.id}">${user.username}</g:link></td>
-		     		<td>${user.lastName} ${user.firstName} <g:if test="${user?.displayName?.length()>0}">(${user.displayName})</g:if></td>
+		     		<td><g:link action="testShowUser" id="${user.id}">${user.username}</g:link></td>
+		     		<td>${user.person.lastName} ${user.person.firstName} <g:if test="${user?.person.displayName?.length()>0}">(${user.person.displayName})</g:if></td>
 
 					<g:set var="userObject" value="${User.findByUsername(user.username)}"/>
 					<g:set var="userRole" value="${UserRole.findAllByUser(userObject)}"/>
@@ -48,32 +48,31 @@
 		     			<div class="buttons">
 							<g:form>
 								<g:hiddenField name="id" value="${user?.id}" /> 
-								<g:hiddenField name="user" value="${user?.id}" /> 
-								<g:hiddenField name="redirect" value="listUsers" />
+								<g:hiddenField name="redirect" value="testListUsers" />
 								<span class="button">
 									<img src="${resource(dir: 'images/accept', file: 'Accept_16.png', plugin:'cs-commons')}">
-									<g:actionSubmit class="edit"  action="editUser" value="${message(code: 'default.button.edit.account.label', default: 'Edit')}" />
+									<g:actionSubmit class="edit"  action="testEditUser" value="${message(code: 'default.button.edit.account.label', default: 'Edit')}" />
 								</span>
 								<g:if test="${fieldValue(bean: user, field: 'accountLocked') == 'true'}">
 									<span class="button">
-										<g:actionSubmit class="unlock" action="unlockUser" value="${message(code: 'default.button.unlock.account.label', default: 'Unlock')}" />
+										<g:actionSubmit class="unlock" action="testUnlockUser" value="${message(code: 'default.button.unlock.account.label', default: 'Unlock')}" />
 									</span>
 								</g:if>
 								<g:elseif test="${fieldValue(bean: user, field: 'accountLocked') == 'false'}">
 									<span class="button">
-										<g:actionSubmit class="lock" action="lockUser" value="${message(code: 'default.button.lock.account.label', default: 'Lock')}"
+										<g:actionSubmit class="lock" action="testLockUser" value="${message(code: 'default.button.lock.account.label', default: 'Lock')}"
 										onclick="return confirm('${message(code: 'default.button.lock.account.confirm.message', default: 'Are you sure you want to lock this account?')}');" />
 									</span>
 								</g:elseif>
 								<g:if test="${fieldValue(bean: user, field: 'enabled') == 'true'}">
 									<span class="button">
-										<g:actionSubmit class="disable" action="disableUser" value="${message(code: 'default.button.disable.account.label', default: 'Disable')}" 
+										<g:actionSubmit class="disable" action="testDisableUser" value="${message(code: 'default.button.disable.account.label', default: 'Disable')}" 
 										onclick="return confirm('${message(code: 'default.button.disable.account.confirm.message', default: 'Are you sure you want to disable this account?')}');"/>
 									</span>
 								</g:if>
 								<g:elseif test="${fieldValue(bean: user, field: 'enabled') == 'false'}">
 									<span class="button">
-										<g:actionSubmit class="enable" action="enableUser" value="${message(code: 'default.button.enable.account.label', default: 'Enable')}" />
+										<g:actionSubmit class="enable" action="testEnableUser" value="${message(code: 'default.button.enable.account.label', default: 'Enable')}" />
 									</span>
 								</g:elseif>
 							</g:form>
