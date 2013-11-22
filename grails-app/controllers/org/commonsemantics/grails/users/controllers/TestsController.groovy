@@ -20,6 +20,7 @@
  */
 package org.commonsemantics.grails.users.controllers
 
+import org.commonsemantics.grails.agents.commands.PersonCreateCommand
 import org.commonsemantics.grails.agents.commands.PersonEditCommand
 import org.commonsemantics.grails.agents.model.Person
 import org.commonsemantics.grails.agents.utils.AgentsUtils
@@ -31,6 +32,7 @@ import org.commonsemantics.grails.users.model.UserRole
 import org.commonsemantics.grails.users.utils.DefaultUsersRoles
 import org.commonsemantics.grails.users.utils.UserStatus
 import org.commonsemantics.grails.users.utils.UsersUtils
+
 
 /**
  * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
@@ -179,56 +181,93 @@ class TestsController {
 		render (view:'user-create', model:[label:params.testId, description:params.testDescription]);
 	}
 	
-	def testSaveUser = {PersonEditCommand cmd ->
+	def testSaveUser = {PersonCreateCommand cmd ->
 		println params
+		UserCreateCommand c = new UserCreateCommand();
 		def validationFailed = AgentsUtils.validatePerson(grailsApplication, cmd);
 		if (validationFailed) {
 			println 'problems ' + cmd.errors;
 		} else {
-			def user = User.findById(params.id);
-			def person = user.person;
-			if(person!=null) {
-				person.title = params.title;
-				person.firstName = params.firstName;
-				person.middleName = params.middleName;
-				person.lastName = params.lastName;
-				person.affiliation = params.affiliation;
-				person.country = params.country;
-				person.displayName = params.displayName;
-				person.email = params.email;
-				
-				
-	
-				updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.ADMIN.value()), params.Administrator)
-				updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.MANAGER.value()), params.Manager)
-				updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.USER.value()), params.User)
-	
-				updateUserStatus(user, params.userStatus)
-				
-				render (view:'user-show', model:[label:params.testId, description:params.testDescription, user:user]);
-				return;
+			def person = new Person();
+			person.title = params.title;
+			person.firstName = params.firstName;
+			person.middleName = params.middleName;
+			person.lastName = params.lastName;
+			person.affiliation = params.affiliation;
+			person.country = params.country;
+			person.displayName = params.displayName;
+			person.email = params.email;
+			
+			Person.withTransaction { personStatus ->
+				if(!person.save(flush: true)) {
+					person.errors.each { 
+						 // http://grails.org/doc/latest/api/grails/validation/ValidationErrors.html
+						 println '---- field error ----' + it.target
+						 it.fieldErrors.each { error ->
+							 // http://docs.spring.io/spring/docs/1.2.9/api/org/springframework/validation/FieldError.html
+							 println '---- error ----' + error.getClass().getName()
+							 println '---- error ----' + error.getField()
+							 println '---- error ----' + error.getDefaultMessage()
+							 cmd.errors.rejectValue(error.getField(),
+								 g.message(code: 'org.commonsemantics.grails.users.model.field.username.not.available.message', default: error.getDefaultMessage()))
+						 }
+					} 
+				} else {					
+					def user = new User(username: params.username, person:person)
+					if(!user.save(flush: true)) {
+						println '---else04 '
+						user.errors.each {
+							 // http://grails.org/doc/latest/api/grails/validation/ValidationErrors.html
+							 println '---- field error ----' + it.target
+							 it.fieldErrors.each { error ->
+								 // http://docs.spring.io/spring/docs/1.2.9/api/org/springframework/validation/FieldError.html
+								 println '---- error ----' + error.getClass().getName()
+								 println '---- error ----' + error.getField()
+								 println '---- error ----' + error.getDefaultMessage()
+								 c.errors.rejectValue(error.getField(),
+									 g.message(code: 'org.commonsemantics.grails.users.model.field.username.not.available.message', default: error.getDefaultMessage()))
+								 
+								 println c.errors
+							 }
+						}				
+						personStatus.setRollbackOnly();
+						
+						println '---else05 '
+						c.username = params.username;
+						println '---userStatus ' + params.userStatus;
+						c.status = params.userStatus;
+						c.person = cmd;
+						UsersUtils.validateUser(grailsApplication, c);
+						
+						def usersRoles = [];
+						if(params.Administrator=='on') {
+							usersRoles.add(Role.findByAuthority(DefaultUsersRoles.ADMIN.value()));
+						}
+						if(params.Manager=='on') {
+							usersRoles.add(Role.findByAuthority(DefaultUsersRoles.MANAGER.value()));
+						}
+						if(params.User=='on') {
+							usersRoles.add(Role.findByAuthority(DefaultUsersRoles.USER.value()));
+						}
+						
+						
+						render (view:'user-create', model:[label:params.testId, description:params.testDescription, user:c, userRoles: usersRoles]);
+					} else {
+						println '---else03 '
+						updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.ADMIN.value()), params.Administrator)
+						updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.MANAGER.value()), params.Manager)
+						updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.USER.value()), params.User)
+			
+						updateUserStatus(user, params.userStatus)
+						
+						render (view:'user-show', model:[label:params.testId, description:params.testDescription, user:user]);
+						return;
+					}
+				}
 			}
 		}
-		UserCreateCommand c = new UserCreateCommand();
-		c.username = params.username;
-		println '---userStatus ' + params.userStatus;
-		c.status = params.userStatus;
-		c.person = cmd;
-		UsersUtils.validateUser(grailsApplication, c);
-		
-		def usersRoles = [];
-		if(params.Administrator=='on') {
-			usersRoles.add(Role.findByAuthority(DefaultUsersRoles.ADMIN.value()));
-		}
-		if(params.Manager=='on') {
-			usersRoles.add(Role.findByAuthority(DefaultUsersRoles.MANAGER.value()));
-		}
-		if(params.User=='on') {
-			usersRoles.add(Role.findByAuthority(DefaultUsersRoles.USER.value()));
-		}
 		
 		
-		render (view:'user-create', model:[label:params.testId, description:params.testDescription, user:c, userRoles: usersRoles]);
 	}
 	
 	/*

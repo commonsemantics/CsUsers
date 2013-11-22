@@ -102,14 +102,14 @@ Stylesheet
 				<td>
 					(4-16 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
 				</td>
-				</tr>
+				
 				<g:if test="${user?.errors?.hasFieldErrors('username')}">
 					<tr>
 						<td></td>
 						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="username" /></td>
 					</tr>
 				</g:if>
-			
+			</tr>
 			<tr class="prop">
 				<td valign="top" class="name">
 					<label for="userRole">

@@ -22,7 +22,7 @@ package org.commonsemantics.grails.users.commands
 
 import grails.validation.Validateable
 
-import org.commonsemantics.grails.agents.commands.PersonEditCommand;
+import org.commonsemantics.grails.agents.commands.PersonCreateCommand
 import org.commonsemantics.grails.users.model.User
 import org.commonsemantics.grails.users.utils.UserStatus
 import org.commonsemantics.grails.users.utils.UsersUtils
@@ -44,7 +44,7 @@ class UserCreateCommand {
 	String status
 	
 	//Users' data
-	PersonEditCommand person
+	PersonCreateCommand person
 	
 	//Account credentials
 	String username
