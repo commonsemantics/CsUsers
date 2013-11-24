@@ -19,7 +19,7 @@ Stylesheet
 					</td>
 				</tr>
 				--%>
-				<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.title!='hide'}">
+				<g:if test="${grailsApplication.config.org.commonsemantics.grails.persons.model.field.title!='hide'}">
 					<tr>
 						<td valign="top" width="150px"  align="left">
 							<g:message code="org.commonsemantics.grails.users.model.field.title" default="Title"/>
@@ -30,7 +30,7 @@ Stylesheet
 						</td>
 					</tr>
 				</g:if>
-				<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.firstName!='hide'}">
+				<g:if test="${grailsApplication.config.org.commonsemantics.grails.persons.model.field.firstName!='hide'}">
 					<tr>
 						<td valign="top" align="left">
 							<g:message code="org.commonsemantics.grails.users.model.field.firstName" default="First name"/>
@@ -41,7 +41,7 @@ Stylesheet
 						</td>
 					</tr>
 				</g:if>
-				<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.middleName!='hide'}">
+				<g:if test="${grailsApplication.config.org.commonsemantics.grails.persons.model.field.middleName!='hide'}">
 					<tr>
 						<td valign="top"  align="left">
 							<g:message code="org.commonsemantics.grails.users.model.field.middleName" default="Middle name"/>
@@ -52,7 +52,7 @@ Stylesheet
 						</td>
 					</tr>
 				</g:if>
-				<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.lastName!='hide'}">
+				<g:if test="${grailsApplication.config.org.commonsemantics.grails.persons.model.field.lastName!='hide'}">
 					<tr>
 						<td valign="top"  align="left">
 							<g:message code="org.commonsemantics.grails.users.model.field.lastName" default="Last name"/>
@@ -77,7 +77,7 @@ Stylesheet
 						${user?.person?.email}
 					</td>
 				</tr>
-				<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.affiliation!='hide'}">
+				<g:if test="${grailsApplication.config.org.commonsemantics.grails.persons.model.field.affiliation!='hide'}">
 					<tr>
 						<td valign="top"  align="left">
 							<g:message code="org.commonsemantics.grails.users.model.field.affiliation" default="Affiliation"/>
@@ -88,7 +88,7 @@ Stylesheet
 						</td>
 					</tr>
 				</g:if>
-				<g:if test="${grailsApplication.config.org.commonsemantics.grails.users.model.field.country!='hide'}">
+				<g:if test="${grailsApplication.config.org.commonsemantics.grails.persons.model.field.country!='hide'}">
 					<tr>
 						<td valign="top"  align="left">
 							<g:message code="org.commonsemantics.grails.users.model.field.country" default="Country"/>

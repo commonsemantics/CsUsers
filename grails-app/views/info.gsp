@@ -10,6 +10,8 @@
 			<h1><g:meta name="app.name"/> - Commonsemantics.org Grails Plugin</h1>
 			<p>You are running the <font style="font-weight:bold;"><g:meta name="app.name"/></font> Grails Plugin in application mode. 
 			<br/>
+			<g:link controller='tests'>Test available GSPs components.</g:link>
+			<br/>
 			<g:meta name="app.description"/>
 			<br/>
 			

@@ -20,9 +20,10 @@
  */
 package org.commonsemantics.grails.users.services
 
-import org.commonsemantics.grails.users.model.Role
+import org.codehaus.groovy.grails.plugins.web.taglib.ValidationTagLib
 import org.commonsemantics.grails.users.model.User
 import org.commonsemantics.grails.users.model.UserRole
+import org.commonsemantics.grails.users.utils.UsersUtils
 
 /**
  * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
@@ -30,6 +31,31 @@ import org.commonsemantics.grails.users.model.UserRole
 class UsersService {
 	
 	static transactional = false
+	
+	def validateUser(def cmd) {
+		boolean validationFailed = false;
+		def mandatory = UsersUtils.getUserMandatoryFields(grailsApplication);
+		println mandatory
+
+		if(!cmd.validate()) {
+			println 'validationFailed ' + cmd.errors
+			validationFailed=true;
+		}
+		
+		def g = new ValidationTagLib()
+		mandatory.each { item ->
+			if(!(cmd[item]!=null && cmd[item].trim().length()>0)) {
+				println 'problem ' + item;
+				//cmd.errors.reject(g.message(code: 'org.commonsemantics.grails.general.message.error.cannotbenull', default: 'Field cannot be null'),
+				//	[item, 'class User'] as Object[],
+				//	'[Property [{0}] of class [{1}] does not match confirmation]')
+				cmd.errors.rejectValue(item,
+					g.message(code: 'default.blank.message', default: 'Field cannot be null'))
+				validationFailed=true;
+			}
+		}
+		validationFailed;
+	}
 	
 	/**
 	 * Returns the list of all the users of the node with pagination
@@ -113,83 +139,5 @@ class UsersService {
 			users = r.toList();
 		}
 		users
-	}
-	
-	def getUserRoles(def user) {
-		def userRoles = []
-		def ur = UserRole.findAllByUser(user)
-		ur.each { userRoles.add(it.role)}
-		return userRoles
-	}
-
-	
-	String getIsAdmin() {
-		boolean flag = false;
-		def userrole = UserRole.findAllByUser(this)
-		userrole.each { 
-			if(it.role.authority.equals(DefaultRoles.ADMIN.value())) {
-				flag = true;
-			} 	
-		}
-		flag ? "y" : ""
-	}
-	
-	String getIsManager() {
-		boolean flag = false;
-		def userrole = UserRole.findAllByUser(this)
-		userrole.each {
-			if(it.role.authority.equals(DefaultRoles.MANAGER.value())) {
-				flag = true;
-			}
-		}
-		flag ? "y" : ""
-	}
-	
-	String getIsUser() {
-		boolean flag = false;
-		def userrole = UserRole.findAllByUser(this)
-		userrole.each {
-			if(it.role.authority.equals(DefaultRoles.USER.value())) {
-				flag = true;
-			}
-		}
-		flag ? "y" : ""
-	}
-	
-	String getIsAnalyst() {
-		boolean flag = false;
-		def userrole = UserRole.findAllByUser(this)
-		userrole.each {
-			if(it.role.authority.equals(DefaultRoles.ANALYST.value())) {
-				flag = true;
-			}
-		}
-		flag ? "y" : ""
-	}
-	
-	def getRoleRank() {
-		int rank = 0;
-		def userrole = UserRole.findAllByUser(this)
-		userrole.each {
-			println it.role
-			println it.role.getRanking()
-			rank += it.role.getRanking();
-		}
-		rank
-	}
-	
-	def getRole() {
-		def userrole = UserRole.findByUser(this)
-		if(userrole) { 
-			if(userrole.role.authority.equals("ROLE_ADMIN")) {
-				return "Admin"
-			} else if(userrole.role.authority.equals("ROLE_USER")) {
-				return "User"
-			} else {
-				return userrole.role.authority;
-			}
-		} else {
-			return "Error"
-		}
 	}
 }

@@ -35,17 +35,7 @@ class User {
 	String password
 	
 	Person person;
-	
-//	// User's data
-//	String email
-//	String title
-//	String firstName
-//	String middleName
-//	String lastName
-//	String displayName
-//	String country
-//	String affiliation
-	
+
 	Date dateCreated, lastUpdated
 	
 	boolean enabled

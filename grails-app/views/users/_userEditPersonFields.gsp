@@ -15,7 +15,7 @@ Stylesheet
 				<g:render plugin="cs-user" template="/users/userPersonEntry" model="[
 					messageCode:'org.commonsemantics.grails.agents.model.field.title',
 					messageDefault:'Title',
-					mandatory:AgentsUtils.isPersonFieldMandatory(grailsApplication, 'title'),
+					mandatory:AgentsUtils.isPersonFieldRequired(grailsApplication, 'title'),
 					variable: 'title',
 					value: user?.person?.title,
 					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
@@ -25,7 +25,7 @@ Stylesheet
 				<g:render plugin="cs-user" template="/users/userPersonEntry" model="[
 					messageCode:'org.commonsemantics.grails.agents.model.field.firstName',
 					messageDefault:'First name',
-					mandatory:AgentsUtils.isPersonFieldMandatory(grailsApplication, 'firstName'),
+					mandatory:AgentsUtils.isPersonFieldRequired(grailsApplication, 'firstName'),
 					variable: 'firstName',
 					value: user.person?.firstName,
 					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
@@ -35,7 +35,7 @@ Stylesheet
 				<g:render plugin="cs-user" template="/users/userPersonEntry" model="[
 					messageCode:'org.commonsemantics.grails.agents.model.field.middleName',
 					messageDefault:'Middle name',
-					mandatory:AgentsUtils.isPersonFieldMandatory(grailsApplication, 'middleName'),
+					mandatory:AgentsUtils.isPersonFieldRequired(grailsApplication, 'middleName'),
 					variable: 'middleName',
 					value: user?.person?.middleName,
 					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
@@ -45,7 +45,7 @@ Stylesheet
 				<g:render plugin="cs-user" template="/users/userPersonEntry" model="[
 					messageCode:'org.commonsemantics.grails.agents.model.field.lastName',
 					messageDefault:'Last name',
-					mandatory:AgentsUtils.isPersonFieldMandatory(grailsApplication, 'lastName'),
+					mandatory:AgentsUtils.isPersonFieldRequired(grailsApplication, 'lastName'),
 					variable: 'lastName',
 					value: user?.person?.lastName,
 					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
@@ -54,7 +54,7 @@ Stylesheet
 			<g:render plugin="cs-user" template="/users/userPersonEntry" model="[
 				messageCode:'org.commonsemantics.grails.agents.model.field.displayName',
 				messageDefault:'Display name',
-				mandatory:AgentsUtils.isPersonFieldMandatory(grailsApplication, 'displayName'),
+				mandatory:AgentsUtils.isPersonFieldRequired(grailsApplication, 'displayName'),
 				variable: 'displayName',
 				value: user?.person?.displayName,
 				caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
@@ -62,7 +62,7 @@ Stylesheet
 			<g:render plugin="cs-user" template="/users/userPersonEntry" model="[
 				messageCode:'org.commonsemantics.grails.agents.model.field.email',
 				messageDefault:'Email',
-				mandatory:AgentsUtils.isPersonFieldMandatory(grailsApplication, 'email'),
+				mandatory:AgentsUtils.isPersonFieldRequired(grailsApplication, 'email'),
 				variable: 'email',
 				value: user?.person?.email,
 				caption: '(valid email)'
@@ -71,7 +71,7 @@ Stylesheet
 				<g:render plugin="cs-user" template="/users/userPersonEntry" model="[
 					messageCode:'org.commonsemantics.grails.agents.model.field.affiliation',
 					messageDefault:'Affiliation',
-					mandatory:AgentsUtils.isPersonFieldMandatory(grailsApplication, 'affiliation'),
+					mandatory:AgentsUtils.isPersonFieldRequired(grailsApplication, 'affiliation'),
 					variable: 'affiliation',
 					value: user?.person?.affiliation,
 					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
@@ -83,7 +83,7 @@ Stylesheet
 					<td valign="top" class="name">
 						<label for="country">
 							<g:message code="org.commonsemantics.grails.agents.model.field.country" default="Country"/>
-							<g:if test="${AgentsUtils.isPersonFieldMandatory(grailsApplication, 'country')==true}">*</g:if>
+							<g:if test="${AgentsUtils.isPersonFieldRequired(grailsApplication, 'country')==true}">*</g:if>
 						</label>
 					</td>
 					<td valign="top" class="value">

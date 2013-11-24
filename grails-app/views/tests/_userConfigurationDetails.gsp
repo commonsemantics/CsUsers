@@ -4,10 +4,10 @@
 <h2>Configurations (External configuration)</h2>
 
 <h3>Mandatory Fields </h3>
-&nbsp;org.commonsemantics.grails.persons.model.fields.mandatory = ${AgentsUtils.getPersonMandatoryFields(grailsApplication)}<br/><br/>
+&nbsp;org.commonsemantics.grails.persons.model.fields.mandatory = ${AgentsUtils.getPersonDynamicMandatoryFields(grailsApplication)}<br/><br/>
 
 <h3>Flexible Fields </h3>
-<g:if test="${AgentsUtils.isStaticPersonPropertyExisting('optional')!=null}">
+<g:if test="${AgentsUtils.isPersonStaticPropertyExisting('optional')!=null}">
 	&nbsp;${Person.optional}<br/><br/>
 </g:if>
 <g:else>

@@ -50,7 +50,6 @@
 								<g:hiddenField name="id" value="${user?.id}" /> 
 								<g:hiddenField name="redirect" value="testListUsers" />
 								<span class="button">
-									<img src="${resource(dir: 'images/accept', file: 'Accept_16.png', plugin:'cs-commons')}">
 									<g:actionSubmit class="edit"  action="testEditUser" value="${message(code: 'default.button.edit.account.label', default: 'Edit')}" />
 								</span>
 								<g:if test="${fieldValue(bean: user, field: 'accountLocked') == 'true'}">
@@ -83,7 +82,7 @@
 		</tbody>
 	</table>
 	<div class="paginateButtons">
-   		<g:paginate total="${usersTotal}"/> 
+   		<g:paginate total="${usersTotal}" controller="${controller}" action="${action}"/> 
 	</div>
 </div>
 </div>

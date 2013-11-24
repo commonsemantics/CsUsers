@@ -20,17 +20,21 @@
  */
 package org.commonsemantics.grails.users.utils
 
+import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.plugins.web.taglib.ValidationTagLib
 import org.commonsemantics.grails.users.commands.UserCreateCommand
 import org.commonsemantics.grails.users.commands.UserEditCommand
 import org.commonsemantics.grails.users.model.Role
 import org.commonsemantics.grails.users.model.User
 import org.commonsemantics.grails.users.model.UserRole
+import org.commonsemantics.grails.utils.LoggingUtils
 
 /**
 * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
 */
 class UsersUtils {
+	
+	static Logger log = Logger.getLogger(UsersUtils.class) // log4j
 
 	static String getStatusLabel(def user) {
 		if(user.isEnabled()) {
@@ -69,56 +73,65 @@ class UsersUtils {
 		[roles, rolesCount]
 	}
 
-	static boolean isFieldMandatory(def grailsApplication, def fieldName) {
-		// Mandatory fields by configuration
-		def mandatoryByConfiguration =  Eval.me(grailsApplication.config.org.commonsemantics.grails.users.model.fields.mandatory);
-		// Mandatory fields by coding
-		if(!User.constraints[fieldName].nullable) mandatoryByConfiguration.add(fieldName);
-		if(fieldName in User.mandatory || fieldName in mandatoryByConfiguration) {
-			println 'mandatory: ' + fieldName;
-			return true;
-		}
-		return false;
-	}
-	
-	static def getMandatoryFields(def grailsApplication) {
-		def mandatory = User.mandatory.clone();
+	//-------------------------------------------------------------------------
+	// USERS
+	//-------------------------------------------------------------------------
+//	static def getPersonConfigurationMandatoryFields(def grailsApplication) {
+//		def mandatory =[];
+//		if(grailsApplication.config.org.commonsemantics.grails.persons.model.fields.mandatory.size()>0) {
+//			mandatory.addAll(Eval.me(grailsApplication.config.org.commonsemantics.grails.persons.model.fields.mandatory));
+//		}
+//		return mandatory;
+//	}
+//	
+//	static boolean isFieldMandatory(def grailsApplication, def fieldName) {
+//		// Mandatory fields by configuration
+//		def mandatoryByConfiguration =  Eval.me(grailsApplication.config.org.commonsemantics.grails.users.model.fields.mandatory);
+//		// Mandatory fields by coding
+//		if(!User.constraints[fieldName].nullable) mandatoryByConfiguration.add(fieldName);
+//		if(fieldName in User.mandatory || fieldName in mandatoryByConfiguration) {
+//			println 'mandatory: ' + fieldName;
+//			return true;
+//		}
+//		return false;
+//	}
+//	
+	static def getUserMandatoryFields(def grailsApplication) {
+		def mandatory = [];
 		if(grailsApplication.config.org.commonsemantics.grails.users.model.fields.mandatory.size()>0) {
 			mandatory.addAll(Eval.me(grailsApplication.config.org.commonsemantics.grails.users.model.fields.mandatory));
 		}
 		return mandatory;
 	}
 	
-	static def validateUser(def grailsApplication, def cmd) {
-		boolean validationFailed = false;
-		def mandatory = UsersUtils.getMandatoryFields(grailsApplication);
-		println mandatory
-
-		if(!cmd.validate()) {
-			println 'validationFailed ' + cmd.errors
-			validationFailed=true;
-		}
-		
-		def g = new ValidationTagLib()
-		mandatory.each { item ->
-			if(!(cmd[item]!=null && cmd[item].trim().length()>0)) {
-				println 'problem ' + item;
-				//cmd.errors.reject(g.message(code: 'org.commonsemantics.grails.general.message.error.cannotbenull', default: 'Field cannot be null'),
-				//	[item, 'class User'] as Object[],
-				//	'[Property [{0}] of class [{1}] does not match confirmation]')
-				cmd.errors.rejectValue(item,
-					g.message(code: 'default.blank.message', default: 'Field cannot be null'))
-				validationFailed=true;
-			}
-		}
-		validationFailed;
+	static def getUserDynamicMandatoryFields(def grailsApplication) {
+		def mandatory = User.mandatory.clone();
+		mandatory.addAll(getUserMandatoryFields(grailsApplication));
+		return mandatory;
 	}
 	
+	static boolean isUserFieldRequired(def grailsApplication, def fieldName) {
+		// Mandatory fields by dynamic configuration
+		def mandatoryByConfiguration = getUserDynamicMandatoryFields(grailsApplication)
+		// Mandatory fields by static coding
+		if(!User.constraints[fieldName]?.nullable) mandatoryByConfiguration.add(fieldName);
+		
+		if(fieldName in User.mandatory || fieldName in mandatoryByConfiguration) {
+			log.debug LoggingUtils.LOG_CONF + ' User mandatory field: ' + fieldName;
+			return true;
+		}
+		return false;
+	}
+	
+
+	
+	
+	
 	static def getUserRoles(def user) {
-		println "-------------- " + user;
 		def userRoles = [];
 		def ur = UserRole.findAllByUser(user)
 		ur.each { userRoles.add(it.role)}
+		log.debug("User " + user + " roles " + userRoles.label);
 		return userRoles
 	}
 	
@@ -130,5 +143,75 @@ class UsersUtils {
 	static def getUserRoles(UserEditCommand user) {
 		def userRoles = []
 		return userRoles
+	}
+	
+	String getIsAdmin() {
+		boolean flag = false;
+		def userrole = UserRole.findAllByUser(this)
+		userrole.each {
+			if(it.role.authority.equals(DefaultRoles.ADMIN.value())) {
+				flag = true;
+			}
+		}
+		flag ? "y" : ""
+	}
+	
+	String getIsManager() {
+		boolean flag = false;
+		def userrole = UserRole.findAllByUser(this)
+		userrole.each {
+			if(it.role.authority.equals(DefaultRoles.MANAGER.value())) {
+				flag = true;
+			}
+		}
+		flag ? "y" : ""
+	}
+	
+	String getIsUser() {
+		boolean flag = false;
+		def userrole = UserRole.findAllByUser(this)
+		userrole.each {
+			if(it.role.authority.equals(DefaultRoles.USER.value())) {
+				flag = true;
+			}
+		}
+		flag ? "y" : ""
+	}
+	
+	String getIsAnalyst() {
+		boolean flag = false;
+		def userrole = UserRole.findAllByUser(this)
+		userrole.each {
+			if(it.role.authority.equals(DefaultRoles.ANALYST.value())) {
+				flag = true;
+			}
+		}
+		flag ? "y" : ""
+	}
+	
+	def getRoleRank() {
+		int rank = 0;
+		def userrole = UserRole.findAllByUser(this)
+		userrole.each {
+			println it.role
+			println it.role.getRanking()
+			rank += it.role.getRanking();
+		}
+		rank
+	}
+	
+	def getRole() {
+		def userrole = UserRole.findByUser(this)
+		if(userrole) {
+			if(userrole.role.authority.equals("ROLE_ADMIN")) {
+				return "Admin"
+			} else if(userrole.role.authority.equals("ROLE_USER")) {
+				return "User"
+			} else {
+				return userrole.role.authority;
+			}
+		} else {
+			return "Error"
+		}
 	}
 }
