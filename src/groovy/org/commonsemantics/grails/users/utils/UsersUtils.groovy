@@ -116,7 +116,7 @@ class UsersUtils {
 		// Mandatory fields by static coding
 		if(!User.constraints[fieldName]?.nullable) mandatoryByConfiguration.add(fieldName);
 		
-		if(fieldName in User.mandatory || fieldName in mandatoryByConfiguration) {
+		if((isUserStaticPropertyExisting('mandatory') && fieldName in User.mandatory) || fieldName in mandatoryByConfiguration) {
 			log.debug LoggingUtils.LOG_CONF + ' User mandatory field: ' + fieldName;
 			return true;
 		}
