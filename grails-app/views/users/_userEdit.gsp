@@ -1,4 +1,4 @@
-<%@ page import="org.commonsemantics.grails.users.utils.UserUtils" %>
+
 <%-- 
 By Dr. Paolo Ciccarese <paolo.ciccarese@gmail.com>
 
