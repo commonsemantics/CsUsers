@@ -123,6 +123,11 @@ class UsersUtils {
 		return false;
 	}
 	
+	static def isUserStaticPropertyExisting(def name) {
+		User.class.declaredFields.find {
+			it.name == 'x' && isStatic(it.modifiers)
+		}
+	}
 
 	
 	
