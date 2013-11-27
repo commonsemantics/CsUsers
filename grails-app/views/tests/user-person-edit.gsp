@@ -30,10 +30,10 @@
 				<br/>
 				<div class="buttons">
 					<span class="button">
-						<g:actionSubmit class="save" action="testUpdateUserPerson" value="${message(code: 'org.commonsemantics.grails.users.profile.submit', default: 'Update Profile')}" />
+						<g:actionSubmit class="save" action="updateUserPerson" value="${message(code: 'org.commonsemantics.grails.users.profile.submit', default: 'Update Profile')}" />
 					</span>
 					<span class="button">
-						<g:actionSubmit class="cancel" action="testShowUserPerson" value="${message(code: 'org.commonsemantics.grails.general.cancel', default: 'Cancel')}" />
+						<g:actionSubmit class="cancel" action="showUserPerson" value="${message(code: 'org.commonsemantics.grails.general.cancel', default: 'Cancel')}" />
 					</span>
 				</div>
 			</g:form>

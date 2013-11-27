@@ -49,19 +49,19 @@ class TestsController {
 	// ------------------------------------------------------------------------
 	//  CS-USERS:Person
 	// ------------------------------------------------------------------------
-	def testShowUserPerson = {
+	def showUserPerson = {
 		log.debug("[TEST] show-user's-person " + (params.userid?("(id:" + params.userid + ")"):"(No id specified)"));
 		def user = getUser(params.userid)
-		render (view:'user-person-show-lens', model:[label:params.testId, description:params.testDescription, user:user]);
+		render (view:'user-person-show', model:[label:params.testId, description:params.testDescription, user:user]);
 	}
 
-	def testEditUserPerson = {
+	def editUserPerson = {
 		log.debug("[TEST] edit-user's-person " + (params.userid?("(id:" + params.userid + ")"):"(No id specified)"));
 		def user = getUser(params.userid)
-		render (view:'user-person-edit-lens', model:[label:params.testId, description:params.testDescription, user:user, person:user.person]);
+		render (view:'user-person-edit', model:[label:params.testId, description:params.testDescription, user:user, person:user.person]);
 	}
 
-	def testUpdateUserPerson = { PersonEditCommand cmd ->
+	def updateUserPerson = { PersonEditCommand cmd ->
 		log.debug("[TEST] Creating person")
 		def validationFailed = agentsService.validatePerson(cmd);
 		if (validationFailed) {
@@ -79,22 +79,22 @@ class TestsController {
 				person.email = params.email;
 
 				def user = getUser(params.userid);
-				render (view:'user-person-show-lens', model:[label:params.testId, description:params.testDescription, user:user, person:user.person]);
+				render (view:'user-person-show', model:[label:params.testId, description:params.testDescription, user:user, person:user.person]);
 				return;
 			}
 		}
 		def user = getUser(params.userid);
-		render (view:'user-person-edit-lens', model:[label:params.testId, description:params.testDescription, user:user, person:cmd]);
+		render (view:'user-person-edit', model:[label:params.testId, description:params.testDescription, user:user, person:cmd]);
 	}
 
-	def testCreateUserPerson = {
+	def createUserPerson = {
 		render (view:'user-person-create', model:[label:params.testId, description:params.testDescription]);
 	}
 
-	def testListUserPersons = {
+	def listUserPersons = {
 		log.debug("[TEST] list-person max:" + params.max + " offset:" + params.offset)
-		render (view:'user-persons-list-lens', model:[label:params.testId, description:params.testDescription, persons:Person.list(params), personsTotal: Person.count(),
-			max: params.max, offset: params.offset, controller:'tests', action: 'testListPersons']);
+		render (view:'user-persons-list', model:[label:params.testId, description:params.testDescription, persons:Person.list(params), personsTotal: Person.count(),
+			max: params.max, offset: params.offset, controller:'tests', action: 'listPersons']);
 	}
 
 	private def getUser(def id) {
@@ -115,20 +115,20 @@ class TestsController {
 	//  CS-USERS:User
 	// ------------------------------------------------------------------------
 
-	def testShowUser = {
+	def showUser = {
 		log.debug("[TEST] show-user " + (params.userid?("(id:" + params.userid + ")"):"(No id specified)"));
 		def user = getUser(params.id)
 		render (view:'user-show', model:[label:params.testId, description:params.testDescription, user:user]);
 	}
 
-	def testEditUser = {
+	def editUser = {
 		log.debug("[TEST] edit-user " + (params.userid?("(id:" + params.userid + ")"):"(No id specified)"));
 		def user = getUser(params.id)
 		render (view:'user-edit', model:[label:params.testId, description:params.testDescription, user:user,
 			userRoles: UsersUtils.getUserRoles(user)]);
 	}
 
-	def testUpdateUser = { PersonEditCommand cmd ->
+	def updateUser = { PersonEditCommand cmd ->
 		def validationFailed = agentsService.validatePerson(cmd);
 		if (validationFailed) {
 			log.error("[TEST] While Updating User " + cmd.errors)
@@ -180,11 +180,11 @@ class TestsController {
 		render (view:'user-edit', model:[label:params.testId, description:params.testDescription, user:c, userRoles: usersRoles]);
 	}
 
-	def testCreateUser = {
+	def createUser = {
 		render (view:'user-create', model:[label:params.testId, description:params.testDescription]);
 	}
 
-	def testSaveUser = {PersonCreateCommand cmd ->
+	def saveUser = {PersonCreateCommand cmd ->
 		log.debug("[TEST] save-user " + cmd.displayName);
 		UserCreateCommand c = new UserCreateCommand();
 		def validationFailed = agentsService.validatePerson(cmd);
@@ -269,7 +269,7 @@ class TestsController {
 		}
 	}
 
-	def testListUsers = {
+	def listUsers = {
 		log.debug("[TEST] list-users max:" + params.max + " offset:" + params.offset)
 		render (view:'users-list', model:[label:params.testId, description:params.testDescription, users:User.list(params),
 			usersTotal: User.count(), max: params.max, offset: params.offset, controller:'tests', action: 'testListUsers']);
@@ -310,7 +310,7 @@ class TestsController {
 		}
 	}
 
-	def testLockUser = {
+	def lockUser = {
 		def user = User.findById(params.id)
 		user.accountLocked = true
 		user.enabled = true;
@@ -321,7 +321,7 @@ class TestsController {
 		//render (view:'showProfile', model:[user: user])
 	}
 
-	def testUnlockUser = {
+	def unlockUser = {
 		def user = User.findById(params.id)
 		user.accountLocked = false
 		user.enabled = true;
@@ -331,7 +331,7 @@ class TestsController {
 			redirect(action:'testShowUser', params:[id: params.id])
 	}
 
-	def testEnableUser = {
+	def enableUser = {
 		def user = User.findById(params.id)
 		user.enabled = true
 		user.accountLocked = false
@@ -341,7 +341,7 @@ class TestsController {
 			redirect(action:'testShowUser', params:[id: params.id])
 	}
 
-	def testDisableUser = {
+	def disableUser = {
 		def user = User.findById(params.id)
 		user.enabled = false
 		user.accountLocked = false
