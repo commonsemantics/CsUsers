@@ -24,7 +24,7 @@
 				<g:hiddenField name="testDescription" value="After ${description}" /> 
 				Results per page: <g:textField name="max" style="width: 250px;" value="${max}" /><br/>
 				First page: <g:textField name="offset" style="width: 250px;" value="${offset}" /><br/>
-				<g:actionSubmit class="edit"  action="testListUserPersons" value="${message(code: 'default.button.edit.account.label', default: 'Refresh')}" />
+				<g:actionSubmit class="edit"  action="listUserPersons" value="${message(code: 'default.button.edit.account.label', default: 'Refresh')}" />
 			
 				<br/>				
 				<div class="csc-lens-container">	
