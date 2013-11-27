@@ -1,7 +1,7 @@
 <%@ page import="org.commonsemantics.grails.users.model.User" %>
 <%@ page import="org.commonsemantics.grails.users.model.UserRole" %>
 <%@ page import="org.commonsemantics.grails.users.utils.DefaultUsersRoles" %>
-<%@ page import="org.commonsemantics.grails.users.utils.UserUtils" %>
+<%@ page import="org.commonsemantics.grails.users.utils.UsersUtils" %>
 
 <div id="request" class="sectioncontainer">
 <div class="dialog">
@@ -42,7 +42,7 @@
 		     		<td><g:formatDate format="MM/dd/yyyy hh:mm" date="${user.dateCreated}"/></td>
 		     		<td><g:formatDate format="MM/dd/yyyy hh:mm" date="${user.lastUpdated}"/></td>
 		     		<td>
-		     			${UserUtils.getStatusLabel(userObject)}
+		     			${UsersUtils.getStatusLabel(userObject)}
 					</td>
 		     		<td>
 		     			<div class="buttons">
