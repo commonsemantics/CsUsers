@@ -11,6 +11,22 @@ class BootStrap {
 	
     def init = { servletContext ->
 		
+		log.info  '========================================================================';
+		log.info  ' COMMON SEMANTICS: USERS (v.' +
+			grailsApplication.metadata['app.version'] + ", b." +
+			grailsApplication.metadata['app.build'] + ")";
+			
+		separator();
+		log.info  ' By Paolo Ciccarese (http://paolociccarese.info/)'
+		log.info  ' Copyright 2014 Common Semantics'
+		
+		separator();
+		log.info  ' Released under the Apache License, Version 2.0'
+		log.info  ' url:http://www.apache.org/licenses/LICENSE-2.0'
+
+		log.info  '========================================================================';
+		log.info  'Bootstrapping....'
+		
 		separator();
 		log.info  '>> INITIALIZING DEFAULTS'
 		separator();
