@@ -21,7 +21,6 @@
 package org.commonsemantics.grails.users.model
 
 import org.commonsemantics.grails.agents.model.Person
-import org.commonsemantics.grails.users.utils.UserStatus
 
 /**
  * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
