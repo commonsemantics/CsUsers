@@ -1,0 +1,61 @@
+<%-- by Paolo Ciccarese --%>
+<%-- 
+Parameters list
+ 1) user | instance of UserCreateCommand
+Stylesheet
+ 1) fieldError | background and font color in erroneous text fields
+--%>
+<%@ page import="org.commonsemantics.grails.users.utils.UserStatus" %>
+<%@ page import="org.commonsemantics.grails.users.utils.UsersUtils" %>
+<%@ page import="org.commonsemantics.grails.users.model.Role" %>
+
+<g:if test="${user!=null && command!='create'}">
+	<table>
+		<tbody>
+			<tr class="prop">
+				<td valign="top" width="160px" class="name">
+					<label for="username">
+						<g:message code="org.commonsemantics.grails.users.model.field.username" default="Username"/>
+					</label>
+				</td>
+				<td valign="top" width="265px" class="value">
+					<div>
+						${user?.username}
+					</div>
+				</td>
+				<td valign="top">
+			    </td>
+			</tr>
+		</tbody>
+	</table>
+</g:if>
+<g:elseif test="${command=='create'}">
+	<table>
+		<tbody>
+			<tr class="prop">
+				<td valign="top" width="160px" class="name">
+					<label for="username">
+						<g:message code="org.commonsemantics.grails.users.model.field.username" default="Username"/>*
+					</label>
+				</td>
+				<td valign="top" class="value" width="279px">
+					<g:textField name="username" style="width: 276px;"
+						value="${user?.username}"  class="${hasErrors(bean: user, field: 'username', 'csc-field-error')}"/>
+				</td>
+				<td valign="top" class="caption">
+					(4-16 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
+				</td>
+				
+				<g:if test="${user?.errors?.hasFieldErrors('username')}">
+					<tr>
+						<td></td>
+						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="username" /></td>
+					</tr>
+				</g:if>
+			</tr>
+		</tbody>
+	</table>
+</g:elseif>
+<g:else>
+	<g:render plugin="cs-commons" template="/lenses/error" model="['message':'CsUser._userAccoundFields: user object cannot be null.']"/>
+</g:else>
