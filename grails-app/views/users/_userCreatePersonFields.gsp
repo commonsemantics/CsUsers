@@ -102,7 +102,7 @@ Stylesheet
 				<tr class="prop">
 					<td valign="top" class="name">
 						<label for="country">
-							<g:message code="org.commonsemantics.grails.users.model.field.country" default="Country"/>
+							<g:message code="org.commonsemantics.grails.users.model.field.country" default="Country"/><g:if test="${AgentsUtils.isPersonFieldRequired(grailsApplication, 'country')==true}">*</g:if>
 						</label>
 					</td>
 					<td valign="top" class="value">

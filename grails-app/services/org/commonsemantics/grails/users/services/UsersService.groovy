@@ -32,6 +32,8 @@ class UsersService {
 	
 	static transactional = false
 	
+	def grailsApplication;
+	
 	def validateUser(def cmd) {
 		boolean validationFailed = false;
 		def mandatory = UsersUtils.getUserMandatoryFields(grailsApplication);
