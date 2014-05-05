@@ -5,9 +5,11 @@ Parameters list
 Stylesheet
  1) fieldError | background and font color in erroneous text fields
 --%>
+<%@ page import="org.commonsemantics.grails.users.utils.DefaultUsersProfilePrivacy" %>
 <%@ page import="org.commonsemantics.grails.users.utils.UserStatus" %>
 <%@ page import="org.commonsemantics.grails.users.utils.UsersUtils" %>
 <%@ page import="org.commonsemantics.grails.users.model.Role" %>
+<%@ page import="org.commonsemantics.grails.users.model.ProfilePrivacy" %>
 
 <g:if test="${user!=null && command!='create'}">
 	<table>
@@ -42,6 +44,31 @@ Stylesheet
 								</g:if>
 							</g:each>
 							<g:if test="${roleFlag=='true'}">
+								<g:checkBox name="${it.label}" value="${true}" /> ${it.label}
+							</g:if>
+							<g:else>
+								<g:checkBox name="${it.label}" /> ${it.label}
+							</g:else>
+						</g:each>
+					</div>
+				</td>
+			</tr>
+			<tr class="prop">
+				<td valign="top" class="name">
+					<label for="userProfilePrivacy">
+						<g:message code="org.commonsemantics.grails.users.model.field.profileprivacy" default="Profile Privacy"/>
+					</label>
+				</td>
+				<td valign="top" colspan="2" class="value">
+					<div>
+						<g:each in="${ProfilePrivacy.list()}">
+							<g:set var="privacyFlag" value="false" />
+							<g:each in="${userProfilePrivacy}" var="userProfilePrivacy">
+								<g:if test="${it.label==userProfilePrivacy.label}">
+									<g:set var="privacyFlag" value="true" />
+								</g:if>
+							</g:each>
+							<g:if test="${privacyFlag=='true'}">
 								<g:checkBox name="${it.label}" value="${true}" /> ${it.label}
 							</g:if>
 							<g:else>
@@ -137,6 +164,20 @@ Stylesheet
 						<g:radio name="userStatus" value="${UserStatus.LOCKED_USER.value()}" checked="${false}"/> Lock 
 						<g:radio name="userStatus" value="${UserStatus.DISABLED_USER.value()}" checked="${false}"/> Disable 
 					</div>
+				</td>
+				<td></td>
+			</tr>
+			<tr class="prop">
+				<td valign="top" class="name">
+					<label for="userProfilePrivacy">
+						<g:message code="org.commonsemantics.grails.users.model.field.profileprivacy" default="Profile Privacy"/>
+					</label>
+				</td>
+				<td valign="top" colspan="2" class="value">
+					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PUBLIC.value()}" checked="${true}"/> ${DefaultUsersProfilePrivacy.PUBLIC.label()} 
+					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.RESTRICTED.value()}" checked="${false}"/> Restricted 
+					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PRIVATE.value()}" checked="${false}"/> Private
+					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.ANONYMOUS.value()}" checked="${false}"/> Anonymous 
 				</td>
 				<td></td>
 			</tr>

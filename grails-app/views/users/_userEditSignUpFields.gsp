@@ -5,9 +5,11 @@ Parameters list
 Stylesheet
  1) fieldError | background and font color in erroneous text fields
 --%>
+<%@ page import="org.commonsemantics.grails.users.utils.DefaultUsersProfilePrivacy" %>
 <%@ page import="org.commonsemantics.grails.users.utils.UserStatus" %>
 <%@ page import="org.commonsemantics.grails.users.utils.UsersUtils" %>
 <%@ page import="org.commonsemantics.grails.users.model.Role" %>
+<%@ page import="org.commonsemantics.grails.users.model.ProfilePrivacy" %>
 
 <g:if test="${user!=null && command!='create'}">
 	<table>
@@ -26,6 +28,7 @@ Stylesheet
 				<td valign="top">
 			    </td>
 			</tr>
+			
 		</tbody>
 	</table>
 </g:if>
@@ -52,6 +55,20 @@ Stylesheet
 						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="username" /></td>
 					</tr>
 				</g:if>
+			</tr>
+			<tr class="prop">
+				<td valign="top" class="name">
+					<label for="userProfilePrivacy">
+						<g:message code="org.commonsemantics.grails.users.model.field.profileprivacy" default="Profile Privacy"/>
+					</label>
+				</td>
+				<td valign="top" colspan="2" class="value">
+					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PUBLIC.value()}" checked="${true}"/> ${DefaultUsersProfilePrivacy.PUBLIC.label()} 
+					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.RESTRICTED.value()}" checked="${false}"/> Restricted 
+					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PRIVATE.value()}" checked="${false}"/> Private
+					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.ANONYMOUS.value()}" checked="${false}"/> Anonymous 
+				</td>
+				<td></td>
 			</tr>
 		</tbody>
 	</table>

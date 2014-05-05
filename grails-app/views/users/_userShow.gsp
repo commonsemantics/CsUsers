@@ -72,8 +72,8 @@ Stylesheet
 					</td>
 				</tr>
 				<tr>
-					<td valign="top"  align="left">Email</td>
-					<td valign="top" align="left">
+					<td valign="top" width="150px" align="left">Email</td>
+					<td valign="top" width="265px" align="left">
 						${user?.person?.email}
 					</td>
 				</tr>
@@ -116,6 +116,19 @@ Stylesheet
 						<div>
 							<g:each in="${UsersUtils.getUserRoles(user)}" var="userRole">
 								${userRole.label}
+							</g:each>
+						</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td valign="top" align="left">
+						<g:message code="org.commonsemantics.grails.users.model.field.profileprivacy" default="Profile Privacy"/>
+					</td>
+					<td valign="top" colspan="2" align="left">
+						<div>
+							<g:each in="${UsersUtils.getUserProfilePrivacy(user)}" var="userProfilePrivacy">
+								${userProfilePrivacy.label}
 							</g:each>
 						</div>
 					</td>

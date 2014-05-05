@@ -23,12 +23,14 @@ package org.commonsemantics.grails.users.controllers
 import org.commonsemantics.grails.agents.commands.PersonCreateCommand
 import org.commonsemantics.grails.agents.commands.PersonEditCommand
 import org.commonsemantics.grails.agents.model.Person
-import org.commonsemantics.grails.agents.utils.AgentsUtils
 import org.commonsemantics.grails.users.commands.UserCreateCommand
 import org.commonsemantics.grails.users.commands.UserEditCommand
+import org.commonsemantics.grails.users.model.ProfilePrivacy
 import org.commonsemantics.grails.users.model.Role
 import org.commonsemantics.grails.users.model.User
+import org.commonsemantics.grails.users.model.UserProfilePrivacy
 import org.commonsemantics.grails.users.model.UserRole
+import org.commonsemantics.grails.users.utils.DefaultUsersProfilePrivacy
 import org.commonsemantics.grails.users.utils.DefaultUsersRoles
 import org.commonsemantics.grails.users.utils.UserStatus
 import org.commonsemantics.grails.users.utils.UsersUtils
@@ -254,11 +256,13 @@ class TestsController {
 						}
 						render (view:'user-create', model:[label:params.testId, description:params.testDescription, user:c, userRoles: usersRoles]);
 					} else {
-						log.debug("[TEST] save-user roles and status");
+						log.debug("[TEST] save-user roles, privacy and status");
 						updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.ADMIN.value()), params.Administrator)
 						updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.MANAGER.value()), params.Manager)
 						updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.USER.value()), params.User)
 
+						updateUserProfilePrivacy(user, params.userProfilePrivacy)
+						
 						updateUserStatus(user, params.userStatus)
 
 						render (view:'user-show', model:[label:params.testId, description:params.testDescription, user:user]);
@@ -273,6 +277,20 @@ class TestsController {
 		log.debug("[TEST] list-users max:" + params.max + " offset:" + params.offset)
 		render (view:'users-list', model:[label:params.testId, description:params.testDescription, users:User.list(params),
 			usersTotal: User.count(), max: params.max, offset: params.offset, controller:'tests', action: 'testListUsers']);
+	}
+	
+	protected def updateUserProfilePrivacy(def user, def privacy) {
+		log.debug 'User ' + user + ' privacy ' + privacy
+		def upp = UserProfilePrivacy.findByUser(user)
+		if(privacy==DefaultUsersProfilePrivacy.PUBLIC.value()) {
+			upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PUBLIC.value());
+		} else if(privacy==DefaultUsersProfilePrivacy.RESTRICTED.value()) {
+			upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.RESTRICTED.value());
+		} else if(privacy==DefaultUsersProfilePrivacy.PRIVATE.value()) {
+			upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value());
+		} else if(privacy==DefaultUsersProfilePrivacy.ANONYMOUS.value()) {
+			upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.ANONYMOUS.value());
+		}
 	}
 
 	protected def updateUserRole(def user, def role, def value) {

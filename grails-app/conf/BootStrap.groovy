@@ -1,8 +1,10 @@
 import org.commonsemantics.grails.agents.model.Person
 import org.commonsemantics.grails.agents.model.Software
+import org.commonsemantics.grails.users.model.ProfilePrivacy
 import org.commonsemantics.grails.users.model.Role
 import org.commonsemantics.grails.users.model.User
 import org.commonsemantics.grails.users.model.UserRole
+import org.commonsemantics.grails.users.utils.DefaultUsersProfilePrivacy
 import org.commonsemantics.grails.users.utils.DefaultUsersRoles
 
 class BootStrap {
@@ -37,6 +39,15 @@ class BootStrap {
 			if(!Role.findByAuthority(it.value())) {
 				new Role(authority: it.value(), ranking: it.ranking(), label: it.label(), description: it.description()).save(failOnError: true)
 				log.info "Initialized: " + it.value()
+			}
+		}
+		
+		DefaultUsersProfilePrivacy.values().each {
+			if(!ProfilePrivacy.findByValue(it.value())) {
+				new ProfilePrivacy(value: it.value(), label: it.label(), description: it.description()).save(failOnError: true)
+				log.info "Initialized: " + it.value()
+			} else {
+				log.info "Found: " + it.value()
 			}
 		}
 		
