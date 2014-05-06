@@ -21,6 +21,7 @@
 package org.commonsemantics.grails.users.services
 
 import org.codehaus.groovy.grails.plugins.web.taglib.ValidationTagLib
+import org.commonsemantics.grails.users.model.Role
 import org.commonsemantics.grails.users.model.User
 import org.commonsemantics.grails.users.model.UserRole
 import org.commonsemantics.grails.users.utils.UsersUtils
@@ -141,5 +142,32 @@ class UsersService {
 			users = r.toList();
 		}
 		users
+	}
+	
+	def listRoles(def user, def max, def offset, def sort, def _order) {
+		def rolesCount = [:]
+		Role.list().each { arole ->
+			rolesCount.put (arole.id, UserRole.findAllWhere(role: arole).size())
+		}
+		
+		def roles = [];
+		if (sort == 'rolesCount') {
+			rolesCount.sort({ a, b -> a <=> b } as Comparator)
+			if(order == "desc")
+				rolesCount.each { roleCount ->
+					roles.add Role.findById(roleCount.key);
+				}
+			else
+				rolesCount.reverseEach { roleCount ->
+					roles.add Role.findById(roleCount.key);
+				}
+		} else {
+			roles = Role.withCriteria {
+				maxResults(max?.toInteger())
+				firstResult(offset?.toInteger())
+				order(sort, _order)
+			}
+		}
+		[roles, rolesCount]
 	}
 }
