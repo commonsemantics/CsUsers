@@ -51,7 +51,7 @@ class User {
 		id maxSize: 36
 	
 		username blank: false, unique: true, minSize:4, maxSize:16
-		password (nullable: true, blank: true)
+		password blank: false
 	}
 
 	static mapping = {

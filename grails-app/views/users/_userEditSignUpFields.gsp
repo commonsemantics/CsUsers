@@ -28,7 +28,20 @@ Stylesheet
 				<td valign="top">
 			    </td>
 			</tr>
-			
+			<tr class="prop">
+				<td valign="top" width="160px" class="name">
+					<label for="password">
+						<g:message code="org.commonsemantics.grails.users.model.field.password" default="Password"/>
+					</label>
+				</td>
+				<td valign="top" width="265px" class="value">
+					<div>
+						${user?.password}
+					</div>
+				</td>
+				<td valign="top">
+			    </td>
+			</tr>
 		</tbody>
 	</table>
 </g:if>
@@ -53,6 +66,52 @@ Stylesheet
 					<tr>
 						<td></td>
 						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="username" /></td>
+					</tr>
+				</g:if>
+			</tr>
+			<tr class="prop">
+				<td valign="top" width="160px" class="name">
+					<label for="password">
+						<g:message code="org.commonsemantics.grails.users.model.field.password" default="Password"/>*
+					</label>
+				</td>
+				<td valign="top" class="value">
+					<div>
+						<g:textField name="password" style="width: 276px;"
+							value="${user?.password}"  class="${hasErrors(bean: user, field: 'password', 'csc-field-error')}"/>
+					</div>
+				</td>
+				<td>
+					(4-16 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
+				</td>
+				
+				<g:if test="${user?.errors?.hasFieldErrors('password')}">
+					<tr>
+						<td></td>
+						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="password" /></td>
+					</tr>
+				</g:if>
+			</tr>
+			<tr class="prop">
+				<td valign="top" width="160px" class="name">
+					<label for="passwordConfirmation">
+						<g:message code="org.commonsemantics.grails.users.model.field.passwordconfirmation" default="Pwd Confirmation"/>*
+					</label>
+				</td>
+				<td valign="top" class="value">
+					<div>
+						<g:textField name="passwordConfirmation" style="width: 276px;"
+							value="${user?.passwordConfirmation}"  class="${hasErrors(bean: user, field: 'passwordConfirmation', 'csc-field-error')}"/>
+					</div>
+				</td>
+				<td>
+					(4-16 <g:message code="org.commonsemantics.grails.general.chars" default="chars"/>)
+				</td>
+				
+				<g:if test="${user?.errors?.hasFieldErrors('passwordConfirmation')}">
+					<tr>
+						<td></td>
+						<td colspan="2" class="csc-error-message"><g:renderErrors bean="${user}" field="passwordConfirmation" /></td>
 					</tr>
 				</g:if>
 			</tr>
