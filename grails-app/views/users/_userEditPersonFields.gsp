@@ -11,7 +11,7 @@ Stylesheet
 <g:if test="${user!=null}">
 	<table>
 		<tbody>
-			<g:if test="${grailsApplication.config.org.commonsemantics.grails.agents.model.field.title!='hide'}">
+			<g:if test="${grailsApplication.config.org.commonsemantics.grails.persons.model.field.title!='hide'}">
 				<g:render plugin="cs-user" template="/users/userPersonEntry" model="[
 					messageCode:'org.commonsemantics.grails.agents.model.field.title',
 					messageDefault:'Title',
@@ -21,7 +21,7 @@ Stylesheet
 					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
 				]" />
 			</g:if>
-			<g:if test="${grailsApplication.config.org.commonsemantics.grails.agents.model.field.firstName!='hide'}">
+			<g:if test="${grailsApplication.config.org.commonsemantics.grails.persons.model.field.firstName!='hide'}">
 				<g:render plugin="cs-user" template="/users/userPersonEntry" model="[
 					messageCode:'org.commonsemantics.grails.agents.model.field.firstName',
 					messageDefault:'First name',
@@ -31,7 +31,7 @@ Stylesheet
 					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
 				]" />
 			</g:if>
-			<g:if test="${grailsApplication.config.org.commonsemantics.grails.agents.model.field.middleName!='hide'}">
+			<g:if test="${grailsApplication.config.org.commonsemantics.grails.persons.model.field.middleName!='hide'}">
 				<g:render plugin="cs-user" template="/users/userPersonEntry" model="[
 					messageCode:'org.commonsemantics.grails.agents.model.field.middleName',
 					messageDefault:'Middle name',
@@ -41,7 +41,7 @@ Stylesheet
 					caption: '(max 255 ' +  g.message(code: 'org.commonsemantics.grails.general.chars',default:'chars') + ')'
 				]" />
 			</g:if>
-			<g:if test="${grailsApplication.config.org.commonsemantics.grails.agents.model.field.lastName!='hide'}">				
+			<g:if test="${grailsApplication.config.org.commonsemantics.grails.persons.model.field.lastName!='hide'}">				
 				<g:render plugin="cs-user" template="/users/userPersonEntry" model="[
 					messageCode:'org.commonsemantics.grails.agents.model.field.lastName',
 					messageDefault:'Last name',
@@ -67,7 +67,7 @@ Stylesheet
 				value: user?.person?.email,
 				caption: '(valid email)'
 			]" />
-			<g:if test="${grailsApplication.config.org.commonsemantics.grails.agents.model.field.affiliation!='hide'}">
+			<g:if test="${grailsApplication.config.org.commonsemantics.grails.persons.model.field.affiliation!='hide'}">
 				<g:render plugin="cs-user" template="/users/userPersonEntry" model="[
 					messageCode:'org.commonsemantics.grails.agents.model.field.affiliation',
 					messageDefault:'Affiliation',
@@ -78,7 +78,7 @@ Stylesheet
 				]" />
 			</g:if>
 			<%-- Custom code to accommodate the country selector --%>
-			<g:if test="${grailsApplication.config.org.commonsemantics.grails.agents.model.field.country!='hide'}">
+			<g:if test="${grailsApplication.config.org.commonsemantics.grails.persons.model.field.country!='hide'}">
 				<tr class="prop">
 					<td valign="top" class="name">
 						<label for="country">

@@ -29,20 +29,6 @@ Stylesheet
 			    </td>
 			</tr>
 			<tr class="prop">
-				<td valign="top" width="160px" class="name">
-					<label for="password">
-						<g:message code="org.commonsemantics.grails.users.model.field.password" default="Password"/>
-					</label>
-				</td>
-				<td valign="top" width="265px" class="value">
-					<div>
-						${user?.password}
-					</div>
-				</td>
-				<td valign="top">
-			    </td>
-			</tr>
-			<tr class="prop">
 				<td valign="top" class="name">
 					<label for="userRole">
 						<g:message code="org.commonsemantics.grails.users.model.field.role" default="Role"/>

@@ -107,14 +107,6 @@ Stylesheet
 						${user?.username}
 					</td>
 				</tr>
-				<tr>
-					<td valign="top"  align="left">
-						<g:message code="org.commonsemantics.grails.users.model.field.password" default="Password"/>
-					</td>
-					<td valign="top" align="left">
-						${user?.password}
-					</td>
-				</tr>
 				
 				<tr>
 					<td valign="top" align="left">
