@@ -21,9 +21,13 @@
 package org.commonsemantics.grails.users.services
 
 import org.codehaus.groovy.grails.plugins.web.taglib.ValidationTagLib
+import org.commonsemantics.grails.users.model.ProfilePrivacy
 import org.commonsemantics.grails.users.model.Role
 import org.commonsemantics.grails.users.model.User
+import org.commonsemantics.grails.users.model.UserProfilePrivacy
 import org.commonsemantics.grails.users.model.UserRole
+import org.commonsemantics.grails.users.utils.DefaultUsersProfilePrivacy
+import org.commonsemantics.grails.users.utils.UserStatus
 import org.commonsemantics.grails.users.utils.UsersUtils
 
 /**
@@ -144,7 +148,7 @@ class UsersService {
 		users
 	}
 	
-	def listRoles(def user, def max, def offset, def sort, def _order) {
+	def listRoles(def max, def offset, def sort, def _order) {
 		def rolesCount = [:]
 		Role.list().each { arole ->
 			rolesCount.put (arole.id, UserRole.findAllWhere(role: arole).size())
@@ -169,5 +173,58 @@ class UsersService {
 			}
 		}
 		[roles, rolesCount]
+	}
+	
+	def updateUserProfilePrivacy(def user, def privacy) {
+		log.debug 'User ' + user + ' privacy ' + privacy
+		def upp = UserProfilePrivacy.findByUser(user)
+		if(upp==null) {
+			upp = UserProfilePrivacy.create(user, ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.ANONYMOUS.value()));
+		}
+		if(privacy==DefaultUsersProfilePrivacy.PUBLIC.value()) {
+			upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PUBLIC.value());
+		} else if(privacy==DefaultUsersProfilePrivacy.RESTRICTED.value()) {
+			upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.RESTRICTED.value());
+		} else if(privacy==DefaultUsersProfilePrivacy.PRIVATE.value()) {
+			upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value());
+		} else if(privacy==DefaultUsersProfilePrivacy.ANONYMOUS.value()) {
+			upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.ANONYMOUS.value());
+		}
+	}
+	
+	def updateUserRole(def user, def role, def value) {
+		if(value=='on') {
+			def ur = UserRole.findByUserAndRole(user, role)
+			if(ur==null) {
+				UserRole urr = UserRole.create(user, role)
+				urr.save(flush:true)
+			}
+		} else {
+			def ur = UserRole.findByUserAndRole(user, role)
+			if(ur!=null) {
+				ur.delete(flush:true)
+			}
+		}
+	}
+	
+	def updateUserStatus(def user, def status) {
+		log.debug 'User ' + user + ' status ' + status
+		if(status==UserStatus.CREATED_USER.value()) {
+			user.enabled = true
+			user.accountExpired = false
+			user.accountLocked = false
+		} else if(status==UserStatus.ACTIVE_USER.value()) {
+			user.enabled = true
+			user.accountExpired = false
+			user.accountLocked = false
+		} else if(status==UserStatus.DISABLED_USER.value()) {
+			user.enabled = false
+			user.accountExpired = false
+			user.accountLocked = false
+		} else if(status==UserStatus.LOCKED_USER.value()) {
+			user.enabled = true
+			user.accountExpired = false
+			user.accountLocked = true
+		}
 	}
 }

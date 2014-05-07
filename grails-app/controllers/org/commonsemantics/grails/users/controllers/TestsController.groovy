@@ -129,6 +129,17 @@ class TestsController {
 		render (view:'user-edit', model:[label:params.testId, description:params.testDescription, user:user,
 			userRoles: UsersUtils.getUserRoles(user)]);
 	}
+	
+	def listUsersRoles = {
+		if (!params.max) params.max = 15
+		if (!params.offset) params.offset = 0
+		if (!params.sort) params.sort = "authority"
+		if (!params.order) params.order = "asc"
+
+		def results = usersService.listRoles(params.max, params.offset, params.sort, params.order);
+
+		render (view:'users-roles', model:[label:params.testId, description:params.testDescription, "roles" : results[0], "rolesTotal": Role.count(), "rolesCount": results[1], "menuitem" : "listRoles"])
+	}
 
 	def updateUser = { PersonEditCommand cmd ->
 		def validationFailed = agentsService.validatePerson(cmd);
@@ -149,11 +160,11 @@ class TestsController {
 				person.displayName = params.displayName;
 				person.email = params.email;
 
-				updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.ADMIN.value()), params.Administrator)
-				updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.MANAGER.value()), params.Manager)
-				updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.USER.value()), params.User)
+				usersService.updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.ADMIN.value()), params.Administrator)
+				usersService.updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.MANAGER.value()), params.Manager)
+				usersService.updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.USER.value()), params.User)
 
-				updateUserStatus(user, params.userStatus)
+				usersService.updateUserStatus(user, params.userStatus)
 
 				render (view:'user-show', model:[label:params.testId, description:params.testDescription, user:user]);
 				return;
@@ -220,6 +231,15 @@ class TestsController {
 					}
 				} else {
 					def user = new User(username: params.username, person:person)
+					
+					if(c.isPasswordValid()) {
+						user.password = params.password;
+					} else {
+						log.error("Passwords not matching while saving " + it.target)
+						c.errors.rejectValue("password",
+							g.message(code: 'org.commonsemantics.grails.users.model.field.password.not.matching.message', default: "Passwords not matching"));
+					}
+					
 					if(!user.save(flush: true)) {
 						log.error("[TEST] While Saving User " + cmd.errors)
 						user.errors.each {
@@ -240,9 +260,20 @@ class TestsController {
 						personStatus.setRollbackOnly();
 
 						c.username = params.username;
+						
+						println '----------- ' + c.isPasswordValid()
+						
+						if(c.isPasswordValid()) {
+							c.password = params.password;
+						} else {
+							log.error("Passwords not matching while saving " + it.target)
+							c.errors.rejectValue("password",
+								g.message(code: 'org.commonsemantics.grails.users.model.field.password.not.matching.message', default: "Passwords not matching"));
+						}
+						
 						c.status = params.userStatus;
 						c.person = cmd;
-						UsersUtils.validateUser(grailsApplication, c);
+						usersService.validateUser(c);
 
 						def usersRoles = [];
 						if(params.Administrator=='on') {
@@ -257,13 +288,13 @@ class TestsController {
 						render (view:'user-create', model:[label:params.testId, description:params.testDescription, user:c, userRoles: usersRoles]);
 					} else {
 						log.debug("[TEST] save-user roles, privacy and status");
-						updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.ADMIN.value()), params.Administrator)
-						updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.MANAGER.value()), params.Manager)
-						updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.USER.value()), params.User)
+						usersService.updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.ADMIN.value()), params.Administrator)
+						usersService.updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.MANAGER.value()), params.Manager)
+						usersService.updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.USER.value()), params.User)
 
-						updateUserProfilePrivacy(user, params.userProfilePrivacy)
+						usersService.updateUserProfilePrivacy(user, params.userProfilePrivacy)
 						
-						updateUserStatus(user, params.userStatus)
+						usersService.updateUserStatus(user, params.userStatus)
 
 						render (view:'user-show', model:[label:params.testId, description:params.testDescription, user:user]);
 						return;
@@ -279,55 +310,6 @@ class TestsController {
 			usersTotal: User.count(), max: params.max, offset: params.offset, controller:'tests', action: 'testListUsers']);
 	}
 	
-	protected def updateUserProfilePrivacy(def user, def privacy) {
-		log.debug 'User ' + user + ' privacy ' + privacy
-		def upp = UserProfilePrivacy.findByUser(user)
-		if(privacy==DefaultUsersProfilePrivacy.PUBLIC.value()) {
-			upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PUBLIC.value());
-		} else if(privacy==DefaultUsersProfilePrivacy.RESTRICTED.value()) {
-			upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.RESTRICTED.value());
-		} else if(privacy==DefaultUsersProfilePrivacy.PRIVATE.value()) {
-			upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value());
-		} else if(privacy==DefaultUsersProfilePrivacy.ANONYMOUS.value()) {
-			upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.ANONYMOUS.value());
-		}
-	}
-
-	protected def updateUserRole(def user, def role, def value) {
-		if(value=='on') {
-			def ur = UserRole.findByUserAndRole(user, role)
-			if(ur==null) {
-				UserRole urr = UserRole.create(user, role)
-				urr.save(flush:true)
-			}
-		} else {
-			def ur = UserRole.findByUserAndRole(user, role)
-			if(ur!=null) {
-				ur.delete(flush:true)
-			}
-		}
-	}
-	protected def updateUserStatus(def user, def status) {
-		log.debug 'User ' + user + ' status ' + status
-		if(status==UserStatus.CREATED_USER.value()) {
-			user.enabled = true
-			user.accountExpired = false
-			user.accountLocked = false
-		} else if(status==UserStatus.ACTIVE_USER.value()) {
-			user.enabled = true
-			user.accountExpired = false
-			user.accountLocked = false
-		} else if(status==UserStatus.DISABLED_USER.value()) {
-			user.enabled = false
-			user.accountExpired = false
-			user.accountLocked = false
-		} else if(status==UserStatus.LOCKED_USER.value()) {
-			user.enabled = true
-			user.accountExpired = false
-			user.accountLocked = true
-		}
-	}
-
 	def lockUser = {
 		def user = User.findById(params.id)
 		user.accountLocked = true

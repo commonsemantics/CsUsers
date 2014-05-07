@@ -53,6 +53,8 @@ class UserCreateCommand {
 	
 	static constraints = {
 		importFrom User
+		
+		password blank: false, minSize:4, maxSize:16
 	}
 	
 	def areMandatoryFieldDefined() {

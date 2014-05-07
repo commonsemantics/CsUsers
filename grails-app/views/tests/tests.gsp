@@ -173,7 +173,15 @@
 						plugin:'cs-users', 
 						testId: '33', 
 						testDescription: 'Users list lens',
-						passed: 'true']" />			
+						passed: 'true']" />	
+						
+				<g:render plugin="cs-users" template="/tests/testEntry" 
+					model="[
+						action:'listUsersRoles',
+						plugin:'cs-users', 
+						testId: '34', 
+						testDescription: 'List users roles',
+						passed: 'true']" />		
 			</table>	
 		</div>
 	</body>
