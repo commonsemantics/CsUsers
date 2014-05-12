@@ -195,7 +195,8 @@ class UsersService {
 		if(upp==null) {
 			upp = UserProfilePrivacy.create(user, profilePrivacy);
 		} else {
-			upp.profilePrivacy = profilePrivacy;
+		    upp.delete();
+			upp = UserProfilePrivacy.create(user, profilePrivacy);
 		}
 	}
 	

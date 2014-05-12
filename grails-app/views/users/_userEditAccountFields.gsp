@@ -71,10 +71,10 @@ Stylesheet
 							</g:if>
 							
 							<g:if test="${privacyFlag=='true'}">
-								<g:checkBox name="${it.label}" value="${true}" /> ${it.label}
+								<g:radio name="userProfilePrivacy" value="${it.value}" checked="${true}" /> ${it.label}
 							</g:if>
 							<g:else>
-								<g:checkBox name="${it.label}" /> ${it.label}
+								<g:radio name="userProfilePrivacy" value="${it.value}" checked="${false}"/> ${it.label}
 							</g:else>
 						</g:each>
 					</div>
