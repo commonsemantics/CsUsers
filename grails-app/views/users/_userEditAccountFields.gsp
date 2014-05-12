@@ -63,11 +63,13 @@ Stylesheet
 					<div>
 						<g:each in="${ProfilePrivacy.list()}">
 							<g:set var="privacyFlag" value="false" />
-							<g:each in="${userProfilePrivacy}" var="userProfilePrivacy">
-								<g:if test="${it.label==userProfilePrivacy.label}">
-									<g:set var="privacyFlag" value="true" />
-								</g:if>
-							</g:each>
+
+							<g:set var="privacyValue" value="${UsersUtils.getUserProfilePrivacy(user)}" />
+
+							<g:if test="${privacyValue.label==it.label}">
+								<g:set var="privacyFlag" value="true" />
+							</g:if>
+							
 							<g:if test="${privacyFlag=='true'}">
 								<g:checkBox name="${it.label}" value="${true}" /> ${it.label}
 							</g:if>
@@ -221,9 +223,9 @@ Stylesheet
 				</td>
 				<td valign="top" colspan="2" class="value">
 					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PUBLIC.value()}" checked="${true}"/> ${DefaultUsersProfilePrivacy.PUBLIC.label()} 
-					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.RESTRICTED.value()}" checked="${false}"/> Restricted 
-					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PRIVATE.value()}" checked="${false}"/> Private
-					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.ANONYMOUS.value()}" checked="${false}"/> Anonymous 
+					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.RESTRICTED.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.RESTRICTED.label()} 
+					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PRIVATE.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.PRIVATE.label()}
+					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.ANONYMOUS.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.ANONYMOUS.label()} 
 				</td>
 				<td></td>
 			</tr>
