@@ -40,6 +40,7 @@ class UsersService {
 	def grailsApplication;
 	
 	def validateUser(def cmd) {
+		def g = new ValidationTagLib()
 		boolean validationFailed = false;
 		def mandatory = UsersUtils.getUserMandatoryFields(grailsApplication);
 		println mandatory
@@ -49,7 +50,16 @@ class UsersService {
 			validationFailed=true;
 		}
 		
-		def g = new ValidationTagLib()
+		if(cmd.isPasswordValid()) {
+			//c.password = params.password;
+		} else {
+			log.error("Passwords not matching while saving ")
+			cmd.passwordConfirmation = null;
+			cmd.errors.rejectValue("password",
+				g.message(code: 'org.commonsemantics.grails.users.model.field.password.not.matching.message', default: "Passwords not matching"));
+		}
+		
+		
 		mandatory.each { item ->
 			if(!(cmd[item]!=null && cmd[item].trim().length()>0)) {
 				println 'problem ' + item;
@@ -188,7 +198,7 @@ class UsersService {
 		} else if(privacy==DefaultUsersProfilePrivacy.ANONYMOUS.value()) {
 			profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.ANONYMOUS.value());
 		} else {
-			profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.ANONYMOUS.value());
+			profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value());
 		}
 		
 		def upp = UserProfilePrivacy.findByUser(user)
@@ -200,17 +210,19 @@ class UsersService {
 		}
 	}
 	
-	def updateUserRole(def user, def role, def value) {
+	def boolean updateUserRole(def user, def role, def value) {
 		if(value=='on') {
 			def ur = UserRole.findByUserAndRole(user, role)
 			if(ur==null) {
 				UserRole urr = UserRole.create(user, role)
 				urr.save(flush:true)
+				return true;
 			}
 		} else {
 			def ur = UserRole.findByUserAndRole(user, role)
 			if(ur!=null) {
 				ur.delete(flush:true)
+				return false;
 			}
 		}
 	}

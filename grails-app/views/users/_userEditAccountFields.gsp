@@ -6,6 +6,7 @@ Stylesheet
  1) fieldError | background and font color in erroneous text fields
 --%>
 <%@ page import="org.commonsemantics.grails.users.utils.DefaultUsersProfilePrivacy" %>
+<%@ page import="org.commonsemantics.grails.users.utils.DefaultUsersRoles" %>
 <%@ page import="org.commonsemantics.grails.users.utils.UserStatus" %>
 <%@ page import="org.commonsemantics.grails.users.utils.UsersUtils" %>
 <%@ page import="org.commonsemantics.grails.users.model.Role" %>
@@ -66,7 +67,7 @@ Stylesheet
 
 							<g:set var="privacyValue" value="${UsersUtils.getUserProfilePrivacy(user)}" />
 
-							<g:if test="${privacyValue.label==it.label}">
+							<g:if test="${privacyValue!=null && privacyValue.label==it.label}">
 								<g:set var="privacyFlag" value="true" />
 							</g:if>
 							
@@ -194,7 +195,18 @@ Stylesheet
 				<td valign="top" colspan="2" class="value">
 					<div>
 						<g:each in="${Role.list()}">
-							<g:checkBox name="${it.label}" /> ${it.label}
+							<g:set var="roleFlag" value="false" />
+							<g:each in="${userRoles}" var="userRole">
+								<g:if test="${it.label==userRole.label}">
+									<g:set var="roleFlag" value="true" />
+								</g:if>
+							</g:each>
+							<g:if test="${roleFlag=='true'}">
+								<g:checkBox name="${it.label}" value="${true}" /> ${it.label}
+							</g:if>
+							<g:else>
+								<g:checkBox name="${it.label}" /> ${it.label}
+							</g:else>
 						</g:each>
 					</div>
 				</td>
@@ -208,10 +220,26 @@ Stylesheet
 				</td>
 				<td valign="top" class="value" colspan="2">
 					<div>
-						<g:radio name="userStatus" value="${UserStatus.ACTIVE_USER.value()}" checked="${true}"/> Activate 
-						<g:radio name="userStatus" value="${UserStatus.LOCKED_USER.value()}" checked="${false}"/> Lock 
-						<g:radio name="userStatus" value="${UserStatus.DISABLED_USER.value()}" checked="${false}"/> Disable 
-					</div>
+						<g:if test="${user?.userStatus==UserStatus.CREATED_USER.value()}">
+							<g:radio name="userStatus" value="${UserStatus.CREATED_USER.value()}" checked="${true}"/> New account
+							<g:radio name="userStatus" value="${UserStatus.ACTIVE_USER.value()}"/> Active account
+						</g:if>
+						<g:elseif test="${user?.userStatus==UserStatus.ACTIVE_USER.value()}">
+							<g:radio name="userStatus" value="${UserStatus.ACTIVE_USER.value()}" checked="${true}"/> Active
+							<g:radio name="userStatus" value="${UserStatus.LOCKED_USER.value()}" checked="${false}"/> Locked 
+							<g:radio name="userStatus" value="${UserStatus.DISABLED_USER.value()}" checked="${false}"/> Disabled 
+						</g:elseif>
+						<g:elseif test="${user?.userStatus==UserStatus.LOCKED_USER.value()}">
+							<g:radio name="userStatus" value="${UserStatus.ACTIVE_USER.value()}" checked="${false}"/> Active 
+							<g:radio name="userStatus" value="${UserStatus.LOCKED_USER.value()}" checked="${true}"/> Locked 
+							<g:radio name="userStatus" value="${UserStatus.DISABLED_USER.value()}" checked="${false}"/> Disabled 
+						</g:elseif>
+						<g:else>
+							<g:radio name="userStatus" value="${UserStatus.ACTIVE_USER.value()}" checked="${false}"/> Active 
+							<g:radio name="userStatus" value="${UserStatus.LOCKED_USER.value()}" checked="${false}"/> Locked
+							<g:radio name="userStatus" value="${UserStatus.DISABLED_USER.value()}" checked="${true}"/> Disabled
+						</g:else>
+					</div>	
 				</td>
 				<td></td>
 			</tr>
@@ -222,10 +250,31 @@ Stylesheet
 					</label>
 				</td>
 				<td valign="top" colspan="2" class="value">
-					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PUBLIC.value()}" checked="${true}"/> ${DefaultUsersProfilePrivacy.PUBLIC.label()} 
-					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.RESTRICTED.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.RESTRICTED.label()} 
-					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PRIVATE.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.PRIVATE.label()}
-					<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.ANONYMOUS.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.ANONYMOUS.label()} 
+					<g:if test="${user?.userProfilePrivacy==DefaultUsersProfilePrivacy.PUBLIC.value()}">
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PUBLIC.value()}" checked="${true}"/> ${DefaultUsersProfilePrivacy.PUBLIC.label()} 
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.RESTRICTED.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.RESTRICTED.label()} 
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PRIVATE.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.PRIVATE.label()}
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.ANONYMOUS.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.ANONYMOUS.label()} 
+					</g:if>
+					<g:elseif test="${user?.userProfilePrivacy==DefaultUsersProfilePrivacy.RESTRICTED.value()}">
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PUBLIC.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.PUBLIC.label()} 
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.RESTRICTED.value()}" checked="${true}"/> ${DefaultUsersProfilePrivacy.RESTRICTED.label()} 
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PRIVATE.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.PRIVATE.label()}
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.ANONYMOUS.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.ANONYMOUS.label()} 
+					</g:elseif>
+					<g:elseif test="${user?.userProfilePrivacy==DefaultUsersProfilePrivacy.PRIVATE.value()}">
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PUBLIC.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.PUBLIC.label()} 
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.RESTRICTED.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.RESTRICTED.label()} 
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PRIVATE.value()}" checked="${true}"/> ${DefaultUsersProfilePrivacy.PRIVATE.label()}
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.ANONYMOUS.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.ANONYMOUS.label()} 
+					</g:elseif>
+					<g:else>
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PUBLIC.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.PUBLIC.label()} 
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.RESTRICTED.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.RESTRICTED.label()} 
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.PRIVATE.value()}" checked="${false}"/> ${DefaultUsersProfilePrivacy.PRIVATE.label()}
+						<g:radio name="userProfilePrivacy" value="${DefaultUsersProfilePrivacy.ANONYMOUS.value()}" checked="${true}"/> ${DefaultUsersProfilePrivacy.ANONYMOUS.label()} 
+						
+					</g:else>
 				</td>
 				<td></td>
 			</tr>

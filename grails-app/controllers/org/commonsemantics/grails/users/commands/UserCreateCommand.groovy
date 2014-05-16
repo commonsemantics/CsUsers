@@ -41,7 +41,7 @@ class UserCreateCommand {
 	
 	// Users status values
 	//---------------------
-	String status
+	String userStatus
 	
 	//Users' data
 	PersonCreateCommand person
@@ -51,10 +51,16 @@ class UserCreateCommand {
 	String password
 	String passwordConfirmation
 	
+	String userProfilePrivacy
+	String Administrator
+	String Manager
+	String User
+	
 	static constraints = {
 		importFrom User
 		
 		password blank: false, minSize:4, maxSize:16
+		passwordConfirmation blank: false, minSize:4, maxSize:16
 	}
 	
 	def areMandatoryFieldDefined() {
