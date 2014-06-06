@@ -27,6 +27,8 @@
 </div>
 --%>
 <g:render plugin="cs-users" template="/users/usersSearchForm" />
+<br/>
+<div style="padding-top:5px; font-size: 15px;"> <img style="display: inline; vertical-align: middle;" src="${resource(dir:'images/dashboard',file:'user.png')}" width="16px"/> Results</div>
 <div id="results" class="sectioncontainer" style="display:none;">
 	<div class="list">
 		<table class="tablelist">
@@ -42,6 +44,7 @@
 				</tr>
 			</thead>
 			<tbody id="content">
+				<tr><td>No results</td></tr>
 			</tbody>
 		</table>
 		<div class="paginateButtons">	
