@@ -1,5 +1,5 @@
 <%@ page import="org.commonsemantics.grails.users.model.User" %>
-<%@ page import="org.commonsemantics.grails.users.utils.UserUtils" %>
+<%@ page import="org.commonsemantics.grails.users.utils.UsersUtils" %>
 
 <h2>Configurations (External configuration)</h2>
 
