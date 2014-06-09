@@ -34,6 +34,7 @@ class User {
 	String password
 	
 	Person person;
+	ProfilePrivacy profilePrivacy;
 
 	Date dateCreated, lastUpdated
 	

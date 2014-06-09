@@ -126,10 +126,8 @@ Stylesheet
 						<g:message code="org.commonsemantics.grails.users.model.field.profileprivacy" default="Profile Privacy"/>
 					</td>
 					<td valign="top" colspan="2" align="left">
-						<div>
-							<g:each in="${UsersUtils.getUserProfilePrivacy(user)}" var="userProfilePrivacy">
-								${userProfilePrivacy.label}
-							</g:each>
+						<div>			
+							${user.profilePrivacy.label}
 						</div>
 					</td>
 				</tr>

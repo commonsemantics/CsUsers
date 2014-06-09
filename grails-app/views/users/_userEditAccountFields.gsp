@@ -64,8 +64,7 @@ Stylesheet
 					<div>
 						<g:each in="${ProfilePrivacy.list()}">
 							<g:set var="privacyFlag" value="false" />
-
-							<g:set var="privacyValue" value="${UsersUtils.getUserProfilePrivacy(user)}" />
+							<g:set var="privacyValue" value="${user.profilePrivacy}" />
 
 							<g:if test="${privacyValue!=null && privacyValue.label==it.label}">
 								<g:set var="privacyFlag" value="true" />

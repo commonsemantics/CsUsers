@@ -262,21 +262,37 @@ class UsersUtils {
 		}
 	}
 	
-	static protected def updateUserProfilePrivacy(def user, def privacy) {
-		log.debug 'User ' + user + ' privacy ' + privacy
-		def upp = UserProfilePrivacy.findByUser(user)
-		if(upp!=null) {
-			if(privacy==DefaultUsersProfilePrivacy.PUBLIC.value()) {
-				upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PUBLIC.value());
-			} else if(privacy==DefaultUsersProfilePrivacy.RESTRICTED.value()) {
-				upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.RESTRICTED.value());
-			} else if(privacy==DefaultUsersProfilePrivacy.PRIVATE.value()) {
-				upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value());
-			} else if(privacy==DefaultUsersProfilePrivacy.ANONYMOUS.value()) {
-				upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.ANONYMOUS.value());
-			}
+	static protected def getProfilePrivacy(def privacy) {
+		ProfilePrivacy profilePrivacy;
+		if(privacy==DefaultUsersProfilePrivacy.PUBLIC.value()) {
+			profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PUBLIC.value());
+		} else if(privacy==DefaultUsersProfilePrivacy.RESTRICTED.value()) {
+			profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.RESTRICTED.value());
+		} else if(privacy==DefaultUsersProfilePrivacy.PRIVATE.value()) {
+			profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value());
+		} else if(privacy==DefaultUsersProfilePrivacy.ANONYMOUS.value()) {
+			profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.ANONYMOUS.value());
 		} else {
-			UserProfilePrivacy.create(user, ProfilePrivacy.findByValue(privacy));
+			profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value());
 		}
+		return profilePrivacy;
 	}
+	
+//	static protected def updateUserProfilePrivacy(def user, def privacy) {
+//		log.debug 'User ' + user + ' privacy ' + privacy
+//		def upp = UserProfilePrivacy.findByUser(user)
+//		if(upp!=null) {
+//			if(privacy==DefaultUsersProfilePrivacy.PUBLIC.value()) {
+//				upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PUBLIC.value());
+//			} else if(privacy==DefaultUsersProfilePrivacy.RESTRICTED.value()) {
+//				upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.RESTRICTED.value());
+//			} else if(privacy==DefaultUsersProfilePrivacy.PRIVATE.value()) {
+//				upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value());
+//			} else if(privacy==DefaultUsersProfilePrivacy.ANONYMOUS.value()) {
+//				upp.profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.ANONYMOUS.value());
+//			}
+//		} else {
+//			UserProfilePrivacy.create(user, ProfilePrivacy.findByValue(privacy));
+//		}
+//	}
 }

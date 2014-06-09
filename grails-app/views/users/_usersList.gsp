@@ -52,6 +52,9 @@
 								<span class="button">
 									<g:actionSubmit class="edit"  action="editUser" value="${message(code: 'default.button.edit.account.label', default: 'Edit')}" />
 								</span>
+								<span class="button">
+									<g:actionSubmit class="password"  action="changeUserPassword" value="${message(code: 'default.button.edit.account.label', default: 'Change password')}" />
+								</span>
 								<g:if test="${fieldValue(bean: user, field: 'accountLocked') == 'true'}">
 									<span class="button">
 										<g:actionSubmit class="unlock" action="unlockUser" value="${message(code: 'default.button.unlock.account.label', default: 'Unlock')}" />

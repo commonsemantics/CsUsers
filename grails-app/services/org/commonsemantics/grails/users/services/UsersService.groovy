@@ -201,6 +201,9 @@ class UsersService {
 			profilePrivacy = ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value());
 		}
 		
+		user.profilePrivacy = profilePrivacy;
+		
+		/*
 		def upp = UserProfilePrivacy.findByUser(user)
 		if(upp==null) {
 			upp = UserProfilePrivacy.create(user, profilePrivacy);
@@ -208,6 +211,7 @@ class UsersService {
 		    upp.delete();
 			upp = UserProfilePrivacy.create(user, profilePrivacy);
 		}
+		*/
 	}
 	
 	def boolean updateUserRole(def user, def role, def value) {
