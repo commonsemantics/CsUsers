@@ -1,3 +1,4 @@
+<%@ page import="org.commonsemantics.grails.agents.utils.AgentsUtils" %>
 <%@ page import="org.commonsemantics.grails.users.utils.UsersUtils" %>
 
 <%-- 
@@ -107,6 +108,21 @@ Stylesheet
 						${user?.username}
 					</td>
 				</tr>
+				
+				<g:if test="${grailsApplication.config.org.commonsemantics.grails.persons.model.field.uris!='hide'}">
+					<tr>
+						<td valign="top" align="left">
+							<g:message code="org.commonsemantics.grails.users.model.field.role" default="Uris"/>
+						</td>
+						<td valign="top" colspan="2" align="left">
+							<div>
+								<g:each in="${AgentsUtils.getAgentUris(user.person)}" var="agentUri">
+									${agentUri}
+								</g:each>
+							</div>
+						</td>
+					</tr>
+				</g:if>
 				
 				<tr>
 					<td valign="top" align="left">
