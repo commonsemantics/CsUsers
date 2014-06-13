@@ -254,10 +254,7 @@ class UsersService {
 	}
 	
 	def getUserAgentIdentifiers(def userId) {
-		if(userId.startsWith('user:')) {
-			def user = User.findById(userId.substring(5));
-			return agentsService.getAgentIdentifiers(user.person);
-		}
-		println 'ERROR UsersService.getUserAgentIdentifiers()'
+		def user = User.findById(userId);
+		return agentsService.getAgentIdentifiers(user.person);
 	}
 }
