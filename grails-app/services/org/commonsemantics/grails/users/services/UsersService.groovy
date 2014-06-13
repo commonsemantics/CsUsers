@@ -38,6 +38,7 @@ class UsersService {
 	static transactional = false
 	
 	def grailsApplication;
+	def agentsService;
 	
 	def validateUser(def cmd) {
 		def g = new ValidationTagLib()
@@ -250,5 +251,13 @@ class UsersService {
 			user.accountExpired = false
 			user.accountLocked = true
 		}
+	}
+	
+	def getUserAgentIdentifiers(def userId) {
+		if(userId.startsWith('user:')) {
+			def user = User.findById(userId.substring(5));
+			return agentsService.getAgentIdentifiers(user.person);
+		}
+		println 'ERROR UsersService.getUserAgentIdentifiers()'
 	}
 }
