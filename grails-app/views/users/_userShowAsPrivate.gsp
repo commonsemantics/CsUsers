@@ -20,7 +20,15 @@ Stylesheet
 					<td valign="top" align="left">
 						${user?.person?.displayName}
 					</td>
-				</tr>			
+				</tr>		
+				<tr>
+					<td valign="top"  align="left">
+						<g:message code="org.commonsemantics.grails.users.model.field.username" default="Username"/>
+					</td>
+					<td valign="top" align="left">
+						${user?.username}
+					</td>
+				</tr>	
 				<tr>
 					<td valign="top" align="left">
 						<g:message code="org.commonsemantics.grails.users.model.field.profileprivacy" default="Profile Privacy"/>

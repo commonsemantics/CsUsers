@@ -1,6 +1,7 @@
 <%@ page import="org.commonsemantics.grails.users.model.User" %>
 <%@ page import="org.commonsemantics.grails.users.model.UserRole" %>
 <%@ page import="org.commonsemantics.grails.users.utils.DefaultUsersRoles" %>
+<%@ page import="org.commonsemantics.grails.users.utils.DefaultUsersProfilePrivacy" %>
 <%@ page import="org.commonsemantics.grails.users.utils.UsersUtils" %>
 
 <div id="request" class="sectioncontainer">
@@ -35,7 +36,16 @@
 			<g:each in="${users}" status="i" var="user">
 				<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 		     		<td><g:link action="showUser" id="${user.id}">${user.username}</g:link></td>
-		     		<td>${user.person.lastName} ${user.person.firstName} <g:if test="${user?.person.displayName?.length()>0}">(${user.person.displayName})</g:if></td>
+		     		
+		     		<g:if test="${user.profilePrivacy.label==DefaultUsersProfilePrivacy.PUBLIC.label()}">
+		     			<td>${user.person.lastName} ${user.person.firstName} <g:if test="${user?.person.displayName?.length()>0}">(${user.person.displayName})</g:if></td>
+		     		</g:if>
+		     		<g:elseif test="${user.profilePrivacy.label==DefaultUsersProfilePrivacy.PRIVATE.label()}">
+		     			<td><g:if test="${user?.person.displayName?.length()>0}">${user.person.displayName}</g:if><g:else>${user.person.lastName} ${user.person.firstName} </g:else></td>
+		     		</g:elseif>
+		     		<g:elseif test="${user.profilePrivacy.label==DefaultUsersProfilePrivacy.ANONYMOUS.label()}">
+		     			<td>Anonymous</td>
+		     		</g:elseif>
 
 					<g:set var="userObject" value="${User.findByUsername(user.username)}"/>
 					<g:set var="userRole" value="${UserRole.findAllByUser(userObject)}"/>
