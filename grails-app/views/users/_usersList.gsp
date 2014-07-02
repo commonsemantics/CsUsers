@@ -34,10 +34,19 @@
 		</thead>
 		<tbody>
 			<g:each in="${users}" status="i" var="user">
+				<g:set var="userObject" value="${User.findByUsername(user.username)}"/>
+				<g:set var="userRole" value="${UserRole.findAllByUser(userObject)}"/>
+				<g:if test="${userRole.role.authority.contains(DefaultUsersRoles.ADMIN.value())}"><g:set var="userRoleLevel" value="3"/></g:if>
+				<g:else>
+					<g:if test="${userRole.role.authority.contains(DefaultUsersRoles.MANAGER.value())}"><g:set var="userRoleLevel" value="2"/></g:if>
+					<g:else>
+						<g:if test="${userRole.role.authority.contains(DefaultUsersRoles.USER.value())}"><g:set var="userRoleLevel" value="1"/></g:if>
+					</g:else>
+				</g:else>	
+			
 				<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 		     		<td><g:link action="showUser" id="${user.id}">${user.username}</g:link></td>
-		     		
-		     		<g:if test="${user.profilePrivacy.label==DefaultUsersProfilePrivacy.PUBLIC.label()}">
+		     		<g:if test="${loggedUserRoleLevel=='3' || user.profilePrivacy.label==DefaultUsersProfilePrivacy.PUBLIC.label()}">
 		     			<td>${user.person.lastName} ${user.person.firstName} <g:if test="${user?.person.displayName?.length()>0}">(${user.person.displayName})</g:if></td>
 		     		</g:if>
 		     		<g:elseif test="${user.profilePrivacy.label==DefaultUsersProfilePrivacy.PRIVATE.label()}">
@@ -46,18 +55,7 @@
 		     		<g:elseif test="${user.profilePrivacy.label==DefaultUsersProfilePrivacy.ANONYMOUS.label()}">
 		     			<td>Anonymous</td>
 		     		</g:elseif>
-
-					<g:set var="userObject" value="${User.findByUsername(user.username)}"/>
-					<g:set var="userRole" value="${UserRole.findAllByUser(userObject)}"/>
-						
-					<g:if test="${userRole.role.authority.contains(DefaultUsersRoles.ADMIN.value())}"><g:set var="userRoleLevel" value="3"/></g:if>
-					<g:else>
-						<g:if test="${userRole.role.authority.contains(DefaultUsersRoles.MANAGER.value())}"><g:set var="userRoleLevel" value="2"/></g:if>
-						<g:else>
-							<g:if test="${userRole.role.authority.contains(DefaultUsersRoles.USER.value())}"><g:set var="userRoleLevel" value="1"/></g:if>
-						</g:else>
-					</g:else>	
-						
+			
 		     		<td>
 		     			<g:if test="${userRole.role.authority.contains(DefaultUsersRoles.ADMIN.value())}">Y</g:if>
 				    </td>
