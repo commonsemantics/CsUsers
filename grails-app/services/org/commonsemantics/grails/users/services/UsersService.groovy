@@ -254,6 +254,7 @@ class UsersService {
 	}
 	
 	def getUserAgentIdentifiers(def userId) {
+		if(userId.indexOf('user:')>-1) userId = userId.substring(5);
 		def user = User.findById(userId);
 		return agentsService.getAgentIdentifiers(user.person);
 	}
