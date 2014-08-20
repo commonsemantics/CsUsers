@@ -34,8 +34,10 @@ class UsersInitializationService {
 	
 	def initializeRoles() {
 		def enumeration = null;
-		def enumerationClass = grailsApplication.config.org.commonsemantics.grails.users.roles
-		if(enumerationClass!=null && enumerationClass.size()==1) {
+		def enumerationClass = grailsApplication.config.org.commonsemantics.grails.users.init.roles
+		if(enumerationClass!=null && 
+				((enumerationClass instanceof ConfigObject && !enumerationClass.isEmpty()) || 
+				(enumerationClass instanceof String && enumerationClass.trim().length()>0))) {
 			log.info "Selected enumeration roles " + enumerationClass
 			enumeration = this.getClass().classLoader.findClass(enumerationClass)
 		} else {
@@ -55,8 +57,10 @@ class UsersInitializationService {
 	
 	def initializeProfilePrivacy() {
 		def enumeration = null;
-		def enumerationClass = grailsApplication.config.org.commonsemantics.grails.users.profileprivacy
-		if(enumerationClass!=null && enumerationClass.size()==1) {
+		def enumerationClass = grailsApplication.config.org.commonsemantics.grails.users.init.profileprivacy
+		if(enumerationClass!=null && 
+				((enumerationClass instanceof ConfigObject && !enumerationClass.isEmpty()) || 
+				(enumerationClass instanceof String && enumerationClass.trim().length()>0))) {
 			log.info "Selected users profile privacy " + enumerationClass
 			enumeration = this.getClass().classLoader.findClass(enumerationClass)
 		} else {
