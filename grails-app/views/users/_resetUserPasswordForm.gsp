@@ -25,7 +25,7 @@ Parameters list
 						<label for="password">Password*</label>
 					</td>
 					<td valign="top" class="value">
-						<g:textField name="password" style="width: 240px;"
+						<g:passwordField name="password" style="width: 240px;"
 							class="${hasErrors(bean: item, field: 'password', 'fieldError')}"/>
 					</td>
 					<td valign="top" class="caption">
@@ -42,7 +42,7 @@ Parameters list
 						<label for="passwordConfirmation">Re-type Password*</label>
 					</td>
 					<td valign="top" class="value">
-						<g:textField name="passwordConfirmation" style="width: 240px;"
+						<g:passwordField name="passwordConfirmation" style="width: 240px;"
 							class="${hasErrors(bean: user, field: 'passwordConfirmation', 'fieldError')}"/>
 					</td>
 					<td valign="top" class="caption">

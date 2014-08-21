@@ -147,7 +147,7 @@ Stylesheet
 				</td>
 				<td valign="top" class="value">
 					<div>
-						<g:textField name="password" style="width: 276px;"
+						<g:passwordField name="password" style="width: 276px;"
 							value="${user?.password}"  class="${hasErrors(bean: user, field: 'password', 'csc-field-error')}"/>
 					</div>
 				</td>
@@ -170,7 +170,7 @@ Stylesheet
 				</td>
 				<td valign="top" class="value">
 					<div>
-						<g:textField name="passwordConfirmation" style="width: 276px;"
+						<g:passwordField name="passwordConfirmation" style="width: 276px;"
 							value="${user?.passwordConfirmation}"  class="${hasErrors(bean: user, field: 'passwordConfirmation', 'csc-field-error')}"/>
 					</div>
 				</td>
