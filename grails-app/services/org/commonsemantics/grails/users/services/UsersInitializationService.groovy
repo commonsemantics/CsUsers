@@ -38,19 +38,19 @@ class UsersInitializationService {
 		if(enumerationClass!=null && 
 				((enumerationClass instanceof ConfigObject && !enumerationClass.isEmpty()) || 
 				(enumerationClass instanceof String && enumerationClass.trim().length()>0))) {
-			log.info "Selected enumeration roles " + enumerationClass
+			log.debug "Selected enumeration roles " + enumerationClass
 			enumeration = this.getClass().classLoader.findClass(enumerationClass)
 		} else {
-			log.info "Selected default enumeration roles"
+			log.debug "Selected default enumeration roles"
 			enumeration = DefaultUsersRoles;
 		}
 		
 		enumeration.values().each {
 			if(!Role.findByAuthority(it.value())) {
 				new Role(authority: it.value(), ranking: it.ranking(), label: it.label(), description: it.description()).save(failOnError: true)
-				log.info "Initialized: " + it.value()
+				log.trace "Initialized: " + it.value()
 			} else {
-				log.info "Found: " + it.value()
+				log.trace "Found: " + it.value()
 			}
 		}
 	}
@@ -61,19 +61,19 @@ class UsersInitializationService {
 		if(enumerationClass!=null && 
 				((enumerationClass instanceof ConfigObject && !enumerationClass.isEmpty()) || 
 				(enumerationClass instanceof String && enumerationClass.trim().length()>0))) {
-			log.info "Selected users profile privacy " + enumerationClass
+			log.debug "Selected users profile privacy " + enumerationClass
 			enumeration = this.getClass().classLoader.findClass(enumerationClass)
 		} else {
-			log.info "Selected default users profile privacy"
+			log.debug "Selected default users profile privacy"
 			enumeration = DefaultUsersProfilePrivacy;
 		}
 		
 		enumeration.values().each {
 			if(!ProfilePrivacy.findByValue(it.value())) {
 				new ProfilePrivacy(value: it.value(), label: it.label(), description: it.description()).save(failOnError: true)
-				log.info "Initialized: " + it.value()
+				log.trace "Initialized: " + it.value()
 			} else {
-				log.info "Found: " + it.value()
+				log.trace "Found: " + it.value()
 			}
 		}
 	}

@@ -11,56 +11,32 @@ class BootStrap {
 
 	def grailsApplication
 	def usersInitializationService
-	
-/*	def usersRolesService
-	def usersProfilePrivacyService*/
-	
+
     def init = { servletContext ->
 		
-		log.info  '========================================================================';
-		log.info  ' COMMON SEMANTICS: USERS (v.' +
+		demarcation(
+			' COMMON SEMANTICS: USERS (v.' +
 			grailsApplication.metadata['app.version'] + ", b." +
-			grailsApplication.metadata['app.build'] + ")";
-			
+			grailsApplication.metadata['app.build'] + ")");
 		separator();
 		log.info  ' By Paolo Ciccarese (http://paolociccarese.info/)'
 		log.info  ' Copyright 2014 Common Semantics'
-		
 		separator();
 		log.info  ' Released under the Apache License, Version 2.0'
 		log.info  ' url:http://www.apache.org/licenses/LICENSE-2.0'
-
-		log.info  '========================================================================';
-		log.info  'Bootstrapping....'
+		demarcation('>> Bootstrapping....');	
+		demarcation('>> INITIALIZING DEFAULTS ENUMERATIONS');
 		
-		separator();
-		log.info  '>> INITIALIZING DEFAULTS'
-		separator();
-		log.info  '** Users Roles'
+		// USERS
+		// ------
+		separator('** Users Roles');
 		usersInitializationService.initializeRoles();
-		separator();
-		log.info  '** Users Profile Privacy'
+		separator('** Users Profile Privacy');
 		usersInitializationService.initializeProfilePrivacy();
-		
-//		DefaultUsersRoles.values().each {
-//			log.info  '** ' + it.value()
-//			if(!Role.findByAuthority(it.value())) {
-//				new Role(authority: it.value(), ranking: it.ranking(), label: it.label(), description: it.description()).save(failOnError: true)
-//				log.info "Initialized: " + it.value()
-//			}
-//		}	
-//		DefaultUsersProfilePrivacy.values().each {
-//			if(!ProfilePrivacy.findByValue(it.value())) {
-//				new ProfilePrivacy(value: it.value(), label: it.label(), description: it.description()).save(failOnError: true)
-//				log.info "Initialized: " + it.value()
-//			} else {
-//				log.info "Found: " + it.value()
-//			}
-//		}
-		
-		separator();
-		log.info  '>> USERS'
-		separator();
+
+		// ENTITIES
+		// --------
+		demarcation('>> INITIALIZING DEFAULTS ENTITIES');
 		log.info  '** Users'
 		
 		def person = Person.findByEmail('paolo.ciccarese@gmail.com');
@@ -90,9 +66,9 @@ class BootStrap {
 		UserRole.create admin, Role.findByAuthority(DefaultUsersRoles.ADMIN.value())
 	
 		
-		separator();
-		def name = 'Software Test';
-		log.info  '** Software ' + name
+		log.info  '** Software '
+		def name = 'Software Test';		
+		log.info  "Initializing: " + name
 		def software = Software.findByName(name);
 		if(software==null) {
 			software = new Software(
@@ -103,12 +79,28 @@ class BootStrap {
 			).save(failOnError: true);
 		}
 		
-		separator();
-
+		demarcation(">> Bootstrapping completed!")
+		separator()
     }
-	def separator = {
-		log.info  '------------------------------------------------------------------------';
+	
+	private demarcation() {
+		log.info '========================================================================';
 	}
+	private demarcation(message) {
+		demarcation();
+		log.info  message
+	}
+	private separator() {
+		log.info '------------------------------------------------------------------------';
+	}
+	private separator(message) {
+		separator();
+		log.info  message
+	}
+	private display(message) {
+		log.info message
+	}
+	
     def destroy = {
     }
 }
