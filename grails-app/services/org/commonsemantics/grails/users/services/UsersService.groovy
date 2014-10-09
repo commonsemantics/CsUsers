@@ -24,7 +24,6 @@ import org.codehaus.groovy.grails.plugins.web.taglib.ValidationTagLib
 import org.commonsemantics.grails.users.model.ProfilePrivacy
 import org.commonsemantics.grails.users.model.Role
 import org.commonsemantics.grails.users.model.User
-import org.commonsemantics.grails.users.model.UserProfilePrivacy
 import org.commonsemantics.grails.users.model.UserRole
 import org.commonsemantics.grails.users.utils.DefaultUsersProfilePrivacy
 import org.commonsemantics.grails.users.utils.UserStatus
